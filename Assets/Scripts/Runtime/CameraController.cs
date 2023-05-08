@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace Runtime
 {
@@ -27,6 +29,9 @@ namespace Runtime
         [SerializeField] private float cameraDeadZoneSmoothTime = 0.2f;
         [SerializeField] private float cameraBreathTime = 1f;
 
+        [Header("Post Processing")] 
+        [SerializeField] private Volume volume;
+
         [Header("Debug")] 
         [SerializeField] private Vector2 mouseInput;
 
@@ -39,10 +44,12 @@ namespace Runtime
         {
             transform.DOComplete();
             
-            transform.DOMove(cameraPosIdlePhase.localPosition, cameraMovementTime);
-            transform.DORotate(cameraPosIdlePhase.rotation.eulerAngles, cameraMovementTime);
-            
+            transform.DOMove(cameraPosIdlePhase.localPosition, cameraMovementTime).SetEase(Ease.InQuad);
+            transform.DORotate(cameraPosIdlePhase.rotation.eulerAngles, cameraMovementTime).SetEase(Ease.InQuad);
+
             GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
+            
+            ChangeCameraFocalLength(1f);
         }
 
         public void ChangeCameraPosToReload()
@@ -52,6 +59,8 @@ namespace Runtime
             transform.DOMove(cameraPosReloadingPhase.localPosition, cameraMovementTime).SetEase(Ease.OutQuad);
             transform.DORotate(cameraPosReloadingPhase.rotation.eulerAngles, cameraMovementTime).SetEase(Ease.OutQuad);
             GetComponent<Camera>().DOFieldOfView(40, cameraMovementTime);
+
+            ChangeCameraFocalLength(80f);
         }
 
         public void ChangeCameraPosToAiming()
@@ -62,6 +71,15 @@ namespace Runtime
             transform.DORotate(cameraPosAimingPhase.rotation.eulerAngles, cameraMovementTime).SetEase(Ease.OutQuad);
             
             GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
+            ChangeCameraFocalLength(1f);
+
+        }
+
+        public void ChangeCameraFocalLength(float value)
+        {
+            DepthOfField dof;
+            volume.profile.TryGet<DepthOfField>(out dof);
+            dof.focalLength.value = value;
         }
 
         public Vector3 GetCameraRotIdle()
@@ -107,6 +125,8 @@ namespace Runtime
         
         public void HandleCameraBreath(Vector3 cameraCurrentPosition)
         {
+            transform.DOComplete();
+            
             transform.DOMoveY(cameraCurrentPosition.y + cameraBreathRange, cameraBreathTime).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
         }
       

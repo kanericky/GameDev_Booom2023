@@ -40,7 +40,7 @@ namespace Runtime
         private void Update()
         {
             HandleCameraDeadZoneMovement();
-            
+
         }
 
 
@@ -59,6 +59,7 @@ namespace Runtime
                 cameraController.ChangeCameraPosToIdle();
                 playerPawn.ExitReloadingState();
                 uIManager.ChangeDebugText("Idle Phase");
+                //HandleCameraBreath();
             }
         }
 
