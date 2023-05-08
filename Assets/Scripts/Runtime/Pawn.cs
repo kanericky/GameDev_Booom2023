@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Runtime
 {
+
     public class Pawn : MonoBehaviour
     {
         [Header("Pawn Attributes")] 
@@ -11,68 +12,93 @@ namespace Runtime
         
         [Header("Weapon")]
         public Weapon weapon;
+
+        [Header("Animator")] 
+        public Animator pawnAnimator;
         
         [Header("Debug")]
-        [SerializeField] private CharacterPhaseState _currentPhaseState;
-        [SerializeField] private float _currentHealth;
+        [SerializeField] private CharacterPhaseState currentPhaseState;
+        [SerializeField] private float currentHealth;
+        
+        private static readonly string AnimatorTriggerReload = "Trigger Reload";
+        private static readonly string AnimatorTriggerReset = "Reset Reload";
+        private static readonly string AnimatorTriggerAim = "Trigger Aiming";
 
         private void Start()
         {
-            _currentPhaseState = CharacterPhaseState.IdlePhase;
-            _currentHealth = health;
+            pawnAnimator = GetComponent<Animator>();
+            
+            currentPhaseState = CharacterPhaseState.IdlePhase;
+            currentHealth = health;
+        }
+
+        private void ValidateData()
+        {
+            if (pawnAnimator == null)
+            {
+                Debug.LogAssertion("There is no animator on the pawn...");
+            }
         }
 
         public void EnterReloadingState()
         {
-            if (_currentPhaseState != CharacterPhaseState.IdlePhase) return;
+            if (currentPhaseState != CharacterPhaseState.IdlePhase) return;
             
             Debug.Log("Start Reloading");
-            _currentPhaseState = CharacterPhaseState.ReloadingPhase;
+            
+            pawnAnimator.SetTrigger(AnimatorTriggerReload);
+            
+            currentPhaseState = CharacterPhaseState.ReloadingPhase;
             
             // Reload
         }
 
         public void ExitReloadingState()
         {
-            if (_currentPhaseState != CharacterPhaseState.ReloadingPhase) return;
+            if (currentPhaseState != CharacterPhaseState.ReloadingPhase) return;
             
-            _currentPhaseState = CharacterPhaseState.IdlePhase;
+            pawnAnimator.SetTrigger(AnimatorTriggerReset);
+            
+            currentPhaseState = CharacterPhaseState.IdlePhase;
         }
         
 
         public void EnterAimingState()
         {
-            if (_currentPhaseState != CharacterPhaseState.ReloadingPhase) return;
+            if (currentPhaseState != CharacterPhaseState.ReloadingPhase) return;
             
             Debug.Log("Start Aiming");
-            _currentPhaseState = CharacterPhaseState.AimingPhase;
+            
+            pawnAnimator.SetTrigger(AnimatorTriggerAim);
+            
+            currentPhaseState = CharacterPhaseState.AimingPhase;
             
             // Aiming
         }
 
         public void ExitAimingState()
         {
-            if (_currentPhaseState != CharacterPhaseState.AimingPhase) return;
+            if (currentPhaseState != CharacterPhaseState.AimingPhase) return;
             
-            _currentPhaseState = CharacterPhaseState.IdlePhase;
+            currentPhaseState = CharacterPhaseState.IdlePhase;
         }
 
         public void Fire()
         {
-            if (_currentPhaseState != CharacterPhaseState.IdlePhase) return;
+            if (currentPhaseState != CharacterPhaseState.IdlePhase) return;
 
             Debug.Log("Fired!");
-            _currentPhaseState = CharacterPhaseState.FiringPhase;
+            currentPhaseState = CharacterPhaseState.FiringPhase;
             
             // FIRE!!!
             weapon.Fire();
 
-            _currentPhaseState = CharacterPhaseState.IdlePhase;
+            currentPhaseState = CharacterPhaseState.IdlePhase;
         }
 
         public CharacterPhaseState GetPawnCurrentState()
         {
-            return _currentPhaseState;
+            return currentPhaseState;
         }
     }
 }

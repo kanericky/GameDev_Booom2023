@@ -19,38 +19,59 @@ namespace Runtime
         [SerializeField] private Transform cameraPosAimingPhase;
         [SerializeField] private Transform cameraPosFiringPhase;
 
-        [Header("Camera Interp Speed")] 
+        [Header("Camera Animation Data")] 
+        [SerializeField] private float cameraBreathRange = 0.4f;
+
+        [Header("Camera Animation Speed")] 
         [SerializeField] private float cameraMovementTime = 1f;
         [SerializeField] private float cameraDeadZoneSmoothTime = 0.2f;
+        [SerializeField] private float cameraBreathTime = 1f;
 
         [Header("Debug")] 
         [SerializeField] private Vector2 mouseInput;
 
         private void Start()
         {
+            ChangeCameraPosToIdle();
         }
 
         public void ChangeCameraPosToIdle()
         {
+            transform.DOComplete();
+            
             transform.DOMove(cameraPosIdlePhase.localPosition, cameraMovementTime);
             transform.DORotate(cameraPosIdlePhase.rotation.eulerAngles, cameraMovementTime);
+            
+            GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
         }
 
         public void ChangeCameraPosToReload()
         {
+            transform.DOComplete();
+
             transform.DOMove(cameraPosReloadingPhase.localPosition, cameraMovementTime).SetEase(Ease.OutQuad);
             transform.DORotate(cameraPosReloadingPhase.rotation.eulerAngles, cameraMovementTime).SetEase(Ease.OutQuad);
+            GetComponent<Camera>().DOFieldOfView(40, cameraMovementTime);
         }
 
         public void ChangeCameraPosToAiming()
         {
+            transform.DOComplete();
+            
             transform.DOMove(cameraPosAimingPhase.localPosition, cameraMovementTime).SetEase(Ease.OutQuad);
             transform.DORotate(cameraPosAimingPhase.rotation.eulerAngles, cameraMovementTime).SetEase(Ease.OutQuad);
+            
+            GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
         }
 
         public Vector3 GetCameraRotIdle()
         {
             return cameraPosIdlePhase.rotation.eulerAngles;
+        }
+
+        public Vector3 GetCameraPosIdle()
+        {
+            return cameraPosIdlePhase.position;
         }
 
         public void HandleCameraDeadZoneMovement(Vector3 cameraCurrentRotation)
@@ -83,5 +104,11 @@ namespace Runtime
               //  GetCameraRotIdle().z);
 
         }
+        
+        public void HandleCameraBreath(Vector3 cameraCurrentPosition)
+        {
+            transform.DOMoveY(cameraCurrentPosition.y + cameraBreathRange, cameraBreathTime).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        }
+      
     }
 }

@@ -40,6 +40,7 @@ namespace Runtime
         private void Update()
         {
             HandleCameraDeadZoneMovement();
+            
         }
 
 
@@ -55,8 +56,8 @@ namespace Runtime
             }
             else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.ReloadingPhase)
             {
-                playerPawn.ExitReloadingState();
                 cameraController.ChangeCameraPosToIdle();
+                playerPawn.ExitReloadingState();
                 uIManager.ChangeDebugText("Idle Phase");
             }
         }
@@ -86,6 +87,13 @@ namespace Runtime
             if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.IdlePhase) return;
             
             cameraController.HandleCameraDeadZoneMovement(cameraController.GetCameraRotIdle());
+        }
+
+        private void HandleCameraBreath()
+        {
+            if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.IdlePhase) return;
+            
+            cameraController.HandleCameraBreath(cameraController.GetCameraPosIdle());
         }
         
 
