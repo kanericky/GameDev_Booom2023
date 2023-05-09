@@ -8,6 +8,8 @@ namespace Runtime
         public int magSize;
 
         public Ammo[] ammoInMag;
+
+        public ParticleSystem particleSystem;
         
         [SerializeField] private int _numAmmoSlotFilled;
 
@@ -70,6 +72,9 @@ namespace Runtime
         
         public void Fire()
         {
+            particleSystem.Stop();
+            particleSystem.Play();
+            
             if (_numAmmoSlotFilled <= 0)
             {
                 Debug.LogWarning("There is no ammo left");
@@ -79,6 +84,16 @@ namespace Runtime
             // Fire logic
             ammoInMag[_numAmmoSlotFilled-1] = null;
             _numAmmoSlotFilled -= 1;
+        }
+
+        private void PlayVFX()
+        {
+            particleSystem.transform.SetParent(null);
+            
+            particleSystem.Stop();
+            particleSystem.Play();
+            
+            particleSystem.transform.SetParent(this.transform);
         }
         
     }

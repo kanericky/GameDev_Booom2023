@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using Sequence = DG.Tweening.Sequence;
 
 namespace Runtime
 {
@@ -24,10 +25,13 @@ namespace Runtime
         [Header("Camera Animation Data")] 
         [SerializeField] private float cameraBreathRange = 0.4f;
 
+        [SerializeField] private float cameraShakeRange = 0.2f;
+
         [Header("Camera Animation Speed")] 
         [SerializeField] private float cameraMovementTime = 1f;
         [SerializeField] private float cameraDeadZoneSmoothTime = 0.2f;
         [SerializeField] private float cameraBreathTime = 1f;
+        [SerializeField] private float cameraShakeTime = 0.2f;
 
         [Header("Post Processing")] 
         [SerializeField] private Volume volume;
@@ -43,9 +47,13 @@ namespace Runtime
         public void ChangeCameraPosToIdle()
         {
             transform.DOComplete();
-            
-            transform.DOMove(cameraPosIdlePhase.localPosition, cameraMovementTime).SetEase(Ease.InQuad);
-            transform.DORotate(cameraPosIdlePhase.rotation.eulerAngles, cameraMovementTime).SetEase(Ease.InQuad);
+
+            Sequence sequence = DOTween.Sequence();
+
+            sequence.SetDelay(0f)
+                .Append(transform.DOMove(cameraPosIdlePhase.localPosition, cameraMovementTime).SetEase(Ease.OutQuad))
+                .Join(transform.DORotate(cameraPosIdlePhase.rotation.eulerAngles, cameraMovementTime)
+                    .SetEase(Ease.OutQuad));
 
             GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
             
@@ -87,9 +95,43 @@ namespace Runtime
             return cameraPosIdlePhase.rotation.eulerAngles;
         }
 
+        public Vector3 GetCameraRotAim()
+        {
+            return cameraPosAimingPhase.rotation.eulerAngles;
+        }
+
         public Vector3 GetCameraPosIdle()
         {
             return cameraPosIdlePhase.position;
+        }
+
+        public Vector3 GetCameraRotReload()
+        {
+            return cameraPosReloadingPhase.rotation.eulerAngles;
+        }
+
+        public Vector3 GetMousePosInWorld()
+        {
+            Camera mainCamera = GetComponent<Camera>();
+
+            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                return hit.point;
+            }
+            else
+            {
+                return new Vector3(0, 0, 0);
+            }
+        }
+
+        public void HandleCameraShake()
+        {
+            transform.DOComplete();
+            DOTween.Sequence().SetDelay(.2f)
+                .Append(transform.DOShakePosition(cameraShakeTime, cameraShakeRange).Play());
+
         }
 
         public void HandleCameraDeadZoneMovement(Vector3 cameraCurrentRotation)

@@ -1,9 +1,12 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace Runtime
 {
+    [RequireComponent(typeof(Pawn))]
     public class GameCharacterController : MonoBehaviour
     {
 
@@ -11,6 +14,10 @@ namespace Runtime
         public Pawn playerPawn;
         public CameraController cameraController;
         public UIManager uIManager;
+
+        [Header("Aiming")] 
+        public Transform aimingTarget;
+        public Transform gunAimStartPos;
         
         private InputActions _inputAction;
         
@@ -25,8 +32,7 @@ namespace Runtime
 
             _inputAction.Player.ReloadPressed.performed += e => ToggleReloadingState();
 
-            _inputAction.Player.AimPressed.performed += e => EnterAimingState();
-            _inputAction.Player.AimReleased.performed += e => ExitAimingState();
+            _inputAction.Player.AimPressed.performed += e => ToggleAimingState();
 
             _inputAction.Player.Fire.performed += e => Fire();
         }
@@ -40,6 +46,7 @@ namespace Runtime
         private void Update()
         {
             HandleCameraDeadZoneMovement();
+            HandleAiming();
 
         }
 
@@ -63,6 +70,17 @@ namespace Runtime
             }
         }
 
+        private void ToggleAimingState()
+        {
+            if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.ReloadingPhase)
+            {
+                EnterAimingState();
+            }else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
+            {
+                ExitAimingState();
+            }
+        }
+
         private void EnterAimingState()
         {
             playerPawn.EnterAimingState();
@@ -70,14 +88,38 @@ namespace Runtime
             uIManager.ChangeDebugText("Aiming Phase");
         }
 
+        private void HandleAiming()
+        {
+            if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.AimingPhase) return;
+            
+            if (Physics.Raycast(gunAimStartPos.position, cameraController.GetMousePosInWorld()-gunAimStartPos.position,
+                    out RaycastHit raycastHit, 900f))
+            {
+                aimingTarget.transform.position = raycastHit.point;
+            }
+            
+        }
+
         private void ExitAimingState()
         {
             playerPawn.ExitAimingState();
+            cameraController.ChangeCameraPosToIdle();
+            uIManager.ChangeDebugText("Idle phase");
         }
 
         private void Fire()
         {
+            if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.AimingPhase) return;
+
             playerPawn.Fire();
+            cameraController.HandleCameraShake();
+            
+            if (Physics.Raycast(gunAimStartPos.position, cameraController.GetMousePosInWorld()-gunAimStartPos.position,
+                    out RaycastHit raycastHit, 900f) && raycastHit.transform.CompareTag("Enemy"))
+            {
+                Debug.Log("Enemy Hit!");
+                raycastHit.transform.GetComponentInParent<EnemyCharacterController>().OnCharacterHit();
+            }
         }
         
         #endregion ------ Handle Input End ------
@@ -85,9 +127,17 @@ namespace Runtime
 
         private void HandleCameraDeadZoneMovement()
         {
-            if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.IdlePhase) return;
-            
-            cameraController.HandleCameraDeadZoneMovement(cameraController.GetCameraRotIdle());
+            if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.IdlePhase)
+            {
+                cameraController.HandleCameraDeadZoneMovement(cameraController.GetCameraRotIdle());
+            }else if(playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
+            {
+                cameraController.HandleCameraDeadZoneMovement(cameraController.GetCameraRotAim());
+            }
+            else
+            {
+                cameraController.HandleCameraDeadZoneMovement(cameraController.GetCameraRotReload());
+            }
         }
 
         private void HandleCameraBreath()
