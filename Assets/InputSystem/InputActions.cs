@@ -37,15 +37,6 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ReloadReleased"",
-                    ""type"": ""Button"",
-                    ""id"": ""fbbf0775-ab84-4c89-9b23-700b67831f96"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""AimPressed"",
                     ""type"": ""Button"",
                     ""id"": ""df90fb9c-ddb2-48b3-8a93-50b99fbd9eea"",
@@ -55,18 +46,45 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""AimReleased"",
+                    ""name"": ""Fire"",
                     ""type"": ""Button"",
-                    ""id"": ""feb7cd12-f104-4335-bb37-d326d988d7b7"",
+                    ""id"": ""d48cb071-527d-44c3-8d0d-071fa604236e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Fire"",
+                    ""name"": ""ReloadSelectionA"",
                     ""type"": ""Button"",
-                    ""id"": ""d48cb071-527d-44c3-8d0d-071fa604236e"",
+                    ""id"": ""fa50371e-d85f-4e5e-a25e-2471caf838e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ReloadSelectionB"",
+                    ""type"": ""Button"",
+                    ""id"": ""a180aaf2-a7d0-4832-b2de-6048f3e6dd62"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ReloadSelectionC"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6d27832-a72b-4c15-ab9f-12651daa7370"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ReloadSelectionD"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5508c6a-3ead-4882-94af-4d1f5e2e931c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -87,34 +105,12 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""55a0473e-bd27-4771-940e-d1e59a18f5d2"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": ""Press(behavior=1)"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ReloadReleased"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""24980406-33f7-4009-bb82-5ab4a831e1cd"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""AimPressed"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""73ec93a4-adba-411e-82e6-0eabc36d14d0"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AimReleased"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -128,6 +124,50 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0154988e-7c6a-4e58-bc6c-31d5f0f7162b"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReloadSelectionA"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f98c5363-e137-4d64-b67c-24638797fcea"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReloadSelectionB"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b365c31-2d24-4271-9d5c-902960107d3c"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReloadSelectionC"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e72e98b-db6c-4e48-bfd7-866c86053f40"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReloadSelectionD"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -137,10 +177,12 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_ReloadPressed = m_Player.FindAction("ReloadPressed", throwIfNotFound: true);
-        m_Player_ReloadReleased = m_Player.FindAction("ReloadReleased", throwIfNotFound: true);
         m_Player_AimPressed = m_Player.FindAction("AimPressed", throwIfNotFound: true);
-        m_Player_AimReleased = m_Player.FindAction("AimReleased", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
+        m_Player_ReloadSelectionA = m_Player.FindAction("ReloadSelectionA", throwIfNotFound: true);
+        m_Player_ReloadSelectionB = m_Player.FindAction("ReloadSelectionB", throwIfNotFound: true);
+        m_Player_ReloadSelectionC = m_Player.FindAction("ReloadSelectionC", throwIfNotFound: true);
+        m_Player_ReloadSelectionD = m_Player.FindAction("ReloadSelectionD", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -201,19 +243,23 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_ReloadPressed;
-    private readonly InputAction m_Player_ReloadReleased;
     private readonly InputAction m_Player_AimPressed;
-    private readonly InputAction m_Player_AimReleased;
     private readonly InputAction m_Player_Fire;
+    private readonly InputAction m_Player_ReloadSelectionA;
+    private readonly InputAction m_Player_ReloadSelectionB;
+    private readonly InputAction m_Player_ReloadSelectionC;
+    private readonly InputAction m_Player_ReloadSelectionD;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
         public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @ReloadPressed => m_Wrapper.m_Player_ReloadPressed;
-        public InputAction @ReloadReleased => m_Wrapper.m_Player_ReloadReleased;
         public InputAction @AimPressed => m_Wrapper.m_Player_AimPressed;
-        public InputAction @AimReleased => m_Wrapper.m_Player_AimReleased;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
+        public InputAction @ReloadSelectionA => m_Wrapper.m_Player_ReloadSelectionA;
+        public InputAction @ReloadSelectionB => m_Wrapper.m_Player_ReloadSelectionB;
+        public InputAction @ReloadSelectionC => m_Wrapper.m_Player_ReloadSelectionC;
+        public InputAction @ReloadSelectionD => m_Wrapper.m_Player_ReloadSelectionD;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -226,18 +272,24 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @ReloadPressed.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadPressed;
                 @ReloadPressed.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadPressed;
                 @ReloadPressed.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadPressed;
-                @ReloadReleased.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadReleased;
-                @ReloadReleased.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadReleased;
-                @ReloadReleased.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadReleased;
                 @AimPressed.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimPressed;
                 @AimPressed.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimPressed;
                 @AimPressed.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimPressed;
-                @AimReleased.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimReleased;
-                @AimReleased.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimReleased;
-                @AimReleased.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimReleased;
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @ReloadSelectionA.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionA;
+                @ReloadSelectionA.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionA;
+                @ReloadSelectionA.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionA;
+                @ReloadSelectionB.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionB;
+                @ReloadSelectionB.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionB;
+                @ReloadSelectionB.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionB;
+                @ReloadSelectionC.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionC;
+                @ReloadSelectionC.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionC;
+                @ReloadSelectionC.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionC;
+                @ReloadSelectionD.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionD;
+                @ReloadSelectionD.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionD;
+                @ReloadSelectionD.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionD;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -245,18 +297,24 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @ReloadPressed.started += instance.OnReloadPressed;
                 @ReloadPressed.performed += instance.OnReloadPressed;
                 @ReloadPressed.canceled += instance.OnReloadPressed;
-                @ReloadReleased.started += instance.OnReloadReleased;
-                @ReloadReleased.performed += instance.OnReloadReleased;
-                @ReloadReleased.canceled += instance.OnReloadReleased;
                 @AimPressed.started += instance.OnAimPressed;
                 @AimPressed.performed += instance.OnAimPressed;
                 @AimPressed.canceled += instance.OnAimPressed;
-                @AimReleased.started += instance.OnAimReleased;
-                @AimReleased.performed += instance.OnAimReleased;
-                @AimReleased.canceled += instance.OnAimReleased;
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
+                @ReloadSelectionA.started += instance.OnReloadSelectionA;
+                @ReloadSelectionA.performed += instance.OnReloadSelectionA;
+                @ReloadSelectionA.canceled += instance.OnReloadSelectionA;
+                @ReloadSelectionB.started += instance.OnReloadSelectionB;
+                @ReloadSelectionB.performed += instance.OnReloadSelectionB;
+                @ReloadSelectionB.canceled += instance.OnReloadSelectionB;
+                @ReloadSelectionC.started += instance.OnReloadSelectionC;
+                @ReloadSelectionC.performed += instance.OnReloadSelectionC;
+                @ReloadSelectionC.canceled += instance.OnReloadSelectionC;
+                @ReloadSelectionD.started += instance.OnReloadSelectionD;
+                @ReloadSelectionD.performed += instance.OnReloadSelectionD;
+                @ReloadSelectionD.canceled += instance.OnReloadSelectionD;
             }
         }
     }
@@ -264,9 +322,11 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnReloadPressed(InputAction.CallbackContext context);
-        void OnReloadReleased(InputAction.CallbackContext context);
         void OnAimPressed(InputAction.CallbackContext context);
-        void OnAimReleased(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnReloadSelectionA(InputAction.CallbackContext context);
+        void OnReloadSelectionB(InputAction.CallbackContext context);
+        void OnReloadSelectionC(InputAction.CallbackContext context);
+        void OnReloadSelectionD(InputAction.CallbackContext context);
     }
 }

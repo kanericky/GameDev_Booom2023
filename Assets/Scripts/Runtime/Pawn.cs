@@ -13,6 +13,9 @@ namespace Runtime
         [Header("Weapon")]
         public Weapon weapon;
 
+        [Header("Inventory")] 
+        public PawnInventory pawnInventory;
+
         [Header("Animator")] 
         public Animator pawnAnimator;
         
@@ -30,6 +33,9 @@ namespace Runtime
         private void Start()
         {
             pawnAnimator = GetComponent<Animator>();
+            
+            weapon = GetComponentInChildren<Weapon>();
+            if (weapon != null) weapon.WeaponInit();
             
             currentPhaseState = CharacterPhaseState.IdlePhase;
             currentHealth = health;
@@ -53,7 +59,10 @@ namespace Runtime
             
             currentPhaseState = CharacterPhaseState.ReloadingPhase;
             
-            // Reload
+            // Step 1: Clear all the bullets in the mag.
+            weapon.ClearMag();
+            
+            // Step 2: Handle reload input
         }
 
         public void ExitReloadingState()
@@ -92,8 +101,6 @@ namespace Runtime
         {
             if (currentPhaseState != CharacterPhaseState.AimingPhase) return;
 
-            Debug.Log("Fired!");
-
             // FIRE!!!
             weapon.Fire();
             pawnAnimator.ResetTrigger(AnimatorTriggerFire);
@@ -110,5 +117,95 @@ namespace Runtime
         {
             pawnAnimator.SetTrigger(AnimatorTriggerHitReaction);
         }
+
+        public void HandleReloadSelection(int slotIndex)
+        {
+            Ammo ammo;
+            PawnInventoryItem item;
+            
+            switch (slotIndex)
+            {
+                case 0:
+                    item = pawnInventory.itemSlotA;
+                    ammo = new Ammo(item.itemColor);
+                    if (item.amount > 0 && weapon.ReloadAmmo(ammo))
+                    {
+                        pawnInventory.itemSlotA.amount--;
+                    }
+                    
+                    break;
+                
+                case 1:
+                    item = pawnInventory.itemSlotB;
+                    ammo = new Ammo(item.itemColor);
+                    if (item.amount > 0 && weapon.ReloadAmmo(ammo))
+                    {
+                        pawnInventory.itemSlotB.amount--;
+                    }
+                    break;
+                
+                case 2:
+                    item = pawnInventory.itemSlotC;
+                    ammo = new Ammo(item.itemColor);
+                    if (item.amount > 0 && weapon.ReloadAmmo(ammo))
+                    {
+                        pawnInventory.itemSlotC.amount--;
+                    }
+                    break;
+                
+                case 3:
+                    item = pawnInventory.itemSlotD;
+                    ammo = new Ammo(item.itemColor);
+                    if (item.amount > 0 && weapon.ReloadAmmo(ammo))
+                    {
+                        pawnInventory.itemSlotD.amount--;
+                    }
+                    break;
+                
+                default:
+                    return;
+            }
+        }
+    }
+
+    [Serializable]
+    public struct PawnInventory
+    {
+        public PawnInventoryItem itemSlotA;
+        public PawnInventoryItem itemSlotB;
+        public PawnInventoryItem itemSlotC;
+        public PawnInventoryItem itemSlotD;
+
+        public void AddItemToSlot(int slotIndex)
+        {
+            switch (slotIndex)
+            {
+                case 0:
+                    itemSlotA.amount += 1;
+                    break;
+                
+                case 1:
+                    itemSlotB.amount += 1;
+                    break;
+                
+                case 2:
+                    itemSlotC.amount += 1;
+                    break;
+                
+                case 3:
+                    itemSlotD.amount += 1;
+                    break;
+                
+                default:
+                    return;
+            }
+        }
+    }
+
+    [Serializable]
+    public struct PawnInventoryItem
+    {
+        public GameElementColor itemColor;
+        public int amount;
     }
 }

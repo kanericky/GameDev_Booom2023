@@ -1,19 +1,21 @@
+using System;
 using UnityEngine;
 
 namespace Runtime
 {
     public class GameManager : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        public static GameManager instance;
         
-        }
+        [Header("Materials")]
+        public Material matRed;
+        public Material matYellow;
+        public Material matBlue;
+        public Material matPurple;
 
-        // Update is called once per frame
-        void Update()
+        private void Start()
         {
-        
+            instance = this; 
         }
     }
 }

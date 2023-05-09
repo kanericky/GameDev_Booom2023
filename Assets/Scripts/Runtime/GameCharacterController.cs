@@ -33,6 +33,11 @@ namespace Runtime
             _inputAction.Player.ReloadPressed.performed += e => ToggleReloadingState();
 
             _inputAction.Player.AimPressed.performed += e => ToggleAimingState();
+            
+            _inputAction.Player.ReloadSelectionA.performed += e => HandleReloadSelection(0);
+            _inputAction.Player.ReloadSelectionB.performed += e => HandleReloadSelection(1);
+            _inputAction.Player.ReloadSelectionC.performed += e => HandleReloadSelection(2);
+            _inputAction.Player.ReloadSelectionD.performed += e => HandleReloadSelection(3);
 
             _inputAction.Player.Fire.performed += e => Fire();
         }
@@ -111,6 +116,8 @@ namespace Runtime
         {
             if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.AimingPhase) return;
 
+            if (playerPawn.weapon.IsMagEmpty()) return;
+
             playerPawn.Fire();
             cameraController.HandleCameraShake();
             
@@ -120,6 +127,13 @@ namespace Runtime
                 Debug.Log("Enemy Hit!");
                 raycastHit.transform.GetComponentInParent<EnemyCharacterController>().OnCharacterHit();
             }
+        }
+
+        private void HandleReloadSelection(int index)
+        {
+            if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.ReloadingPhase) return;
+
+            playerPawn.HandleReloadSelection(index);
         }
         
         #endregion ------ Handle Input End ------

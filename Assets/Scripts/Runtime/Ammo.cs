@@ -7,60 +7,76 @@ namespace Runtime
     [Serializable]
     public class Ammo
     {
-        public AmmoColor ammoColor;
+        public GameElementColor gameElementColor;
         public float initDamage;
-        
+
         public Ammo()
         {
-            ammoColor = AmmoColor.NotDefined;
+            gameElementColor = GameElementColor.NotDefined;
         }
 
-        public Ammo(bool isRandom)
+        public Ammo(GameElementColor gameElementColor)
         {
-            ammoColor = GetRandomColor();
+            this.gameElementColor = gameElementColor;
         }
 
-        public Ammo(AmmoColor ammoColor)
+        public bool IsAmmoValid()
         {
-            this.ammoColor = ammoColor;
+            return gameElementColor != GameElementColor.NotDefined;
         }
 
-        public bool isAmmoValid()
+        private GameElementColor GetRandomColor()
         {
-            return ammoColor != AmmoColor.NotDefined;
-        }
-
-        private AmmoColor GetRandomColor()
-        {
-            int color = Random.Range(0, (int)AmmoColor.NotDefined);
+            int color = Random.Range(0, (int)GameElementColor.NotDefined);
 
             switch (color)
             {
                 case 0:
-                    return AmmoColor.Red;
+                    return GameElementColor.Red;
                     
                 case 1:
-                    return AmmoColor.Yellow;
+                    return GameElementColor.Yellow;
                     
                 case 2:
-                    return AmmoColor.Blue;
+                    return GameElementColor.Blue;
                     
                 case 3:
-                    return AmmoColor.Black;
+                    return GameElementColor.Purple;
                     
             }
 
-            return AmmoColor.NotDefined;
+            return GameElementColor.NotDefined;
+        }
+
+        public Material GetMaterialBasedOnAmmoColor(GameElementColor color)
+        {
+            switch (color)
+            {
+                case GameElementColor.Red:
+                    return GameManager.instance.matRed;
+
+                case GameElementColor.Yellow:
+                    return GameManager.instance.matYellow;
+                    
+                case GameElementColor.Blue:
+                    return GameManager.instance.matBlue;
+                    
+                case GameElementColor.Purple:
+                    return GameManager.instance.matPurple;
+                    
+            }
+
+            return null;
         }
     }
 
 
-    public enum AmmoColor
+    public enum GameElementColor
     {
         Red,
         Yellow,
         Blue,
-        Black,
+        Purple,
         NotDefined
     }
 }

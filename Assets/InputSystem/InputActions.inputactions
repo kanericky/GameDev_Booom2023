@@ -15,15 +15,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ReloadReleased",
-                    "type": "Button",
-                    "id": "fbbf0775-ab84-4c89-9b23-700b67831f96",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "AimPressed",
                     "type": "Button",
                     "id": "df90fb9c-ddb2-48b3-8a93-50b99fbd9eea",
@@ -33,18 +24,45 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "AimReleased",
+                    "name": "Fire",
                     "type": "Button",
-                    "id": "feb7cd12-f104-4335-bb37-d326d988d7b7",
+                    "id": "d48cb071-527d-44c3-8d0d-071fa604236e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Fire",
+                    "name": "ReloadSelectionA",
                     "type": "Button",
-                    "id": "d48cb071-527d-44c3-8d0d-071fa604236e",
+                    "id": "fa50371e-d85f-4e5e-a25e-2471caf838e8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ReloadSelectionB",
+                    "type": "Button",
+                    "id": "a180aaf2-a7d0-4832-b2de-6048f3e6dd62",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ReloadSelectionC",
+                    "type": "Button",
+                    "id": "d6d27832-a72b-4c15-ab9f-12651daa7370",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ReloadSelectionD",
+                    "type": "Button",
+                    "id": "a5508c6a-3ead-4882-94af-4d1f5e2e931c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -65,17 +83,6 @@
                 },
                 {
                     "name": "",
-                    "id": "55a0473e-bd27-4771-940e-d1e59a18f5d2",
-                    "path": "<Keyboard>/r",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ReloadReleased",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "24980406-33f7-4009-bb82-5ab4a831e1cd",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
@@ -87,23 +94,56 @@
                 },
                 {
                     "name": "",
-                    "id": "73ec93a4-adba-411e-82e6-0eabc36d14d0",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "AimReleased",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "de3cc723-2c72-4c86-9ef4-ac961925c177",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0154988e-7c6a-4e58-bc6c-31d5f0f7162b",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReloadSelectionA",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f98c5363-e137-4d64-b67c-24638797fcea",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReloadSelectionB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8b365c31-2d24-4271-9d5c-902960107d3c",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReloadSelectionC",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e72e98b-db6c-4e48-bfd7-866c86053f40",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReloadSelectionD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
