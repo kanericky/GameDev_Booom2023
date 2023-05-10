@@ -1,9 +1,6 @@
-using System;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using Sequence = DG.Tweening.Sequence;
@@ -14,7 +11,8 @@ namespace Runtime
     public class CameraController : MonoBehaviour
     {
         [Header("Camera Reference")]
-        [SerializeField] private Transform mainCamera;
+        [SerializeField] private Transform enemyRenderCamera;
+        [SerializeField] private Transform uiRenderCamera;
 
         [Header("Camera Positions")] 
         [SerializeField] private Transform cameraPosIdlePhase;
@@ -23,8 +21,9 @@ namespace Runtime
         [SerializeField] private Transform cameraPosFiringPhase;
 
         [Header("Camera Animation Data")] 
+        [SerializeField] private Vector2 cameraDeadZoneRangeGeneral;
+        [SerializeField] private Vector2 cameraDeadZoneRangeAiming;
         [SerializeField] private float cameraBreathRange = 0.4f;
-
         [SerializeField] private float cameraShakeRange = 0.2f;
 
         [Header("Camera Animation Speed")] 
@@ -39,6 +38,12 @@ namespace Runtime
         [Header("Debug")] 
         [SerializeField] private Vector2 mouseInput;
 
+        private void Awake()
+        {
+            enemyRenderCamera = transform.GetChild(0);
+            uiRenderCamera = transform.GetChild(1);
+        }
+
         private void Start()
         {
             ChangeCameraPosToIdle();
@@ -46,40 +51,65 @@ namespace Runtime
 
         public void ChangeCameraPosToIdle()
         {
-            transform.DOComplete();
+            //transform.DOComplete();
 
+            // Handle main camera
             Sequence sequence = DOTween.Sequence();
-
+            
             sequence.SetDelay(0f)
                 .Append(transform.DOMove(cameraPosIdlePhase.localPosition, cameraMovementTime).SetEase(Ease.OutQuad))
                 .Join(transform.DORotate(cameraPosIdlePhase.rotation.eulerAngles, cameraMovementTime)
                     .SetEase(Ease.OutQuad));
-
-            GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
             
+            transform.GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
+            
+            // Handle enemy render camera
+            enemyRenderCamera.GetComponent<Camera>().enabled = true;
+            enemyRenderCamera.GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
+
             ChangeCameraFocalLength(1f);
+            ChangeCameraSaturation(0);
         }
 
         public void ChangeCameraPosToReload()
         {
-            transform.DOComplete();
+            //transform.DOComplete();
 
+            // Handle main camera
             transform.DOMove(cameraPosReloadingPhase.localPosition, cameraMovementTime).SetEase(Ease.OutQuad);
             transform.DORotate(cameraPosReloadingPhase.rotation.eulerAngles, cameraMovementTime).SetEase(Ease.OutQuad);
-            GetComponent<Camera>().DOFieldOfView(40, cameraMovementTime);
+            transform.GetComponent<Camera>().DOFieldOfView(40, cameraMovementTime);
+            
+            // Handle enemy render camera
+            enemyRenderCamera.GetComponent<Camera>().enabled = false;
+            enemyRenderCamera.GetComponent<Camera>().DOFieldOfView(40, cameraMovementTime);
+            enemyRenderCamera.GetComponent<Camera>().GetUniversalAdditionalCameraData().renderPostProcessing = true;
 
-            ChangeCameraFocalLength(80f);
+            // Handle post-process
+            ChangeCameraFocalLength(50f);
+            ChangeCameraFocusDistance(1f);
+            ChangeCameraSaturation(0);
         }
 
         public void ChangeCameraPosToAiming()
         {
-            transform.DOComplete();
+            //transform.DOComplete();
             
+            // Handle the main camera
             transform.DOMove(cameraPosAimingPhase.localPosition, cameraMovementTime).SetEase(Ease.OutQuad);
             transform.DORotate(cameraPosAimingPhase.rotation.eulerAngles, cameraMovementTime).SetEase(Ease.OutQuad);
             
-            GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
-            ChangeCameraFocalLength(1f);
+            transform.GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
+            
+            // Handle the enemy render camera
+            enemyRenderCamera.GetComponent<Camera>().enabled = true;
+            enemyRenderCamera.GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
+            enemyRenderCamera.GetComponent<Camera>().GetUniversalAdditionalCameraData().renderPostProcessing = false;
+
+            // Handle post-process
+            ChangeCameraFocalLength(120f);
+            ChangeCameraFocusDistance(14f);
+            ChangeCameraSaturation(-50f);
 
         }
 
@@ -88,6 +118,33 @@ namespace Runtime
             DepthOfField dof;
             volume.profile.TryGet<DepthOfField>(out dof);
             dof.focalLength.value = value;
+        }
+        
+        public void ChangeCameraFocusDistance(float value)
+        {
+            DepthOfField dof;
+            volume.profile.TryGet<DepthOfField>(out dof);
+            dof.focusDistance.value = value;
+        }
+
+        public void ChangeCameraSaturation(float value)
+        {
+            ColorAdjustments colorAdjustments;
+            volume.profile.TryGet<ColorAdjustments>(out colorAdjustments);
+
+            float currentValue = colorAdjustments.saturation.value;
+
+            while (currentValue > value)
+            {
+                currentValue -= Time.deltaTime;
+                colorAdjustments.saturation.value = currentValue;
+            }
+             
+            while (currentValue < value)
+            {
+                currentValue += Time.deltaTime;
+                colorAdjustments.saturation.value = currentValue;
+            }
         }
 
         public Vector3 GetCameraRotIdle()
@@ -128,30 +185,34 @@ namespace Runtime
 
         public void HandleCameraShake()
         {
-            transform.DOComplete();
+            //transform.DOComplete();
             DOTween.Sequence().SetDelay(.2f)
                 .Append(transform.DOShakePosition(cameraShakeTime, cameraShakeRange).Play());
 
         }
 
-        public void HandleCameraDeadZoneMovement(Vector3 cameraCurrentRotation)
+        public void HandleCameraDeadZoneMovement(Vector3 cameraCurrentRotation, bool isAimingPhase = false)
         {
+            Vector2 deadZoneRange;
+
+            if (isAimingPhase) deadZoneRange = cameraDeadZoneRangeAiming;
+            else deadZoneRange = cameraDeadZoneRangeGeneral;
 
             Vector3 currentMousePos = Input.mousePosition;
-            Vector3 mousePivot = new Vector3(960, 540, 0);
+            Vector3 mousePivot = new Vector3(Screen.width/2, Screen.height/2, 0);
 
             float x = (currentMousePos.x - mousePivot.x) * 0.005f;
             float y = (mousePivot.y - currentMousePos.y) * 0.005f;
 
             float targetCameraRotationX = Mathf.Clamp(
                 cameraCurrentRotation.x + y,
-                cameraCurrentRotation.x -1,
-                cameraCurrentRotation.x + 1);
+                cameraCurrentRotation.x - deadZoneRange.x,
+                cameraCurrentRotation.x + deadZoneRange.x);
             
             float targetCameraRotationY = Mathf.Clamp(
                 cameraCurrentRotation.y + x, 
-                cameraCurrentRotation.y - 2, 
-                cameraCurrentRotation.y + 2);
+                cameraCurrentRotation.y - deadZoneRange.y, 
+                cameraCurrentRotation.y + deadZoneRange.y);
 
             Vector3 targetCameraRotation = new Vector3(targetCameraRotationX, targetCameraRotationY, cameraCurrentRotation.z);
 

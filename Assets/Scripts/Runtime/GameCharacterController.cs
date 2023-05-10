@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +19,10 @@ namespace Runtime
         [Header("Aiming")] 
         public Transform aimingTarget;
         public Transform gunAimStartPos;
+
+        [Header("Input")] 
+        public float inputCoolDownTimeGeneral = 0.1f;
+        public float inputCoolDownTimeFire = 0.2f;
         
         private InputActions _inputAction;
         
@@ -58,25 +63,37 @@ namespace Runtime
 
         #region ------ Handle Input ------
 
+        /// <summary>
+        /// "R" - Toggle Reloading State
+        /// </summary>
         private void ToggleReloadingState()
         {
+            InputCoolDown(inputCoolDownTimeGeneral);
+            
             if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.IdlePhase)
             {
-                playerPawn.EnterReloadingState();
                 cameraController.ChangeCameraPosToReload();
                 uIManager.ChangeDebugText("Reloading Phase");
+                uIManager.OpenReloadUIWidget();
+                playerPawn.EnterReloadingState();
             }
             else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.ReloadingPhase)
             {
                 cameraController.ChangeCameraPosToIdle();
-                playerPawn.ExitReloadingState();
                 uIManager.ChangeDebugText("Idle Phase");
+                uIManager.CloseReloadUIWidget();
+                playerPawn.ExitReloadingState();
                 //HandleCameraBreath();
             }
         }
 
+        /// <summary>
+        /// "Mouse Right Button" - Toggle Aiming State
+        /// </summary>
         private void ToggleAimingState()
         {
+            InputCoolDown(inputCoolDownTimeGeneral);
+            
             if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.ReloadingPhase)
             {
                 EnterAimingState();
@@ -93,6 +110,9 @@ namespace Runtime
             uIManager.ChangeDebugText("Aiming Phase");
         }
 
+        /// <summary>
+        /// Handle Aiming logic
+        /// </summary>
         private void HandleAiming()
         {
             if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.AimingPhase) return;
@@ -114,13 +134,19 @@ namespace Runtime
 
         private void Fire()
         {
+            InputCoolDown(inputCoolDownTimeFire);
+            
             if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.AimingPhase) return;
 
-            if (playerPawn.weapon.IsMagEmpty()) return;
+            if (playerPawn.weapon.IsMagEmpty())
+            {
+                ExitAimingState();
+            }
 
             playerPawn.Fire();
-            cameraController.HandleCameraShake();
             
+            cameraController.HandleCameraShake();
+
             if (Physics.Raycast(gunAimStartPos.position, cameraController.GetMousePosInWorld()-gunAimStartPos.position,
                     out RaycastHit raycastHit, 900f) && raycastHit.transform.CompareTag("Enemy"))
             {
@@ -139,19 +165,37 @@ namespace Runtime
         #endregion ------ Handle Input End ------
 
 
+        /// <summary>
+        /// Handle camera dead zone movement
+        /// </summary>
         private void HandleCameraDeadZoneMovement()
         {
             if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.IdlePhase)
             {
                 cameraController.HandleCameraDeadZoneMovement(cameraController.GetCameraRotIdle());
-            }else if(playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
+            }
+            else if(playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
             {
-                cameraController.HandleCameraDeadZoneMovement(cameraController.GetCameraRotAim());
+                cameraController.HandleCameraDeadZoneMovement(cameraController.GetCameraRotAim(), isAimingPhase: true);
             }
             else
             {
                 cameraController.HandleCameraDeadZoneMovement(cameraController.GetCameraRotReload());
             }
+        }
+        
+        /// <summary>
+        /// Disable player's input for a certain amount of time
+        /// </summary>
+        /// <param name="coolDownTime">Disable time period</param>
+        private void InputCoolDown(float coolDownTime)
+        {
+            _inputAction.Disable();
+
+            DOTween.Sequence().SetDelay(coolDownTime).onComplete = () =>
+            {
+                _inputAction.Enable();
+            };
         }
 
         private void HandleCameraBreath()

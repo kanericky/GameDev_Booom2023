@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Runtime
 {
@@ -14,6 +15,7 @@ namespace Runtime
 
         [Header("Weapon GameObject Reference")]
         public Transform weaponMag;
+        public Transform weaponMuz;
 
         public Transform weaponMagSlotA;
         public Transform weaponMagSlotB;
@@ -21,6 +23,8 @@ namespace Runtime
         public Transform weaponMagSlotD;
         public Transform weaponMagSlotE;
         public Transform weaponMagSlotF;
+
+        public Transform ammoHolder;
 
         public Queue<GameObject> bullets;
 
@@ -43,6 +47,9 @@ namespace Runtime
             WeaponInit();
         }
 
+        /// <summary>
+        ///  Setup the init values
+        /// </summary>
         public void WeaponInit()
         {
             ammoInMag = new Queue<Ammo>(magSize);
@@ -58,6 +65,9 @@ namespace Runtime
             _currentFireIndex = 0;
         }
 
+        /// <summary>
+        /// Clear all the bullets in the mag
+        /// </summary>
         public void ClearMag()
         {
             ammoInMag.Clear();
@@ -65,9 +75,20 @@ namespace Runtime
             while (bullets.Count > 0)
             {
                 GameObject obj = bullets.Dequeue();
-                obj.transform.DOLocalMoveX(-ammoSpawnPosOffset, ammoClearSpeed).SetDelay(.8f).onComplete = () =>
+                obj.transform.DOLocalMoveX(-0.2f, ammoClearSpeed).SetDelay(.8f).onComplete = () =>
                 {
-                    Destroy(obj);
+                    DOTween.Sequence().SetDelay(.2f).onComplete = () =>
+                    {
+                        // Handle mag clear animation
+                        obj.transform.parent = ammoHolder;
+                        obj.GetComponent<MeshCollider>().enabled = true;
+                        obj.GetComponent<Rigidbody>().useGravity = true;
+                        obj.GetComponent<Rigidbody>().AddForce(new Vector3(
+                            Random.Range(-10, 10),
+                            -1,
+                            Random.Range(-20, 20)));
+                        DOTween.Sequence().SetDelay(1f).onComplete = () => { Destroy(obj); };
+                    };
                 };
 
             }
@@ -76,6 +97,12 @@ namespace Runtime
             bullets.Clear();
         }
 
+        
+        /// <summary>
+        /// Load ammo into the empty mag slot
+        /// </summary>
+        /// <param name="ammo"> What is being loaded</param>
+        /// <returns> Success or not</returns>
         public bool ReloadAmmo(Ammo ammo)
         {
             // Mag is full, can no longer reload
@@ -93,6 +120,11 @@ namespace Runtime
             return true;
         }
 
+        /// <summary>
+        /// Handle weapon reload animation
+        /// </summary>
+        /// <param name="slotIndex"> Which mag slot is being filled?</param>
+        /// <param name="ammo"> What is going to be reloaded? </param>
         private void HandleReloadAnimation(int slotIndex, Ammo ammo)
         {
 
@@ -170,7 +202,9 @@ namespace Runtime
             }
         }
 
-        
+        /// <summary>
+        /// Weapon fire logic
+        /// </summary>
         public void Fire()
         {
             if (IsMagEmpty())
@@ -179,30 +213,29 @@ namespace Runtime
                 return;
             }
             
-            weaponFireParticle.Stop();
-            weaponFireParticle.Play();
+            // Setup VFX
+            weaponFireParticle.transform.position = weaponMuz.position;
+            weaponFireParticle.transform.rotation = weaponMuz.localRotation;
 
             // Fire logic
-            ammoInMag.Dequeue();
-            
+            Ammo ammo = ammoInMag.Dequeue();
             Destroy(bullets.Dequeue());
-            
             _numAmmoSlotFilled -= 1;
+            
+            // Play VFX
+            weaponFireParticle.Stop();
+            weaponFireParticle.GetComponent<ParticleSystemRenderer>().material = ammo.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
+            weaponFireParticle.Play();
+            
         }
 
+        /// <summary>
+        /// Check whether the mag is empty or not
+        /// </summary>
+        /// <returns>Is mage empty result</returns>
         public bool IsMagEmpty()
         {
             return ammoInMag.Count <= 0;
-        }
-
-        private void PlayVFX()
-        {
-            weaponFireParticle.transform.SetParent(null);
-            
-            weaponFireParticle.Stop();
-            weaponFireParticle.Play();
-            
-            weaponFireParticle.transform.SetParent(this.transform);
         }
         
     }
