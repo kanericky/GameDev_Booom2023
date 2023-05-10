@@ -15,6 +15,7 @@ namespace Runtime
         public Pawn playerPawn;
         public CameraController cameraController;
         public UIManager uIManager;
+        public GameManager gameManager;
 
         [Header("Aiming")] 
         public Transform aimingTarget;
@@ -47,6 +48,8 @@ namespace Runtime
             _inputAction.Player.CancelReload.performed += e => ExitReloadState();
 
             _inputAction.Player.Fire.performed += e => Fire();
+
+            gameManager = FindObjectOfType<GameManager>();
         }
 
         private void Start()
@@ -101,6 +104,7 @@ namespace Runtime
             }else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
             {
                 ExitAimingState();
+                GameManager.instance.EnterSlowMotion();
             }
         }
 

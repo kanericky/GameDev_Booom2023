@@ -98,6 +98,24 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Roll Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""678764c6-a870-4313-9ce6-284a570fbc4f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Roll Right"",
+                    ""type"": ""Button"",
+                    ""id"": ""56130a36-6740-409e-8c67-7f20ddc0c394"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -188,6 +206,28 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""action"": ""CancelReload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dd1bd0bc-8bb4-4bfd-8bc8-9ace36dc2166"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9b9d6014-7165-4d7f-9cba-6881c46f72f4"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -204,6 +244,8 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         m_Player_ReloadSelectionC = m_Player.FindAction("ReloadSelectionC", throwIfNotFound: true);
         m_Player_ReloadSelectionD = m_Player.FindAction("ReloadSelectionD", throwIfNotFound: true);
         m_Player_CancelReload = m_Player.FindAction("CancelReload", throwIfNotFound: true);
+        m_Player_RollLeft = m_Player.FindAction("Roll Left", throwIfNotFound: true);
+        m_Player_RollRight = m_Player.FindAction("Roll Right", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -271,6 +313,8 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ReloadSelectionC;
     private readonly InputAction m_Player_ReloadSelectionD;
     private readonly InputAction m_Player_CancelReload;
+    private readonly InputAction m_Player_RollLeft;
+    private readonly InputAction m_Player_RollRight;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -283,6 +327,8 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         public InputAction @ReloadSelectionC => m_Wrapper.m_Player_ReloadSelectionC;
         public InputAction @ReloadSelectionD => m_Wrapper.m_Player_ReloadSelectionD;
         public InputAction @CancelReload => m_Wrapper.m_Player_CancelReload;
+        public InputAction @RollLeft => m_Wrapper.m_Player_RollLeft;
+        public InputAction @RollRight => m_Wrapper.m_Player_RollRight;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -316,6 +362,12 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @CancelReload.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancelReload;
                 @CancelReload.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancelReload;
                 @CancelReload.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancelReload;
+                @RollLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRollLeft;
+                @RollLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRollLeft;
+                @RollLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRollLeft;
+                @RollRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRollRight;
+                @RollRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRollRight;
+                @RollRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRollRight;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -344,6 +396,12 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @CancelReload.started += instance.OnCancelReload;
                 @CancelReload.performed += instance.OnCancelReload;
                 @CancelReload.canceled += instance.OnCancelReload;
+                @RollLeft.started += instance.OnRollLeft;
+                @RollLeft.performed += instance.OnRollLeft;
+                @RollLeft.canceled += instance.OnRollLeft;
+                @RollRight.started += instance.OnRollRight;
+                @RollRight.performed += instance.OnRollRight;
+                @RollRight.canceled += instance.OnRollRight;
             }
         }
     }
@@ -358,5 +416,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         void OnReloadSelectionC(InputAction.CallbackContext context);
         void OnReloadSelectionD(InputAction.CallbackContext context);
         void OnCancelReload(InputAction.CallbackContext context);
+        void OnRollLeft(InputAction.CallbackContext context);
+        void OnRollRight(InputAction.CallbackContext context);
     }
 }
