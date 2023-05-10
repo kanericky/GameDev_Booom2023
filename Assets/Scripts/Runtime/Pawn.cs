@@ -51,8 +51,8 @@ namespace Runtime
 
         public void EnterReloadingState()
         {
-            if (currentPhaseState != CharacterPhaseState.IdlePhase) return;
-            
+            if (!(currentPhaseState is CharacterPhaseState.IdlePhase or CharacterPhaseState.AimingPhase)) return;
+
             Debug.Log("Start Reloading");
             
             pawnAnimator.SetTrigger(AnimatorTriggerReload);

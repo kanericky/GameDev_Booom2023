@@ -35,7 +35,7 @@ namespace Runtime
             _inputAction = new InputActions();
             _inputAction.Player.Enable();
 
-            _inputAction.Player.ReloadPressed.performed += e => ToggleReloadingState();
+            _inputAction.Player.ReloadPressed.performed += e => EnterReloadState();
 
             _inputAction.Player.AimPressed.performed += e => ToggleAimingState();
             
@@ -43,6 +43,8 @@ namespace Runtime
             _inputAction.Player.ReloadSelectionB.performed += e => HandleReloadSelection(1);
             _inputAction.Player.ReloadSelectionC.performed += e => HandleReloadSelection(2);
             _inputAction.Player.ReloadSelectionD.performed += e => HandleReloadSelection(3);
+
+            _inputAction.Player.CancelReload.performed += e => ExitReloadState();
 
             _inputAction.Player.Fire.performed += e => Fire();
         }
@@ -66,24 +68,23 @@ namespace Runtime
         /// <summary>
         /// "R" - Toggle Reloading State
         /// </summary>
-        private void ToggleReloadingState()
+        private void EnterReloadState()
         {
             InputCoolDown(inputCoolDownTimeGeneral);
             
             if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.IdlePhase)
             {
                 cameraController.ChangeCameraPosToReload();
-                uIManager.ChangeDebugText("Reloading Phase");
+                uIManager.ChangeDebugText("Reload Phase");
                 uIManager.OpenReloadUIWidget();
                 playerPawn.EnterReloadingState();
             }
-            else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.ReloadingPhase)
+            else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
             {
-                cameraController.ChangeCameraPosToIdle();
-                uIManager.ChangeDebugText("Idle Phase");
-                uIManager.CloseReloadUIWidget();
-                playerPawn.ExitReloadingState();
-                //HandleCameraBreath();
+                cameraController.ChangeCameraPosToReload();
+                uIManager.ChangeDebugText("Reload Phase");
+                uIManager.OpenReloadUIWidget();
+                playerPawn.EnterReloadingState();
             }
         }
 
@@ -108,6 +109,13 @@ namespace Runtime
             playerPawn.EnterAimingState();
             cameraController.ChangeCameraPosToAiming();
             uIManager.ChangeDebugText("Aiming Phase");
+        }
+
+        private void ExitReloadState()
+        {
+            playerPawn.ExitReloadingState();
+            cameraController.ChangeCameraPosToIdle();
+            uIManager.ChangeDebugText("Idle Phase");
         }
 
         /// <summary>
@@ -141,6 +149,7 @@ namespace Runtime
             if (playerPawn.weapon.IsMagEmpty())
             {
                 ExitAimingState();
+                return;
             }
 
             playerPawn.Fire();

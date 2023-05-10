@@ -89,6 +89,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CancelReload"",
+                    ""type"": ""Button"",
+                    ""id"": ""51346392-87e0-417b-8536-29b69b41f24b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -168,6 +177,17 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""action"": ""ReloadSelectionD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4619cc5f-5b02-47f4-8377-96be3bc2e510"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CancelReload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -183,6 +203,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         m_Player_ReloadSelectionB = m_Player.FindAction("ReloadSelectionB", throwIfNotFound: true);
         m_Player_ReloadSelectionC = m_Player.FindAction("ReloadSelectionC", throwIfNotFound: true);
         m_Player_ReloadSelectionD = m_Player.FindAction("ReloadSelectionD", throwIfNotFound: true);
+        m_Player_CancelReload = m_Player.FindAction("CancelReload", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -249,6 +270,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ReloadSelectionB;
     private readonly InputAction m_Player_ReloadSelectionC;
     private readonly InputAction m_Player_ReloadSelectionD;
+    private readonly InputAction m_Player_CancelReload;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -260,6 +282,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         public InputAction @ReloadSelectionB => m_Wrapper.m_Player_ReloadSelectionB;
         public InputAction @ReloadSelectionC => m_Wrapper.m_Player_ReloadSelectionC;
         public InputAction @ReloadSelectionD => m_Wrapper.m_Player_ReloadSelectionD;
+        public InputAction @CancelReload => m_Wrapper.m_Player_CancelReload;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -290,6 +313,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @ReloadSelectionD.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionD;
                 @ReloadSelectionD.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionD;
                 @ReloadSelectionD.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReloadSelectionD;
+                @CancelReload.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancelReload;
+                @CancelReload.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancelReload;
+                @CancelReload.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancelReload;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -315,6 +341,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @ReloadSelectionD.started += instance.OnReloadSelectionD;
                 @ReloadSelectionD.performed += instance.OnReloadSelectionD;
                 @ReloadSelectionD.canceled += instance.OnReloadSelectionD;
+                @CancelReload.started += instance.OnCancelReload;
+                @CancelReload.performed += instance.OnCancelReload;
+                @CancelReload.canceled += instance.OnCancelReload;
             }
         }
     }
@@ -328,5 +357,6 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         void OnReloadSelectionB(InputAction.CallbackContext context);
         void OnReloadSelectionC(InputAction.CallbackContext context);
         void OnReloadSelectionD(InputAction.CallbackContext context);
+        void OnCancelReload(InputAction.CallbackContext context);
     }
 }
