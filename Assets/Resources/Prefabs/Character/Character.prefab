@@ -1638,7 +1638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b199f3c0d22bab24bbc3631fe7769c19, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: Character
       objectReference: {fileID: 0}
     - target: {fileID: 1330755669629619180, guid: b199f3c0d22bab24bbc3631fe7769c19, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2041,7 +2041,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e0595beda188ff4dba62d57370deb6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  healthSystem:
+    healthAmount: 0
+    currentHealth: 0
   weapon: {fileID: 2459816886264695924}
   pawnInventory:
     itemSlotA:
@@ -2058,7 +2060,6 @@ MonoBehaviour:
       amount: 3
   pawnAnimator: {fileID: 0}
   currentPhaseState: 0
-  currentHealth: 0
 --- !u!114 &613146456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2074,9 +2075,17 @@ MonoBehaviour:
   playerPawn: {fileID: 0}
   cameraController: {fileID: 0}
   uIManager: {fileID: 0}
+  gameManager: {fileID: 0}
   aimingTarget: {fileID: 2121486568}
   gunAimStartPos: {fileID: 2459816885468933654}
-  mouseInput: {x: 0, y: 0}
+  rollCoolDownCD: 5
+  canRoll: 1
+  timeScale: 0.5
+  slowMotionDuration: 1
+  inputCoolDownTimeGeneral: 0.1
+  inputCoolDownTimeFire: 0.2
+  inputCoolDownTimeRoll: 1.4
+  playerPawnPositionIndex: 1
 --- !u!114 &613146457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2171,6 +2180,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1330755669629619180, guid: b199f3c0d22bab24bbc3631fe7769c19, type: 3}
   m_PrefabInstance: {fileID: 7221889693287900179}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8863257561264243171 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6973309849018194448, guid: b199f3c0d22bab24bbc3631fe7769c19, type: 3}
+  m_PrefabInstance: {fileID: 7221889693287900179}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &8324672421718548641
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8863257561264243171}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6230065210816037104, guid: b199f3c0d22bab24bbc3631fe7769c19, type: 3}
 --- !u!4 &9046854945047911387 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: b199f3c0d22bab24bbc3631fe7769c19, type: 3}

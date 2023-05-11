@@ -492,7 +492,7 @@ MonoBehaviour:
   ammoReloadSpeed: 0.6
   ammoClearSpeed: 1
   ammoModel: {fileID: 3672898815921445716, guid: d7d9d950b4f91184699ad3604169c42a, type: 3}
-  weaponFireParticle: {fileID: 0}
+  weaponFireParticle: {fileID: 273963616235801927, guid: 1ec715acfc7a20241aeaac12b8da7a4c, type: 3}
   _numAmmoSlotFilled: 0
   _currentFireIndex: 0
 --- !u!1 &2459816886099378339

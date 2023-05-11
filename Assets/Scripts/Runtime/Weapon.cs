@@ -209,7 +209,7 @@ namespace Runtime
         /// <summary>
         /// Weapon fire logic
         /// </summary>
-        public void Fire()
+        public void Fire(Vector3 target)
         {
             if (IsMagEmpty())
             {
@@ -218,27 +218,47 @@ namespace Runtime
             }
             
             // Setup VFX
-            Transform weaponFireVFX = weaponFireParticle.transform;
-            weaponFireVFX.position = weaponMuz.position;
-            weaponFireVFX.rotation = weaponMuz.localRotation;
+            ParticleSystem weaponFireVFX = Instantiate(weaponFireParticle);
+            
+            var vfxTransform = weaponFireVFX.transform;
+            vfxTransform.position = weaponMuz.position;
+            vfxTransform.rotation = weaponMuz.localRotation;
 
             // Fire logic
             Ammo ammo = ammoInMag.Dequeue();
             Destroy(bullets.Dequeue());
             _numAmmoSlotFilled -= 1;
             
-            if (Physics.Raycast(gunAimStartPos.position, gameManager.cameraController.GetMousePosInWorld()-gunAimStartPos.position,
+            if (Physics.Raycast(gunAimStartPos.position, target-gunAimStartPos.position,
                     out RaycastHit raycastHit, 900f) && raycastHit.transform.CompareTag("Enemy"))
             {
-                Debug.Log("Enemy Hit!");
-                raycastHit.transform.GetComponentInParent<Pawn>().TakeDamage(ammo);
+                Debug.Log("Hit enemy!");
+                raycastHit.transform.GetComponentInParent<EnemyCharacterController>().OnCharacterHit(ammo);
             }
-            
+
             // Play VFX
             weaponFireParticle.Stop();
             weaponFireParticle.GetComponent<ParticleSystemRenderer>().material = ammo.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
             weaponFireParticle.Play();
             
+        }
+        
+        public void EnemyWeaponFire(Vector3 target)
+        {
+            // Setup VFX
+            ParticleSystem weaponFireVFX = Instantiate(weaponFireParticle);
+
+            var vfxTransform = weaponFireVFX.transform;
+            vfxTransform.position = weaponMuz.position;
+            vfxTransform.rotation = weaponMuz.localRotation;
+            
+            if (Physics.Raycast(gunAimStartPos.position, target-gunAimStartPos.position,
+                    out RaycastHit raycastHit, 900f) && raycastHit.transform.CompareTag("Player"))
+            {
+                Debug.Log("Hit player!");
+                Ammo ammo = new Ammo(GameElementColor.Blue, 10f);
+                raycastHit.transform.GetComponentInParent<GameCharacterController>().HandleHit(ammo);
+            }
         }
 
         /// <summary>

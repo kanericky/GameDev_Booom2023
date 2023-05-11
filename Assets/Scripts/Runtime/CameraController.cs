@@ -36,8 +36,7 @@ namespace Runtime
         [Header("Post Processing")] 
         [SerializeField] private Volume volume;
 
-        [Header("Debug")] 
-        [SerializeField] private Vector2 mouseInput;
+        [Header("Debug")] [SerializeField] private LayerMask aimMask = new LayerMask();
 
         private void Awake()
         {
@@ -91,7 +90,7 @@ namespace Runtime
             enemyRenderCamera.GetComponent<Camera>().GetUniversalAdditionalCameraData().renderPostProcessing = true;
 
             // Handle post-process
-            ChangeCameraFocalLength(50f);
+            ChangeCameraFocalLength(100f);
             ChangeCameraFocusDistance(1f);
             ChangeCameraSaturation(0);
         }
@@ -114,7 +113,7 @@ namespace Runtime
             enemyRenderCamera.GetComponent<Camera>().GetUniversalAdditionalCameraData().renderPostProcessing = false;
 
             // Handle post-process
-            ChangeCameraFocalLength(120f);
+            ChangeCameraFocalLength(180f);
             ChangeCameraFocusDistance(14f);
             ChangeCameraSaturation(-50f);
 
@@ -214,6 +213,7 @@ namespace Runtime
             {
                 return hit.point;
             }
+
 
             return new Vector3(0, 0, 0);
 

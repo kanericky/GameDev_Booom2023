@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Runtime
@@ -8,6 +9,7 @@ namespace Runtime
     {
         [Header("Health System - Data")] 
         public float healthAmount;
+
         public float currentHealth;
 
         public HealthSystem(float healthAmount)
@@ -21,7 +23,7 @@ namespace Runtime
             if (currentHealth <= 0) return 0;
 
             float healthTemp = currentHealth - damageValue;
-            
+
             Debug.Log(currentHealth);
 
             currentHealth = healthTemp > 0 ? healthTemp : 0;
@@ -32,9 +34,15 @@ namespace Runtime
 
         }
 
+        public float GetHealthInPercentage()
+        {
+            return currentHealth / healthAmount;
+        }
+
         public void Death()
         {
             Debug.Log("Pawn is dead");
         }
     }
 }
+

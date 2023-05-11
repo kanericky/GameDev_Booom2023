@@ -76,6 +76,17 @@ namespace Runtime
             // Step 2: Handle reload input
         }
 
+        public void EnemyEnterReloadingState()
+        {
+            if (!(currentPhaseState is CharacterPhaseState.IdlePhase or CharacterPhaseState.AimingPhase)) return;
+
+            Debug.Log("Enemy Start Reloading");
+            
+            pawnAnimator.SetTrigger(AnimatorTriggerReload);
+            
+            currentPhaseState = CharacterPhaseState.ReloadingPhase;
+        }
+
         public void ExitReloadingState()
         {
             if (currentPhaseState != CharacterPhaseState.ReloadingPhase) return;
@@ -106,15 +117,25 @@ namespace Runtime
             currentPhaseState = CharacterPhaseState.IdlePhase;
         }
 
-        public void Fire()
+        public void Fire(Vector3 target)
         {
             if (currentPhaseState != CharacterPhaseState.AimingPhase) return;
 
             // FIRE!!!
-            weapon.Fire();
+            weapon.Fire(target);
             pawnAnimator.ResetTrigger(AnimatorTriggerFire);
             pawnAnimator.SetTrigger(AnimatorTriggerFire);
             //pawnAnimator.ResetTrigger(AnimatorTriggerFire);
+        }
+
+        public void EnemyFire(Vector3 target)
+        {
+            if (currentPhaseState != CharacterPhaseState.AimingPhase) return;
+
+            // FIRE!!!
+            weapon.EnemyWeaponFire(target);
+            pawnAnimator.ResetTrigger(AnimatorTriggerFire);
+            pawnAnimator.SetTrigger(AnimatorTriggerFire);
         }
 
         public CharacterPhaseState GetPawnCurrentState()

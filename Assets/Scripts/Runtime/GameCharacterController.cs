@@ -10,7 +10,6 @@ namespace Runtime
     [RequireComponent(typeof(Pawn))]
     public class GameCharacterController : MonoBehaviour
     {
-
         [Header("References")] 
         public Pawn playerPawn;
         public CameraController cameraController;
@@ -78,6 +77,13 @@ namespace Runtime
         {
             HandleCameraDeadZoneMovement();
             HandleAiming();
+            
+            //TODO - Delete debug code
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                Ammo ammo = new Ammo(GameElementColor.Blue, 10f);
+                playerPawn.TakeDamage(ammo);
+            }
         }
 
 
@@ -177,7 +183,7 @@ namespace Runtime
                 return;
             }
 
-            playerPawn.Fire();
+            playerPawn.Fire(cameraController.GetMousePosInWorld());
             
             cameraController.HandleCameraShake();
         }
@@ -219,6 +225,14 @@ namespace Runtime
         
         #endregion ------ Handle Input End ------
 
+        public void HandleHit(Ammo ammo)
+        {
+            playerPawn.TakeDamage(ammo);
+            
+            // Update UI
+            GameEvents.instance.OnPlayerHealthChanged(playerPawn.healthSystem.GetHealthInPercentage());
+        }
+
 
         /// <summary>
         /// Handle camera dead zone movement
@@ -238,7 +252,7 @@ namespace Runtime
                 cameraController.HandleCameraDeadZoneMovement(cameraController.GetCameraRotReload());
             }
         }
-        
+
         /// <summary>
         /// Disable player's input for a certain amount of time
         /// </summary>
