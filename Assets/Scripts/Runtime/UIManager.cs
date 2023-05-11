@@ -10,6 +10,7 @@ namespace Runtime
         [Header("HUD")] 
         public Canvas debugMenu;
         public TMP_Text debugText;
+        public TMP_Text debugTextTime;
 
         [Header("In-game Reload Phase UI")] 
         public Image widgetImage;
@@ -25,6 +26,11 @@ namespace Runtime
         public void ChangeDebugText(string text)
         {
             debugText.text = text;
+        }
+
+        public void ChangeTimeDebugText(string text)
+        {
+            debugTextTime.text = text;
         }
 
         public void OpenReloadUIWidget()

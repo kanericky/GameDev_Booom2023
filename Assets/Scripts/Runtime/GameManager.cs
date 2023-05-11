@@ -7,6 +7,9 @@ namespace Runtime
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
+
+        [Header("Game Managers")] 
+        public UIManager uiManager;
         
         [Header("Materials")]
         public Material matRed;
@@ -17,24 +20,33 @@ namespace Runtime
         [Header("Slow motion")]
         [SerializeField] private bool isSlowMotionEnabled = true;
 
-        private void Start()
+        private void Awake()
         {
             instance = this;
+            uiManager = FindObjectOfType<UIManager>();
         }
 
-        public void EnterSlowMotion(float slowFactor = 0.8f, float period = 3f)
+        public void EnterSlowMotion(float slowFactor = 0.5f, float period = 2f)
         {
             if (!isSlowMotionEnabled) return;
             
             isSlowMotionEnabled = false;
             
             Time.timeScale = slowFactor;
+            uiManager.ChangeTimeDebugText(Time.timeScale.ToString());
 
             DOTween.Sequence().SetDelay(period).onComplete = () =>
             {
                 Time.timeScale = 1;
                 isSlowMotionEnabled = true;
+                uiManager.ChangeTimeDebugText(Time.timeScale.ToString());
             };
+        }
+
+        public void ResetSlowMotion()
+        {
+            Time.timeScale = 1;
+            uiManager.ChangeTimeDebugText(Time.timeScale.ToString());
         }
 
         private void OnDestroy()

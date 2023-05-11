@@ -19,6 +19,7 @@ namespace Runtime
         [SerializeField] private Transform cameraPosReloadingPhase;
         [SerializeField] private Transform cameraPosAimingPhase;
         [SerializeField] private Transform cameraPosFiringPhase;
+        [SerializeField] private Transform cameraCurrentTarget;
 
         [Header("Camera Animation Data")] 
         [SerializeField] private Vector2 cameraDeadZoneRangeGeneral;
@@ -46,19 +47,21 @@ namespace Runtime
 
         private void Start()
         {
-            ChangeCameraPosToIdle();
+            ChangeCameraPosToIdle(1);
         }
 
-        public void ChangeCameraPosToIdle()
+        public void ChangeCameraPosToIdle(int index)
         {
             //transform.DOComplete();
 
             // Handle main camera
             Sequence sequence = DOTween.Sequence();
+
+            cameraCurrentTarget = cameraPosIdlePhase;
             
             sequence.SetDelay(0f)
-                .Append(transform.DOMove(cameraPosIdlePhase.localPosition, cameraMovementTime).SetEase(Ease.OutQuad))
-                .Join(transform.DORotate(cameraPosIdlePhase.rotation.eulerAngles, cameraMovementTime)
+                .Append(transform.DOMove(cameraCurrentTarget.position, cameraMovementTime).SetEase(Ease.OutQuad))
+                .Join(transform.DORotate(cameraCurrentTarget.rotation.eulerAngles + GetCameraRotOffset(index), cameraMovementTime)
                     .SetEase(Ease.OutQuad));
             
             transform.GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
@@ -71,13 +74,15 @@ namespace Runtime
             ChangeCameraSaturation(0);
         }
 
-        public void ChangeCameraPosToReload()
+        public void ChangeCameraPosToReload(int index)
         {
             //transform.DOComplete();
+            
+            cameraCurrentTarget = cameraPosReloadingPhase;
 
             // Handle main camera
-            transform.DOMove(cameraPosReloadingPhase.localPosition, cameraMovementTime).SetEase(Ease.OutQuad);
-            transform.DORotate(cameraPosReloadingPhase.rotation.eulerAngles, cameraMovementTime).SetEase(Ease.OutQuad);
+            transform.DOMove(cameraCurrentTarget.position, cameraMovementTime).SetEase(Ease.OutQuad);
+            transform.DORotate(cameraCurrentTarget.rotation.eulerAngles + GetCameraRotOffset(index), cameraMovementTime).SetEase(Ease.OutQuad);
             transform.GetComponent<Camera>().DOFieldOfView(40, cameraMovementTime);
             
             // Handle enemy render camera
@@ -91,13 +96,15 @@ namespace Runtime
             ChangeCameraSaturation(0);
         }
 
-        public void ChangeCameraPosToAiming()
+        public void ChangeCameraPosToAiming(int index)
         {
             //transform.DOComplete();
+
+            cameraCurrentTarget = cameraPosAimingPhase;
             
             // Handle the main camera
-            transform.DOMove(cameraPosAimingPhase.localPosition, cameraMovementTime).SetEase(Ease.OutQuad);
-            transform.DORotate(cameraPosAimingPhase.rotation.eulerAngles, cameraMovementTime).SetEase(Ease.OutQuad);
+            transform.DOMove(cameraCurrentTarget.position, cameraMovementTime).SetEase(Ease.OutQuad);
+            transform.DORotate(cameraCurrentTarget.rotation.eulerAngles + GetCameraRotOffset(index), cameraMovementTime).SetEase(Ease.OutQuad);
             
             transform.GetComponent<Camera>().DOFieldOfView(50, cameraMovementTime);
             
@@ -111,6 +118,36 @@ namespace Runtime
             ChangeCameraFocusDistance(14f);
             ChangeCameraSaturation(-50f);
 
+        }
+
+        public void ResetCameraPos(int index)
+        {
+            Vector3 cameraRotationOffset = GetCameraRotOffset(index);
+            
+            transform.DOMove(cameraCurrentTarget.position, cameraMovementTime).SetEase(Ease.OutQuad);
+            transform.DORotate(cameraCurrentTarget.rotation.eulerAngles + cameraRotationOffset, cameraMovementTime).SetEase(Ease.OutQuad);
+        }
+
+        public Vector3 GetCameraRotOffset(int index)
+        {
+            Vector3 cameraRotationOffset = Vector3.zero;
+
+            switch (index)
+            {
+                case 0:
+                    cameraRotationOffset = new Vector3(0f, 10f, 0f);
+                    break;
+
+                case 1:
+                    cameraRotationOffset = new Vector3(0f, 0f, 0f);
+                    break;
+
+                case 2:
+                    cameraRotationOffset = new Vector3(0f, -10f, 0f);
+                    break;
+            }
+
+            return cameraRotationOffset;
         }
 
         public void ChangeCameraFocalLength(float value)
@@ -177,10 +214,9 @@ namespace Runtime
             {
                 return hit.point;
             }
-            else
-            {
-                return new Vector3(0, 0, 0);
-            }
+
+            return new Vector3(0, 0, 0);
+
         }
 
         public void HandleCameraShake()

@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -29,6 +30,8 @@ namespace Runtime
         private static readonly string AnimatorTriggerFire = "Fire";
         private static readonly string AnimatorTriggerResetToIdle = "Reset to Idle";
         private static readonly string AnimatorTriggerHitReaction = "Take Hit";
+        private static readonly string AnimatorTriggerRollLeft = "Roll Left";
+        private static readonly string AnimatorTriggerRollRight = "Roll Right";
 
         private void Start()
         {
@@ -77,8 +80,6 @@ namespace Runtime
 
         public void EnterAimingState()
         {
-            if (currentPhaseState != CharacterPhaseState.ReloadingPhase) return;
-            
             Debug.Log("Start Aiming");
             
             pawnAnimator.SetTrigger(AnimatorTriggerAim);
@@ -165,6 +166,28 @@ namespace Runtime
                 default:
                     return;
             }
+        }
+
+        public void RollLeft()
+        {
+            DOTween.Sequence().SetDelay(.6f).onComplete = () =>
+            { 
+                Transform playerParent = transform.parent; 
+                playerParent.DOMoveX(playerParent.position.x - 5f, 1.1f).SetEase(Ease.OutQuad);
+            };
+            
+            pawnAnimator.SetTrigger(AnimatorTriggerRollLeft);
+        }
+
+        public void RollRight()
+        {
+            DOTween.Sequence().SetDelay(.65f).onComplete = () =>
+            { 
+                Transform playerParent = transform.parent; 
+                playerParent.DOMoveX(playerParent.position.x + 5f, 0.95f).SetEase(Ease.OutQuad);
+            };
+            
+            pawnAnimator.SetTrigger(AnimatorTriggerRollRight);
         }
     }
 
