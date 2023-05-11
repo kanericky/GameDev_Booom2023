@@ -180,13 +180,6 @@ namespace Runtime
             playerPawn.Fire();
             
             cameraController.HandleCameraShake();
-
-            if (Physics.Raycast(gunAimStartPos.position, cameraController.GetMousePosInWorld()-gunAimStartPos.position,
-                    out RaycastHit raycastHit, 900f) && raycastHit.transform.CompareTag("Enemy"))
-            {
-                Debug.Log("Enemy Hit!");
-                raycastHit.transform.GetComponentInParent<EnemyCharacterController>().OnCharacterHit();
-            }
         }
 
         private void HandleReloadSelection(int index)

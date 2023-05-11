@@ -9,7 +9,7 @@ namespace Runtime
     public class Pawn : MonoBehaviour
     {
         [Header("Pawn Attributes")] 
-        public float health;
+        public HealthSystem healthSystem;
         
         [Header("Weapon")]
         public Weapon weapon;
@@ -22,8 +22,8 @@ namespace Runtime
         
         [Header("Debug")]
         [SerializeField] private CharacterPhaseState currentPhaseState;
-        [SerializeField] private float currentHealth;
-        
+
+        // Animation Triggers
         private static readonly string AnimatorTriggerReload = "Trigger Reload";
         private static readonly string AnimatorTriggerReset = "Reset Reload";
         private static readonly string AnimatorTriggerAim = "Trigger Aiming";
@@ -32,24 +32,32 @@ namespace Runtime
         private static readonly string AnimatorTriggerHitReaction = "Take Hit";
         private static readonly string AnimatorTriggerRollLeft = "Roll Left";
         private static readonly string AnimatorTriggerRollRight = "Roll Right";
+        private static readonly string AnimatorTriggerDeath = "Death";
+        private static readonly string AnimatorDeadBool = "Is Dead";
 
         private void Start()
         {
-            pawnAnimator = GetComponent<Animator>();
-            
-            weapon = GetComponentInChildren<Weapon>();
-            if (weapon != null) weapon.WeaponInit();
-            
-            currentPhaseState = CharacterPhaseState.IdlePhase;
-            currentHealth = health;
+            InitPawnSystem();
+            InitHealthSystem();
+            InitWeaponSystem();
         }
 
-        private void ValidateData()
+        private void InitHealthSystem()
         {
-            if (pawnAnimator == null)
-            {
-                Debug.LogAssertion("There is no animator on the pawn...");
-            }
+            //TODO - Fix data structure
+            healthSystem = new HealthSystem(100f);
+        }
+
+        private void InitWeaponSystem()
+        {
+            weapon = GetComponentInChildren<Weapon>();
+            if (weapon != null) weapon.WeaponInit();
+        }
+
+        private void InitPawnSystem()
+        {
+            pawnAnimator = GetComponent<Animator>();
+            currentPhaseState = CharacterPhaseState.IdlePhase;
         }
 
         public void EnterReloadingState()
@@ -114,9 +122,19 @@ namespace Runtime
             return currentPhaseState;
         }
 
-        public void TakeDamage()
+        public void TakeDamage(Ammo ammo)
         {
             pawnAnimator.SetTrigger(AnimatorTriggerHitReaction);
+            if (healthSystem.TakeDamage(ammo.initDamage) <= 0)
+            {
+                HandlePawnDeath();
+            }
+        }
+
+        public void HandlePawnDeath()
+        {
+            pawnAnimator.SetTrigger(AnimatorTriggerDeath);
+            DOTween.Sequence().SetDelay(.4f).onComplete = () => { pawnAnimator.SetBool(AnimatorDeadBool, true); };
         }
 
         public void HandleReloadSelection(int slotIndex)
@@ -128,7 +146,8 @@ namespace Runtime
             {
                 case 0:
                     item = pawnInventory.itemSlotA;
-                    ammo = new Ammo(item.itemColor);
+                    // TODO - Fix Ammo Data
+                    ammo = new Ammo(item.itemColor, 35f);
                     if (item.amount > 0 && weapon.ReloadAmmo(ammo))
                     {
                         pawnInventory.itemSlotA.amount--;
@@ -138,7 +157,7 @@ namespace Runtime
                 
                 case 1:
                     item = pawnInventory.itemSlotB;
-                    ammo = new Ammo(item.itemColor);
+                    ammo = new Ammo(item.itemColor, 35f);
                     if (item.amount > 0 && weapon.ReloadAmmo(ammo))
                     {
                         pawnInventory.itemSlotB.amount--;
@@ -147,7 +166,7 @@ namespace Runtime
                 
                 case 2:
                     item = pawnInventory.itemSlotC;
-                    ammo = new Ammo(item.itemColor);
+                    ammo = new Ammo(item.itemColor, 35f);
                     if (item.amount > 0 && weapon.ReloadAmmo(ammo))
                     {
                         pawnInventory.itemSlotC.amount--;
@@ -156,7 +175,7 @@ namespace Runtime
                 
                 case 3:
                     item = pawnInventory.itemSlotD;
-                    ammo = new Ammo(item.itemColor);
+                    ammo = new Ammo(item.itemColor, 35f);
                     if (item.amount > 0 && weapon.ReloadAmmo(ammo))
                     {
                         pawnInventory.itemSlotD.amount--;

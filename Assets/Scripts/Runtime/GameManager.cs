@@ -10,6 +10,7 @@ namespace Runtime
 
         [Header("Game Managers")] 
         public UIManager uiManager;
+        public CameraController cameraController;
         
         [Header("Materials")]
         public Material matRed;
@@ -24,6 +25,7 @@ namespace Runtime
         {
             instance = this;
             uiManager = FindObjectOfType<UIManager>();
+            cameraController = FindObjectOfType<CameraController>();
         }
 
         public void EnterSlowMotion(float slowFactor = 0.5f, float period = 2f)

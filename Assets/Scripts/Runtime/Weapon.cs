@@ -9,12 +9,15 @@ namespace Runtime
 {
     public class Weapon : MonoBehaviour
     {
+        [Header("Manager Reference")] 
+        public GameManager gameManager;
+        
         [Header("Weapon Info")]
         public int magSize;
         public Queue<Ammo> ammoInMag;
 
         [Header("Weapon GameObject Reference")]
-        public Transform weaponMag;
+        public Transform gunAimStartPos;
         public Transform weaponMuz;
 
         public Transform weaponMagSlotA;
@@ -44,6 +47,7 @@ namespace Runtime
 
         private void Start()
         {
+            gameManager = GameManager.instance;
             WeaponInit();
         }
 
@@ -214,13 +218,21 @@ namespace Runtime
             }
             
             // Setup VFX
-            weaponFireParticle.transform.position = weaponMuz.position;
-            weaponFireParticle.transform.rotation = weaponMuz.localRotation;
+            Transform weaponFireVFX = weaponFireParticle.transform;
+            weaponFireVFX.position = weaponMuz.position;
+            weaponFireVFX.rotation = weaponMuz.localRotation;
 
             // Fire logic
             Ammo ammo = ammoInMag.Dequeue();
             Destroy(bullets.Dequeue());
             _numAmmoSlotFilled -= 1;
+            
+            if (Physics.Raycast(gunAimStartPos.position, gameManager.cameraController.GetMousePosInWorld()-gunAimStartPos.position,
+                    out RaycastHit raycastHit, 900f) && raycastHit.transform.CompareTag("Enemy"))
+            {
+                Debug.Log("Enemy Hit!");
+                raycastHit.transform.GetComponentInParent<Pawn>().TakeDamage(ammo);
+            }
             
             // Play VFX
             weaponFireParticle.Stop();

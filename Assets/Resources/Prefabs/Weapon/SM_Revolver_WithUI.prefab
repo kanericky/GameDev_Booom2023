@@ -477,8 +477,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648580e32c63e1e48b35394b391c89d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   magSize: 6
-  weaponMag: {fileID: 8363046853863940448}
+  gunAimStartPos: {fileID: 2459816884984143779}
   weaponMuz: {fileID: 2459816884984143779}
   weaponMagSlotA: {fileID: 8304924405583627848}
   weaponMagSlotB: {fileID: 2578658440017839535}

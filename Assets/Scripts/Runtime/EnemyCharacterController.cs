@@ -21,9 +21,9 @@ namespace Runtime
             characterPawn = GetComponent<Pawn>();
         }
 
-        public void OnCharacterHit()
+        public void OnCharacterHit(Ammo ammo)
         {
-            characterPawn.TakeDamage();
+            characterPawn.TakeDamage(ammo);
         }
 
     }

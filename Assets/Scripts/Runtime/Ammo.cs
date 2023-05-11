@@ -13,11 +13,13 @@ namespace Runtime
         public Ammo()
         {
             gameElementColor = GameElementColor.NotDefined;
+            initDamage = 0;
         }
 
-        public Ammo(GameElementColor gameElementColor)
+        public Ammo(GameElementColor gameElementColor, float initDamage)
         {
             this.gameElementColor = gameElementColor;
+            this.initDamage = initDamage;
         }
 
         public bool IsAmmoValid()
