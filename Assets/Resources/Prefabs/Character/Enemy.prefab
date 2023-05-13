@@ -1843,6 +1843,9 @@ MonoBehaviour:
   playerCharacter: {fileID: 0}
   enemyWeapon: {fileID: 842052259578965836}
   enemyPawn: {fileID: 0}
+  characterRenderer: {fileID: 8383684809715715185}
+  highLightMaterial: {fileID: 2100000, guid: eb111e6980ad3dd44b02fc2b977caabb, type: 2}
+  defaultMaterial: {fileID: 0}
   bodyCollider: {fileID: 0}
   headCollider: {fileID: 0}
   leftArmCollider: {fileID: 0}
@@ -2137,10 +2140,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.47923803
+  m_Radius: 0.7880912
   m_Height: 3.550912
   m_Direction: 1
-  m_Center: {x: -0.02886033, y: 1.7693064, z: 0.082381725}
+  m_Center: {x: -0.02886033, y: 1.7693064, z: 0.059503555}
 --- !u!1 &6083383592732706116
 GameObject:
   m_ObjectHideFlags: 0

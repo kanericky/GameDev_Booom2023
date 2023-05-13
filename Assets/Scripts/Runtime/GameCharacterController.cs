@@ -1,9 +1,5 @@
-using System;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 namespace Runtime
 {
@@ -34,6 +30,7 @@ namespace Runtime
         public float inputCoolDownTimeRoll = 1.4f;
         
         private InputActions _inputAction;
+        private EnemyCharacterController enemy;
         
         [Header("Debug")] 
         [SerializeField] private int playerPawnPositionIndex = 1;
@@ -66,6 +63,7 @@ namespace Runtime
         private void Start()
         {
             playerPawn = GetComponent<Pawn>();
+
             gameManager = FindObjectOfType<GameManager>();
             uIManager = GameManager.instance.uiManager;
             
@@ -82,7 +80,7 @@ namespace Runtime
             if (Input.GetKeyDown(KeyCode.P))
             {
                 Ammo ammo = new Ammo(GameElementColor.Blue, 10f);
-                playerPawn.TakeDamage(ammo);
+                HandleHit(ammo);
             }
         }
 
@@ -155,11 +153,25 @@ namespace Runtime
         private void HandleAiming()
         {
             if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.AimingPhase) return;
-            
+
             if (Physics.Raycast(gunAimStartPos.position, cameraController.GetMousePosInWorld()-gunAimStartPos.position,
-                    out RaycastHit raycastHit, 900f))
+                    out RaycastHit raycastHit, 100f))
             {
+                
                 aimingTarget.transform.position = raycastHit.point;
+                
+                EnemyCharacterController tempEnemy = raycastHit.transform.GetComponentInParent<EnemyCharacterController>();
+
+                if (tempEnemy != null)
+                {
+                    tempEnemy.EnableHighlight();
+                    enemy = tempEnemy;
+                }
+                else if(enemy != null)
+                {
+                    enemy.DisableHighlight();
+                }
+                
             }
             
         }

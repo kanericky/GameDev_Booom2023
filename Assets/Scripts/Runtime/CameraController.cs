@@ -209,7 +209,7 @@ namespace Runtime
 
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, aimMask))
             {
                 return hit.point;
             }

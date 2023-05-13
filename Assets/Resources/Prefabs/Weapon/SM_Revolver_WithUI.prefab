@@ -488,6 +488,7 @@ MonoBehaviour:
   weaponMagSlotE: {fileID: 7042551572761146159}
   weaponMagSlotF: {fileID: 5570830116454782759}
   ammoHolder: {fileID: 0}
+  laserLine: {fileID: 0}
   ammoSpawnPosOffset: 10
   ammoReloadSpeed: 0.6
   ammoClearSpeed: 1

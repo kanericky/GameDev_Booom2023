@@ -1,6 +1,5 @@
 using System;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Runtime
@@ -35,6 +34,8 @@ namespace Runtime
         private static readonly string AnimatorTriggerDeath = "Death";
         private static readonly string AnimatorDeadBool = "Is Dead";
 
+        private bool isPawnDead;
+
         private void Start()
         {
             InitPawnSystem();
@@ -58,10 +59,13 @@ namespace Runtime
         {
             pawnAnimator = GetComponent<Animator>();
             currentPhaseState = CharacterPhaseState.IdlePhase;
+            isPawnDead = false;
         }
 
         public void EnterReloadingState()
         {
+            if (isPawnDead) return;
+            
             if (!(currentPhaseState is CharacterPhaseState.IdlePhase or CharacterPhaseState.AimingPhase)) return;
 
             Debug.Log("Start Reloading");
@@ -78,6 +82,8 @@ namespace Runtime
 
         public void EnemyEnterReloadingState()
         {
+            if (isPawnDead) return;
+            
             if (!(currentPhaseState is CharacterPhaseState.IdlePhase or CharacterPhaseState.AimingPhase)) return;
 
             Debug.Log("Enemy Start Reloading");
@@ -89,6 +95,8 @@ namespace Runtime
 
         public void ExitReloadingState()
         {
+            if (isPawnDead) return;
+            
             if (currentPhaseState != CharacterPhaseState.ReloadingPhase) return;
             
             pawnAnimator.SetTrigger(AnimatorTriggerReset);
@@ -99,6 +107,8 @@ namespace Runtime
 
         public void EnterAimingState()
         {
+            if (isPawnDead) return;
+            
             Debug.Log("Start Aiming");
             
             pawnAnimator.SetTrigger(AnimatorTriggerAim);
@@ -110,6 +120,8 @@ namespace Runtime
 
         public void ExitAimingState()
         {
+            if (isPawnDead) return;
+            
             if (currentPhaseState != CharacterPhaseState.AimingPhase) return;
             
             pawnAnimator.SetTrigger(AnimatorTriggerResetToIdle);
@@ -119,6 +131,8 @@ namespace Runtime
 
         public void Fire(Vector3 target)
         {
+            if (isPawnDead) return;
+            
             if (currentPhaseState != CharacterPhaseState.AimingPhase) return;
 
             // FIRE!!!
@@ -146,8 +160,11 @@ namespace Runtime
         public void TakeDamage(Ammo ammo)
         {
             pawnAnimator.SetTrigger(AnimatorTriggerHitReaction);
+            
             if (healthSystem.TakeDamage(ammo.initDamage) <= 0)
             {
+                if (isPawnDead) return;
+                isPawnDead = true;
                 HandlePawnDeath();
             }
         }
@@ -168,7 +185,7 @@ namespace Runtime
                 case 0:
                     item = pawnInventory.itemSlotA;
                     // TODO - Fix Ammo Data
-                    ammo = new Ammo(item.itemColor, 35f);
+                    ammo = new Ammo(item.itemColor, 50f);
                     if (item.amount > 0 && weapon.ReloadAmmo(ammo))
                     {
                         pawnInventory.itemSlotA.amount--;
@@ -178,7 +195,7 @@ namespace Runtime
                 
                 case 1:
                     item = pawnInventory.itemSlotB;
-                    ammo = new Ammo(item.itemColor, 35f);
+                    ammo = new Ammo(item.itemColor, 50f);
                     if (item.amount > 0 && weapon.ReloadAmmo(ammo))
                     {
                         pawnInventory.itemSlotB.amount--;
@@ -187,7 +204,7 @@ namespace Runtime
                 
                 case 2:
                     item = pawnInventory.itemSlotC;
-                    ammo = new Ammo(item.itemColor, 35f);
+                    ammo = new Ammo(item.itemColor, 50f);
                     if (item.amount > 0 && weapon.ReloadAmmo(ammo))
                     {
                         pawnInventory.itemSlotC.amount--;
@@ -196,7 +213,7 @@ namespace Runtime
                 
                 case 3:
                     item = pawnInventory.itemSlotD;
-                    ammo = new Ammo(item.itemColor, 35f);
+                    ammo = new Ammo(item.itemColor, 50f);
                     if (item.amount > 0 && weapon.ReloadAmmo(ammo))
                     {
                         pawnInventory.itemSlotD.amount--;

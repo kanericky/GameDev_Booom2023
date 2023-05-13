@@ -29,6 +29,8 @@ namespace Runtime
 
         public Transform ammoHolder;
 
+        public LineRenderer laserLine;
+
         public Queue<GameObject> bullets;
 
         public float ammoSpawnPosOffset = 4f;
@@ -241,6 +243,8 @@ namespace Runtime
             weaponFireParticle.GetComponent<ParticleSystemRenderer>().material = ammo.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
             weaponFireParticle.Play();
             
+            DOTween.Sequence().SetDelay(1f).onComplete = () => { Destroy(weaponFireVFX.gameObject); };
+            
         }
         
         public void EnemyWeaponFire(Vector3 target)
@@ -259,6 +263,10 @@ namespace Runtime
                 Ammo ammo = new Ammo(GameElementColor.Blue, 10f);
                 raycastHit.transform.GetComponentInParent<GameCharacterController>().HandleHit(ammo);
             }
+            
+            Debug.DrawLine(gunAimStartPos.position, target-gunAimStartPos.position, Color.black, 5f);
+
+            DOTween.Sequence().SetDelay(1f).onComplete = () => { Destroy(weaponFireVFX.gameObject); };
         }
 
         /// <summary>

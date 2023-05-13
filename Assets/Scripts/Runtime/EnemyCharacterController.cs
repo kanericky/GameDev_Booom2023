@@ -16,6 +16,9 @@ namespace Runtime
 
         [Header("Reference")] 
         [SerializeField] private Pawn enemyPawn;
+        [SerializeField] private Renderer characterRenderer;
+        [SerializeField] private Material highLightMaterial;
+        [SerializeField] private Material defaultMaterial;
 
         [Header("Collision")] 
         public Collider bodyCollider;
@@ -27,6 +30,8 @@ namespace Runtime
         {
             playerCharacter = FindObjectOfType<GameCharacterController>();
             enemyPawn = GetComponent<Pawn>();
+
+            defaultMaterial = characterRenderer.material;
             
             Attack();
         }
@@ -36,18 +41,31 @@ namespace Runtime
             enemyPawn.TakeDamage(ammo);
         }
 
+        public void EnableHighlight()
+        {
+            if(characterRenderer.material != highLightMaterial) characterRenderer.material = highLightMaterial;
+        }
+
+        public void DisableHighlight()
+        {
+            if (characterRenderer.material != defaultMaterial) characterRenderer.material = defaultMaterial;
+        }
+
         private void Attack()
         {
 
-            DOTween.Sequence().SetDelay(Random.Range(2f, 4f)).onComplete = () =>
+            DOTween.Sequence().SetDelay(Random.Range(1f, 4f)).onComplete = () =>
             {
                 enemyPawn.EnemyEnterReloadingState();
-                DOTween.Sequence().SetDelay(2f).onComplete = () =>
+                DOTween.Sequence().SetDelay(1f).onComplete = () =>
                 {
                     enemyPawn.EnterAimingState();
                     DOTween.Sequence().SetDelay(1f).onComplete = () =>
                     {
-                        enemyPawn.EnemyFire(playerCharacter.transform.position);
+                        for (int i = 0; i < 4; i++)
+                        {
+                            enemyPawn.EnemyFire(playerCharacter.transform.position);
+                        }
                     };
                 };
             };
