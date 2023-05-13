@@ -1841,7 +1841,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCharacter: {fileID: 0}
+  enemyData: {fileID: 0}
   enemyWeapon: {fileID: 842052259578965836}
+  enemyModel: {fileID: 8383684809715715185}
   enemyPawn: {fileID: 0}
   characterRenderer: {fileID: 8383684809715715185}
   highLightMaterial: {fileID: 2100000, guid: eb111e6980ad3dd44b02fc2b977caabb, type: 2}

@@ -6,6 +6,7 @@ namespace Runtime
 {
     public class LevelManager : MonoBehaviour
     {
-        
+        [Header("Enemy")] 
+        [SerializeField] private GameObject enemyPrefab;
     }
 }

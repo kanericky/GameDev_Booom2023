@@ -39,14 +39,7 @@ namespace Runtime
         private void Start()
         {
             InitPawnSystem();
-            InitHealthSystem();
             InitWeaponSystem();
-        }
-
-        private void InitHealthSystem()
-        {
-            //TODO - Fix data structure
-            healthSystem = new HealthSystem(100f);
         }
 
         private void InitWeaponSystem()
