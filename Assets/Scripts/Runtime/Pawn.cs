@@ -223,7 +223,7 @@ namespace Runtime
             DOTween.Sequence().SetDelay(.6f).onComplete = () =>
             { 
                 Transform playerParent = transform.parent; 
-                playerParent.DOMoveX(playerParent.position.x - 5f, 1.1f).SetEase(Ease.OutQuad);
+                playerParent.DOMoveX(playerParent.position.x - 5f, .6f).SetEase(Ease.OutQuad);
             };
             
             pawnAnimator.SetTrigger(AnimatorTriggerRollLeft);
@@ -234,7 +234,7 @@ namespace Runtime
             DOTween.Sequence().SetDelay(.65f).onComplete = () =>
             { 
                 Transform playerParent = transform.parent; 
-                playerParent.DOMoveX(playerParent.position.x + 5f, 0.95f).SetEase(Ease.OutQuad);
+                playerParent.DOMoveX(playerParent.position.x + 5f, 0.6f).SetEase(Ease.OutQuad);
             };
             
             pawnAnimator.SetTrigger(AnimatorTriggerRollRight);

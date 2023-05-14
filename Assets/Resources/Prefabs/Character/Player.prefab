@@ -911,8 +911,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3629898540482606976}
   - component: {fileID: 5903104659297463075}
-  - component: {fileID: 5903104659297463087}
   - component: {fileID: 5903104659297463072}
+  - component: {fileID: 5903104659297463087}
   - component: {fileID: 5903104659297463073}
   - component: {fileID: 5903104659297463074}
   m_Layer: 0
@@ -960,6 +960,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5903104659297463072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4112962735612685626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b52ac64929fa5841937f8ef8406ad67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: 908168be2d82f8e42b145e0297ee5077, type: 2}
+  playerPawn: {fileID: 0}
+  cameraController: {fileID: 0}
+  uIManager: {fileID: 0}
+  gameManager: {fileID: 0}
+  aimingTarget: {fileID: 5903104658663564432}
+  gunAimStartPos: {fileID: 8344901854232648302}
+  rollCoolDownCD: 5
+  canRoll: 1
+  timeScale: 0.5
+  slowMotionDuration: 1
+  inputCoolDownTimeGeneral: 0.2
+  inputCoolDownTimeFire: 0.25
+  inputCoolDownTimeRoll: 1.4
+  playerPawnPositionIndex: 1
 --- !u!114 &5903104659297463087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -991,32 +1018,6 @@ MonoBehaviour:
       amount: 3
   pawnAnimator: {fileID: 0}
   currentPhaseState: 0
---- !u!114 &5903104659297463072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4112962735612685626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b52ac64929fa5841937f8ef8406ad67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPawn: {fileID: 0}
-  cameraController: {fileID: 0}
-  uIManager: {fileID: 0}
-  gameManager: {fileID: 0}
-  aimingTarget: {fileID: 5903104658663564432}
-  gunAimStartPos: {fileID: 8344901854232648302}
-  rollCoolDownCD: 5
-  canRoll: 1
-  timeScale: 0.5
-  slowMotionDuration: 1
-  inputCoolDownTimeGeneral: 0.2
-  inputCoolDownTimeFire: 0.25
-  inputCoolDownTimeRoll: 1.4
-  playerPawnPositionIndex: 1
 --- !u!114 &5903104659297463073
 MonoBehaviour:
   m_ObjectHideFlags: 0

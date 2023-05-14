@@ -1,4 +1,5 @@
 using DG.Tweening;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 namespace Runtime
@@ -6,6 +7,9 @@ namespace Runtime
     [RequireComponent(typeof(Pawn))]
     public class GameCharacterController : MonoBehaviour
     {
+        [Header("Character Config")] 
+        public CharacterConfigSO playerData;
+        
         [Header("References")] 
         public Pawn playerPawn;
         public CameraController cameraController;
@@ -38,6 +42,11 @@ namespace Runtime
 
         private void Awake()
         {
+            RegisterInput();
+        }
+
+        private void RegisterInput()
+        {
             _inputAction = new InputActions();
             _inputAction.Player.Enable();
 
@@ -56,19 +65,46 @@ namespace Runtime
 
             _inputAction.Player.RollLeft.performed += e => HandleRoll(isRollLeft: true);
             _inputAction.Player.RollRight.performed += e => HandleRoll(isRollLeft: false);
-
-            gameManager = FindObjectOfType<GameManager>();
         }
 
         private void Start()
         {
-            playerPawn = GetComponent<Pawn>();
+            InitReference();
+            InitData();
+            
+            // Misc
+            uIManager.ChangeDebugText("Idle Phase");
+            playerPawnPositionIndex = 1;
+        }
 
+        private void InitReference()
+        {
+            // Get Game Managers
             gameManager = FindObjectOfType<GameManager>();
             uIManager = GameManager.instance.uiManager;
             
-            uIManager.ChangeDebugText("Idle Phase");
+            // Get Pawn
+            playerPawn = GetComponent<Pawn>();
+        }
+
+        private void InitData()
+        {
+            // Health System
+            playerPawn.healthSystem = new HealthSystem(playerData.health);
+            
+            // Init Roll System
+            rollCoolDownCD = playerData.rollCoolDownCD;
+            canRoll = playerData.canRoll;
             playerPawnPositionIndex = 1;
+            
+            // Init Slow Motion System
+            timeScale = playerData.timeScale;
+            slowMotionDuration = playerData.slowMotionDuration;
+            
+            // Init Input
+            inputCoolDownTimeGeneral = playerData.inputCoolDownTimeGeneral;
+            inputCoolDownTimeFire = playerData.inputCoolDownTimeFire;
+            inputCoolDownTimeRoll = playerData.inputCoolDownTimeRoll;
         }
 
         private void Update()
@@ -97,16 +133,26 @@ namespace Runtime
             
             if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.IdlePhase)
             {
+                // Handle Camera
                 cameraController.ChangeCameraPosToReload(playerPawnPositionIndex);
+                
+                // Handle UI
                 uIManager.ChangeDebugText("Reload Phase");
                 uIManager.OpenReloadUIWidget();
+                
+                // Pawn action
                 playerPawn.EnterReloadingState();
             }
             else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
             {
+                // Handle Camera
                 cameraController.ChangeCameraPosToReload(playerPawnPositionIndex);
+                
+                // Handle UI
                 uIManager.ChangeDebugText("Reload Phase");
                 uIManager.OpenReloadUIWidget();
+                
+                // Pawn action
                 playerPawn.EnterReloadingState();
             }
         }
@@ -178,8 +224,13 @@ namespace Runtime
 
         private void ExitAimingState()
         {
+            // Pawn Action
             playerPawn.ExitAimingState();
+            
+            // Handle Camera
             cameraController.ChangeCameraPosToIdle(playerPawnPositionIndex);
+            
+            // Handle UI
             uIManager.ChangeDebugText("Idle phase");
         }
 
