@@ -29,15 +29,13 @@ namespace Runtime
 
         public Transform ammoHolder;
 
-        public LineRenderer laserLine;
-
-        public Queue<GameObject> bullets;
+        public Queue<Bullet> bullets;
 
         public float ammoSpawnPosOffset = 4f;
         public float ammoReloadSpeed = .6f;
         public float ammoClearSpeed = 1f;
         
-        public GameObject ammoModel;
+        public Bullet ammoModel;
 
         [Header("VFX")]
         public ParticleSystem weaponFireParticle;
@@ -59,7 +57,7 @@ namespace Runtime
         public void WeaponInit()
         {
             ammoInMag = new Queue<Ammo>(magSize);
-            bullets = new Queue<GameObject>(magSize);
+            bullets = new Queue<Bullet>(magSize);
 
             for (int i = 0; i < magSize; i++)
             {
@@ -76,11 +74,14 @@ namespace Runtime
         /// </summary>
         public void ClearMag()
         {
+            
+            // Clear the data
             ammoInMag.Clear();
 
+            // Clear the gameObjects
             while (bullets.Count > 0)
             {
-                GameObject obj = bullets.Dequeue();
+                GameObject obj = bullets.Dequeue().gameObject;
                 obj.transform.DOLocalMoveX(-0.2f, ammoClearSpeed).SetDelay(.8f).onComplete = () =>
                 {
                     DOTween.Sequence().SetDelay(.2f).onComplete = () =>
@@ -88,6 +89,7 @@ namespace Runtime
                         // Handle mag clear animation
                         obj.transform.parent = ammoHolder;
                         obj.GetComponent<MeshCollider>().enabled = true;
+                        obj.GetComponent<MeshCollider>().convex = true;
                         obj.GetComponent<Rigidbody>().useGravity = true;
                         obj.GetComponent<Rigidbody>().AddForce(new Vector3(
                             Random.Range(-10, 10),
@@ -99,6 +101,7 @@ namespace Runtime
 
             }
 
+            // Outro
             _numAmmoSlotFilled = 0;
             bullets.Clear();
         }
@@ -134,8 +137,8 @@ namespace Runtime
         private void HandleReloadAnimation(int slotIndex, Ammo ammo)
         {
 
-            GameObject bullet = Instantiate(ammoModel);
-            Renderer bulletRender = bullet.GetComponentInChildren<Renderer>();
+            Bullet bullet = Instantiate(ammoModel);
+            bullet.InitBulletData(ammo);
             bullets.Enqueue(bullet);
             
             switch (slotIndex)
@@ -145,8 +148,6 @@ namespace Runtime
                     bullet.transform.localPosition = new Vector3(-ammoSpawnPosOffset,0,0);
                     bullet.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
-                    bulletRender.material = ammo.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
-
                     bullet.transform.DOLocalMove(Vector3.zero, ammoReloadSpeed);
                     
                     break;
@@ -155,8 +156,6 @@ namespace Runtime
                     bullet.transform.parent = weaponMagSlotB;
                     bullet.transform.localPosition = new Vector3(-ammoSpawnPosOffset,0,0);
                     bullet.transform.localRotation = Quaternion.Euler(Vector3.zero);
-                    
-                    bulletRender.material = ammo.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
 
                     bullet.transform.DOLocalMove(Vector3.zero, ammoReloadSpeed);
                     break;
@@ -165,8 +164,6 @@ namespace Runtime
                     bullet.transform.parent = weaponMagSlotC;
                     bullet.transform.localPosition = new Vector3(-ammoSpawnPosOffset,0,0);
                     bullet.transform.localRotation = Quaternion.Euler(Vector3.zero);
-                    
-                    bulletRender.material = ammo.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
 
                     bullet.transform.DOLocalMove(Vector3.zero, ammoReloadSpeed);
                     break;
@@ -175,8 +172,6 @@ namespace Runtime
                     bullet.transform.parent = weaponMagSlotD;
                     bullet.transform.localPosition = new Vector3(-ammoSpawnPosOffset,0,0);
                     bullet.transform.localRotation = Quaternion.Euler(Vector3.zero);
-                    
-                    bulletRender.material = ammo.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
 
                     bullet.transform.DOLocalMove(Vector3.zero, ammoReloadSpeed);
                     break;
@@ -185,8 +180,6 @@ namespace Runtime
                     bullet.transform.parent = weaponMagSlotE;
                     bullet.transform.localPosition = new Vector3(-ammoSpawnPosOffset,0,0);
                     bullet.transform.localRotation = Quaternion.Euler(Vector3.zero);
-                    
-                    bulletRender.material = ammo.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
 
                     bullet.transform.DOLocalMove(Vector3.zero, ammoReloadSpeed);
                     
@@ -196,8 +189,6 @@ namespace Runtime
                     bullet.transform.parent = weaponMagSlotF;
                     bullet.transform.localPosition = new Vector3(-ammoSpawnPosOffset,0,0);
                     bullet.transform.localRotation = Quaternion.Euler(Vector3.zero);
-                    
-                    bulletRender.material = ammo.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
 
                     bullet.transform.DOLocalMove(Vector3.zero, ammoReloadSpeed);
                     
@@ -213,6 +204,7 @@ namespace Runtime
         /// </summary>
         public void Fire(Vector3 target)
         {
+            // Cannot fire the mag is empty
             if (IsMagEmpty())
             {
                 Debug.LogWarning("There is no ammo left");
@@ -228,21 +220,19 @@ namespace Runtime
 
             // Fire logic
             Ammo ammo = ammoInMag.Dequeue();
-            Destroy(bullets.Dequeue());
-            _numAmmoSlotFilled -= 1;
+            Bullet buttet = bullets.Dequeue();
             
-            if (Physics.Raycast(gunAimStartPos.position, target-gunAimStartPos.position,
-                    out RaycastHit raycastHit, 900f) && raycastHit.transform.CompareTag("Enemy"))
-            {
-                Debug.Log("Hit enemy!");
-                raycastHit.transform.GetComponentInParent<EnemyCharacterController>().OnCharacterHit(ammo);
-            }
+            buttet.BulletFire(weaponMuz.position, (target - gunAimStartPos.position).normalized);
+            
+            // Update data
+            _numAmmoSlotFilled -= 1;
 
             // Play VFX
             weaponFireParticle.Stop();
             weaponFireParticle.GetComponent<ParticleSystemRenderer>().material = ammo.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
             weaponFireParticle.Play();
             
+            // Destroy VFX
             DOTween.Sequence().SetDelay(1f).onComplete = () => { Destroy(weaponFireVFX.gameObject); };
             
         }
@@ -256,15 +246,7 @@ namespace Runtime
             vfxTransform.position = weaponMuz.position;
             vfxTransform.rotation = weaponMuz.localRotation;
             
-            if (Physics.Raycast(gunAimStartPos.position, target-gunAimStartPos.position,
-                    out RaycastHit raycastHit, 900f) && raycastHit.transform.CompareTag("Player"))
-            {
-                Debug.Log("Hit player!");
-                Ammo ammo = new Ammo(GameElementColor.Blue, 10f);
-                raycastHit.transform.GetComponentInParent<GameCharacterController>().HandleHit(ammo);
-            }
-            
-            Debug.DrawLine(gunAimStartPos.position, target-gunAimStartPos.position, Color.black, 5f);
+            // TODO enemy fire
 
             DOTween.Sequence().SetDelay(1f).onComplete = () => { Destroy(weaponFireVFX.gameObject); };
         }

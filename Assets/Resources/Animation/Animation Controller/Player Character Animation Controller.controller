@@ -68,7 +68,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25000006
+  m_TransitionDuration: 0.19547713
   m_TransitionOffset: 0
   m_ExitTime: 0.60616463
   m_HasExitTime: 1
@@ -427,22 +427,22 @@ AnimatorStateMachine:
     m_Position: {x: 370, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8521544802257122556}
-    m_Position: {x: 640, y: 220, z: 0}
+    m_Position: {x: 750, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4977747156308657400}
     m_Position: {x: 250, y: 460, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2338148331582062624}
-    m_Position: {x: 370, y: 140, z: 0}
+    m_Position: {x: 480, y: 150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8261353305507385458}
     m_Position: {x: 520, y: 460, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2102978480050264893}
-    m_Position: {x: 370, y: 220, z: 0}
+    m_Position: {x: 480, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4993689594958433662}
-    m_Position: {x: 370, y: 300, z: 0}
+    m_Position: {x: 480, y: 310, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6128355409839494300}
     m_Position: {x: 250, y: 380, z: 0}
@@ -472,7 +472,7 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -370, y: 280, z: 0}
+  m_AnyStatePosition: {x: -100, y: 280, z: 0}
   m_EntryPosition: {x: 270, y: -30, z: 0}
   m_ExitPosition: {x: 540, y: 540, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -770,9 +770,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.15226148
-  m_TransitionOffset: 0
-  m_ExitTime: 0.30956757
+  m_TransitionDuration: 0.12579376
+  m_TransitionOffset: 0.007908444
+  m_ExitTime: 0.38621864
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -869,7 +869,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Idle
-  m_Speed: 1
+  m_Speed: 1.8
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2867888703673165709}
@@ -908,9 +908,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25000048
+  m_TransitionDuration: 0.1
   m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_ExitTime: 0.0000000060221605
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0

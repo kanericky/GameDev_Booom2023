@@ -93,7 +93,7 @@ namespace Runtime
             playerPawn.healthSystem = new HealthSystem(playerData.health);
             
             // Init Roll System
-            rollCoolDownCD = playerData.rollCoolDownCD;
+            rollCoolDownCD = playerData.rollCoolDownCd;
             canRoll = playerData.canRoll;
             playerPawnPositionIndex = 1;
             
@@ -101,7 +101,7 @@ namespace Runtime
             timeScale = playerData.timeScale;
             slowMotionDuration = playerData.slowMotionDuration;
             
-            // Init Input
+            // Init Input Data
             inputCoolDownTimeGeneral = playerData.inputCoolDownTimeGeneral;
             inputCoolDownTimeFire = playerData.inputCoolDownTimeFire;
             inputCoolDownTimeRoll = playerData.inputCoolDownTimeRoll;
@@ -115,8 +115,7 @@ namespace Runtime
             //TODO - Delete debug code
             if (Input.GetKeyDown(KeyCode.P))
             {
-                Ammo ammo = new Ammo(GameElementColor.Blue, 10f);
-                HandleHit(ammo);
+                HandleHit(20f);
             }
         }
 
@@ -168,6 +167,8 @@ namespace Runtime
             {
                 EnterAimingState();
                 GameManager.instance.ResetSlowMotion();
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.lockState = CursorLockMode.None;
             }else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
             {
                 ExitAimingState();
@@ -288,9 +289,9 @@ namespace Runtime
         
         #endregion ------ Handle Input End ------
 
-        public void HandleHit(Ammo ammo)
+        public void HandleHit(float damage)
         {
-            playerPawn.TakeDamage(ammo);
+            playerPawn.TakeDamage(damage);
             
             // Update UI
             GameEvents.instance.OnPlayerHealthChanged(playerPawn.healthSystem.GetHealthInPercentage());

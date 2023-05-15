@@ -130,6 +130,8 @@ namespace Runtime
 
             // FIRE!!!
             weapon.Fire(target);
+            
+            // Trigger Animation
             pawnAnimator.ResetTrigger(AnimatorTriggerFire);
             pawnAnimator.SetTrigger(AnimatorTriggerFire);
             //pawnAnimator.ResetTrigger(AnimatorTriggerFire);
@@ -150,11 +152,13 @@ namespace Runtime
             return currentPhaseState;
         }
 
-        public void TakeDamage(Ammo ammo)
+        public void TakeDamage(float damage)
         {
+            // Handle animation
             pawnAnimator.SetTrigger(AnimatorTriggerHitReaction);
             
-            if (healthSystem.TakeDamage(ammo.initDamage) <= 0)
+            // Apply damage
+            if (healthSystem.TakeDamage(damage) <= 0)
             {
                 if (isPawnDead) return;
                 isPawnDead = true;
@@ -164,6 +168,7 @@ namespace Runtime
 
         public void HandlePawnDeath()
         {
+            // Handle animation
             pawnAnimator.SetTrigger(AnimatorTriggerDeath);
             DOTween.Sequence().SetDelay(.4f).onComplete = () => { pawnAnimator.SetBool(AnimatorDeadBool, true); };
         }

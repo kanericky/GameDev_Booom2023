@@ -10,7 +10,7 @@ namespace Runtime
         public GameElementColor color;
         
         [Header("Roll")]
-        public float rollCoolDownCD = 5f;
+        public float rollCoolDownCd = 5f;
         public bool canRoll = true;
         
         [Header("Slow Motion")] 

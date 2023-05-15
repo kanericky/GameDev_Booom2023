@@ -49,9 +49,9 @@ namespace Runtime
             defaultMaterial = enemyData.defaultMaterial;
         }
 
-        public void OnCharacterHit(Ammo ammo)
+        public void OnCharacterHit(float damage)
         {
-            enemyPawn.TakeDamage(ammo);
+            enemyPawn.TakeDamage(damage);
         }
 
         public void EnableHighlight()

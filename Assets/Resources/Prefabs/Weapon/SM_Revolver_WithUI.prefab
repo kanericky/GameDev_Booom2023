@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f158161599d714641adfdf77f8d9154d, type: 2}
+  - {fileID: 2100000, guid: 4999e0b9daed3024b85f722c1fe47d12, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -160,7 +160,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f158161599d714641adfdf77f8d9154d, type: 2}
+  - {fileID: 2100000, guid: 4999e0b9daed3024b85f722c1fe47d12, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -390,7 +390,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f158161599d714641adfdf77f8d9154d, type: 2}
+  - {fileID: 2100000, guid: 4999e0b9daed3024b85f722c1fe47d12, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -492,7 +492,7 @@ MonoBehaviour:
   ammoSpawnPosOffset: 10
   ammoReloadSpeed: 0.6
   ammoClearSpeed: 1
-  ammoModel: {fileID: 3672898815921445716, guid: d7d9d950b4f91184699ad3604169c42a, type: 3}
+  ammoModel: {fileID: 8503177102114265157, guid: d7d9d950b4f91184699ad3604169c42a, type: 3}
   weaponFireParticle: {fileID: 273963616235801927, guid: 1ec715acfc7a20241aeaac12b8da7a4c, type: 3}
   _numAmmoSlotFilled: 0
   _currentFireIndex: 0
@@ -712,6 +712,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2459816885778021826}
     m_Modifications:
+    - target: {fileID: 3257645291376739922, guid: 0bb0e8817eaa5844fbf6a0849e74e1c2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4999e0b9daed3024b85f722c1fe47d12, type: 2}
     - target: {fileID: 3727439127004929294, guid: 0bb0e8817eaa5844fbf6a0849e74e1c2, type: 3}
       propertyPath: m_RootOrder
       value: 2

@@ -1843,15 +1843,10 @@ MonoBehaviour:
   playerCharacter: {fileID: 0}
   enemyData: {fileID: 0}
   enemyWeapon: {fileID: 842052259578965836}
-  enemyModel: {fileID: 8383684809715715185}
-  enemyPawn: {fileID: 0}
+  enemyPawn: {fileID: 462819316}
   characterRenderer: {fileID: 8383684809715715185}
   highLightMaterial: {fileID: 2100000, guid: eb111e6980ad3dd44b02fc2b977caabb, type: 2}
   defaultMaterial: {fileID: 0}
-  bodyCollider: {fileID: 0}
-  headCollider: {fileID: 0}
-  leftArmCollider: {fileID: 0}
-  rightArmCollider: {fileID: 0}
 --- !u!1 &4805581081795516705
 GameObject:
   m_ObjectHideFlags: 0
