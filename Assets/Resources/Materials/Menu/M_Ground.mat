@@ -7,17 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_MenuGround
+  m_Name: M_Ground
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords:
-  - _ENVIRONMENTREFLECTIONS_OFF
   - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-  - _SPECULARHIGHLIGHTS_OFF
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap:
     IgnoreProjection: False
     RenderType: Opaque
@@ -324,7 +322,7 @@ Material:
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
-    - _EnvironmentReflections: 0
+    - _EnvironmentReflections: 1
     - _Farthest_Distance: 100
     - _FirstShadeOverridden: 0
     - _FirstShadeVisible: 1
@@ -386,7 +384,7 @@ Material:
     - _LinkDetailsWithBase: 1
     - _MatCap: 0
     - _MaterialID: 1
-    - _Metallic: 0.57
+    - _Metallic: 0
     - _Nearest_Distance: 0.5
     - _NormalMapSpace: 0
     - _NormalScale: 1
@@ -437,7 +435,7 @@ Material:
     - _SpecSource: 0
     - _SpecularAAScreenSpaceVariance: 0.1
     - _SpecularAAThreshold: 0.2
-    - _SpecularHighlights: 0
+    - _SpecularHighlights: 1
     - _SpecularOcclusionMode: 1
     - _SrcBlend: 1
     - _StencilComp: 0
@@ -512,10 +510,10 @@ Material:
     - _AngelRingMaskColor: {r: 0, g: 1, b: 0, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0.9921569, g: 0.8941177, b: 0.627451, a: 1}
+    - _BaseColor: {r: 0.8962264, g: 0.6122605, b: 0.2170107, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColorMaskColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.9921569, g: 0.8941177, b: 0.62745106, a: 1}
+    - _Color: {r: 0.8962264, g: 0.6122605, b: 0.21701068, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}

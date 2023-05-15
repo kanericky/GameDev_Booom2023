@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Runtime
@@ -9,6 +10,7 @@ namespace Runtime
         public MenuCameraController cameraController;
         public MenuUIManager uiManager;
         public Animator menuCharacterAnimator;
+        public Animator menuUIAnimator;
 
         private InputActions inputActions;
         private bool _isTriggered = false;
@@ -25,11 +27,16 @@ namespace Runtime
         {
             if (_isTriggered) return;
             _isTriggered = true;
+
+            menuUIAnimator.SetTrigger("Start");
             
             Debug.Log("Start Game");
-            cameraController.EnterMenuStartCameraPos();
-            uiManager.MenuUIEnterReady();
-            menuCharacterAnimator.SetTrigger("Enter Ready Pos");
+            DOTween.Sequence().SetDelay(.8f).onComplete = () =>
+            {
+                cameraController.EnterMenuStartCameraPos();
+                menuCharacterAnimator.SetTrigger("Enter Ready Pos");
+                uiManager.MenuUIEnterReady();
+            };
         }
     }
 }
