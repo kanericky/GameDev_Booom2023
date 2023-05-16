@@ -1,5 +1,4 @@
 using DG.Tweening;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 namespace Runtime
@@ -91,6 +90,8 @@ namespace Runtime
         {
             // Health System
             playerPawn.healthSystem = new HealthSystem(playerData.health);
+
+            if (playerData.Equals(null)) return;
             
             // Init Roll System
             rollCoolDownCD = playerData.rollCoolDownCd;
@@ -111,12 +112,6 @@ namespace Runtime
         {
             HandleCameraDeadZoneMovement();
             HandleAiming();
-            
-            //TODO - Delete debug code
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                HandleHit(20f);
-            }
         }
 
 
@@ -130,6 +125,7 @@ namespace Runtime
             InputCoolDown(inputCoolDownTimeGeneral);
             GameManager.instance.ResetSlowMotion();
             
+            // Go to reloading state from idle state
             if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.IdlePhase)
             {
                 // Handle Camera
@@ -141,7 +137,11 @@ namespace Runtime
                 
                 // Pawn action
                 playerPawn.EnterReloadingState();
+                
+                GameManager.instance.EnterSlowMotion(timeScale, slowMotionDuration);
             }
+            
+            // Go to reloading state from aiming state
             else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
             {
                 // Handle Camera
@@ -153,6 +153,8 @@ namespace Runtime
                 
                 // Pawn action
                 playerPawn.EnterReloadingState();
+                
+                GameManager.instance.EnterSlowMotion(timeScale, slowMotionDuration);
             }
         }
 
@@ -163,16 +165,19 @@ namespace Runtime
         {
             InputCoolDown(inputCoolDownTimeGeneral);
             
+            // Go to aim state from reloading state
             if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.ReloadingPhase)
             {
                 EnterAimingState();
                 GameManager.instance.ResetSlowMotion();
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.lockState = CursorLockMode.None;
+                
+            // Go back to idle state from aiming state    
             }else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
             {
                 ExitAimingState();
-                GameManager.instance.EnterSlowMotion(timeScale, slowMotionDuration);
+                GameManager.instance.ResetSlowMotion();
+                
+            // Go to aim state from idle state    
             }else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.IdlePhase)
             {
                 EnterAimingState();
@@ -183,14 +188,14 @@ namespace Runtime
         private void EnterAimingState()
         {
             playerPawn.EnterAimingState();
-            cameraController.ChangeCameraPosToAiming(playerPawnPositionIndex);
+            cameraController.ChangeCameraPosToAiming();
             uIManager.ChangeDebugText("Aiming Phase");
         }
 
         private void ExitReloadState()
         {
             playerPawn.ExitReloadingState();
-            cameraController.ChangeCameraPosToIdle(playerPawnPositionIndex);
+            cameraController.ChangeCameraPosToIdle();
             uIManager.ChangeDebugText("Idle Phase");
         }
 
@@ -229,7 +234,7 @@ namespace Runtime
             playerPawn.ExitAimingState();
             
             // Handle Camera
-            cameraController.ChangeCameraPosToIdle(playerPawnPositionIndex);
+            cameraController.ChangeCameraPosToIdle();
             
             // Handle UI
             uIManager.ChangeDebugText("Idle phase");
@@ -262,7 +267,7 @@ namespace Runtime
         private void HandleRoll(bool isRollLeft = true)
         {
             if (!canRoll) return;
-            
+
             InputCoolDown(inputCoolDownTimeRoll);
 
             if(playerPawn.GetPawnCurrentState() == CharacterPhaseState.ReloadingPhase) ExitReloadState();
@@ -284,17 +289,26 @@ namespace Runtime
 
         public void ResetCamera()
         {
-            cameraController.ResetCameraPos(playerPawnPositionIndex);
+            cameraController.ResetCameraPos();
         }
         
         #endregion ------ Handle Input End ------
 
         public void HandleHit(float damage)
         {
+            canRoll = false;
+
+            DOTween.Clear();
+            
             playerPawn.TakeDamage(damage);
             
             // Update UI
             GameEvents.instance.OnPlayerHealthChanged(playerPawn.healthSystem.GetHealthInPercentage());
+        }
+
+        public void ResetCanRollStatus()
+        {
+            canRoll = true;
         }
 
 
@@ -347,13 +361,7 @@ namespace Runtime
             
             cameraController.HandleCameraBreath(cameraController.GetCameraPosIdle());
         }
-        
 
-        private void TargetShootDestination()
-        {
-            
-        }
-        
     }
 
     public enum CharacterPhaseState 

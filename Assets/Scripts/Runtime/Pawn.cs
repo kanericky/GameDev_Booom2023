@@ -9,7 +9,7 @@ namespace Runtime
     {
         [Header("Pawn Attributes")] 
         public HealthSystem healthSystem;
-        
+
         [Header("Weapon")]
         public Weapon weapon;
 
@@ -122,14 +122,14 @@ namespace Runtime
             currentPhaseState = CharacterPhaseState.IdlePhase;
         }
 
-        public void Fire(Vector3 target)
+        public void Fire(Vector3 targetPos)
         {
             if (isPawnDead) return;
             
             if (currentPhaseState != CharacterPhaseState.AimingPhase) return;
 
             // FIRE!!!
-            weapon.Fire(target);
+            weapon.Fire(targetPos);
             
             // Trigger Animation
             pawnAnimator.ResetTrigger(AnimatorTriggerFire);
@@ -139,12 +139,10 @@ namespace Runtime
 
         public void EnemyFire(Vector3 target)
         {
-            if (currentPhaseState != CharacterPhaseState.AimingPhase) return;
+            //if (currentPhaseState != CharacterPhaseState.AimingPhase) return;
 
             // FIRE!!!
-            weapon.EnemyWeaponFire(target);
-            pawnAnimator.ResetTrigger(AnimatorTriggerFire);
-            pawnAnimator.SetTrigger(AnimatorTriggerFire);
+            weapon.EnemyWeaponFire(target + new Vector3(0f, 1f, 0f));
         }
 
         public CharacterPhaseState GetPawnCurrentState()
@@ -168,6 +166,8 @@ namespace Runtime
 
         public void HandlePawnDeath()
         {
+            DOTween.CompleteAll();
+            isPawnDead = true;
             // Handle animation
             pawnAnimator.SetTrigger(AnimatorTriggerDeath);
             DOTween.Sequence().SetDelay(.4f).onComplete = () => { pawnAnimator.SetBool(AnimatorDeadBool, true); };
@@ -225,24 +225,28 @@ namespace Runtime
 
         public void RollLeft()
         {
-            DOTween.Sequence().SetDelay(.6f).onComplete = () =>
-            { 
-                Transform playerParent = transform.parent; 
-                playerParent.DOMoveX(playerParent.position.x - 5f, .6f).SetEase(Ease.OutQuad);
-            };
+            if (isPawnDead) return;
             
             pawnAnimator.SetTrigger(AnimatorTriggerRollLeft);
+            
+            DOTween.Sequence().SetDelay(.3f).onComplete = () =>
+            { 
+                Transform playerParent = transform.parent; 
+                playerParent.DOMoveX(playerParent.position.x - 5f, .5f).SetEase(Ease.OutQuad);
+            };
         }
 
         public void RollRight()
         {
-            DOTween.Sequence().SetDelay(.65f).onComplete = () =>
-            { 
-                Transform playerParent = transform.parent; 
-                playerParent.DOMoveX(playerParent.position.x + 5f, 0.6f).SetEase(Ease.OutQuad);
-            };
+            if (isPawnDead) return;
             
             pawnAnimator.SetTrigger(AnimatorTriggerRollRight);
+            
+            DOTween.Sequence().SetDelay(.3f).onComplete = () =>
+            { 
+                Transform playerParent = transform.parent; 
+                playerParent.DOMoveX(playerParent.position.x + 5f, 0.4f).SetEase(Ease.OutQuad);
+            };
         }
     }
 

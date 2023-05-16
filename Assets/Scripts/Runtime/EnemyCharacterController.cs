@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 namespace Runtime
@@ -19,6 +20,7 @@ namespace Runtime
 
         [Header("Reference")]
         [SerializeField] private Pawn enemyPawn;
+        [SerializeField] private Transform aimTarget;
         [SerializeField] private Renderer characterRenderer;
         [SerializeField] private Material highLightMaterial;
         [SerializeField] private Material defaultMaterial;
@@ -28,8 +30,6 @@ namespace Runtime
             InitEnemy();
 
             playerCharacter = FindObjectOfType<GameCharacterController>();
-
-            Attack();
         }
 
         private void InitEnemy()
@@ -66,22 +66,12 @@ namespace Runtime
 
         private void Attack()
         {
-
-            DOTween.Sequence().SetDelay(Random.Range(1f, 4f)).onComplete = () =>
-            {
-                enemyPawn.EnemyEnterReloadingState();
-                DOTween.Sequence().SetDelay(1f).onComplete = () =>
-                {
-                    enemyPawn.EnterAimingState();
-                    DOTween.Sequence().SetDelay(1f).onComplete = () =>
-                    {
-                        for (int i = 0; i < 4; i++)
-                        {
-                            enemyPawn.EnemyFire(playerCharacter.transform.position);
-                        }
-                    };
-                };
-            };
+            // TODO AI Accuracy
+            
+            aimTarget.position = playerCharacter.transform.position;
+            aimTarget.rotation = playerCharacter.transform.rotation;
+            
+            enemyPawn.EnemyFire(playerCharacter.transform.position);
         }
 
     }

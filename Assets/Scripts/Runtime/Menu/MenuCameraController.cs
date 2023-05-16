@@ -24,7 +24,7 @@ namespace Runtime
             HandleCameraDeadZoneMovement(currentCameraPosTarget.rotation.eulerAngles);
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             HandleCameraDeadZoneMovement(currentCameraPosTarget.rotation.eulerAngles);
         }

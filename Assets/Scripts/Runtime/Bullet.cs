@@ -99,18 +99,23 @@ namespace Runtime
                 // Hit enemy
                 finalDamage = CalculateDamage();
                 
+                // Apply damage
                 enemy.OnCharacterHit(finalDamage);
                 
-                // Apply damage
                 Debug.Log("Hit enemy");
             }
 
             if (collision.gameObject.CompareTag("Player"))
             {
+                GameCharacterController player = collision.transform.GetComponentInParent<GameCharacterController>();
+                
                 // Hit player
                 finalDamage = CalculateDamage();
                 
                 // Apply damage
+                player.HandleHit(finalDamage);
+                
+                Debug.Log("Hit player");
             }
             
             Destroy(transform.gameObject);

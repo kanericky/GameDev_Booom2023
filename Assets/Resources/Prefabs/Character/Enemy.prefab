@@ -738,7 +738,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1097760843
 Transform:
   m_ObjectHideFlags: 0
@@ -1844,6 +1844,7 @@ MonoBehaviour:
   enemyData: {fileID: 0}
   enemyWeapon: {fileID: 842052259578965836}
   enemyPawn: {fileID: 462819316}
+  aimTarget: {fileID: 1097760843}
   characterRenderer: {fileID: 8383684809715715185}
   highLightMaterial: {fileID: 2100000, guid: eb111e6980ad3dd44b02fc2b977caabb, type: 2}
   defaultMaterial: {fileID: 0}
@@ -2922,19 +2923,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2459816885778021826, guid: ffa5ed11a8775254c8e95982ab1d5da9, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.9963326
       objectReference: {fileID: 0}
     - target: {fileID: 2459816885778021826, guid: ffa5ed11a8775254c8e95982ab1d5da9, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.06457485
       objectReference: {fileID: 0}
     - target: {fileID: 2459816885778021826, guid: ffa5ed11a8775254c8e95982ab1d5da9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.05571443
       objectReference: {fileID: 0}
     - target: {fileID: 2459816885778021826, guid: ffa5ed11a8775254c8e95982ab1d5da9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.0068812394
       objectReference: {fileID: 0}
     - target: {fileID: 2459816885778021826, guid: ffa5ed11a8775254c8e95982ab1d5da9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

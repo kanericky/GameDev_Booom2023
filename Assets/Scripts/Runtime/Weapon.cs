@@ -247,6 +247,11 @@ namespace Runtime
             vfxTransform.rotation = weaponMuz.localRotation;
             
             // TODO enemy fire
+            Ammo ammo = new Ammo(GameElementColor.Blue, 15f);
+            Bullet bullet = Instantiate(ammoModel);
+            bullet.InitBulletData(ammo);
+            
+            bullet.BulletFire(weaponMuz.position, (target - gunAimStartPos.position).normalized);
 
             DOTween.Sequence().SetDelay(1f).onComplete = () => { Destroy(weaponFireVFX.gameObject); };
         }

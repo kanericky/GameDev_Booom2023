@@ -17,4 +17,10 @@ public class MenuUIManager : MonoBehaviour
     {
         menuCanvasGroup.DOFade(1, .2f);
     }
+
+    public void QuitGame()
+    {
+        Debug.Log("Player quit game");
+        Application.Quit();
+    }
 }

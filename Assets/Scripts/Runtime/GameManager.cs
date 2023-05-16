@@ -26,7 +26,6 @@ namespace Runtime
             instance = this;
             uiManager = FindObjectOfType<UIManager>();
             cameraController = FindObjectOfType<CameraController>();
-            Cursor.visible = false;
         }
 
         public void EnterSlowMotion(float slowFactor = 0.5f, float period = 2f)
