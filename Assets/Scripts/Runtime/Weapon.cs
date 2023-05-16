@@ -229,7 +229,7 @@ namespace Runtime
 
             // Play VFX
             weaponFireParticle.Stop();
-            weaponFireParticle.GetComponent<ParticleSystemRenderer>().material = ammo.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
+            weaponFireParticle.GetComponent<ParticleSystemRenderer>().material = GameManager.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
             weaponFireParticle.Play();
             
             // Destroy VFX

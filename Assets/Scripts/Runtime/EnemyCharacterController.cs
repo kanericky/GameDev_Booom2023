@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -16,10 +17,13 @@ namespace Runtime
         [Header("Enemy Data")] 
         public EnemyConfigSO enemyData;
 
-        [Header("Weapon")] public Weapon enemyWeapon;
+        [Header("Weapon")] 
+        public Weapon enemyWeapon;
 
         [Header("Reference")]
         [SerializeField] private Pawn enemyPawn;
+        [SerializeField] private Animator enemyAnimator;
+        [SerializeField] private AnimatorController behaviourAnimator;
         [SerializeField] private Transform aimTarget;
         [SerializeField] private Renderer characterRenderer;
         [SerializeField] private Material highLightMaterial;
@@ -34,6 +38,9 @@ namespace Runtime
 
         private void InitEnemy()
         {
+            // Get animator
+            enemyAnimator = GetComponent<Animator>();
+            
             // Get weapon
             enemyWeapon = GetComponentInChildren<Weapon>();
             
@@ -42,11 +49,16 @@ namespace Runtime
             
             // Set Health
             enemyPawn.healthSystem = new HealthSystem(enemyData.health);
+
+            if (enemyData.Equals(null)) return;
             
             // Set Material
             characterRenderer.material = enemyData.defaultMaterial;
             highLightMaterial = enemyData.highlightMaterial;
             defaultMaterial = enemyData.defaultMaterial;
+
+            behaviourAnimator = enemyData.enemyBehaviourAnimator;
+            enemyAnimator.runtimeAnimatorController = behaviourAnimator;
         }
 
         public void OnCharacterHit(float damage)

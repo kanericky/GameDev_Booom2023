@@ -50,9 +50,12 @@ namespace Runtime
                 initDamage = bulletData.initDamage;
                 bulletColor = bulletData.gameElementColor;
                 bulletSpeed = bulletData.ammoProjectileSpeed;
+                
+                // Trail color 
+                traceLineRenderer.material = GameManager.GetMaterialBasedOnAmmoColor(bulletColor);
 
                 // Set material
-                if (bulletMeshRenderer != null) { bulletMeshRenderer.material = ammo.GetMaterialBasedOnAmmoColor(bulletColor); }
+                if (bulletMeshRenderer != null) { bulletMeshRenderer.material = GameManager.GetMaterialBasedOnAmmoColor(bulletColor); }
             }
 
             startProjectile = false;
@@ -69,7 +72,7 @@ namespace Runtime
             
             // Enable Trace Renderer
             traceLineRenderer.enabled = true;
-            
+
             // Handle bullet movements
             this.direction = direction;
             this.startProjectile = true;
@@ -84,36 +87,40 @@ namespace Runtime
             transform.position += direction * Time.deltaTime * bulletSpeed;
         }
 
-        private float CalculateDamage()
+        private float CalculateDamage(GameElementColor bulletColor, GameElementColor targetColor)
         {
-            // TODO
-            return 50f;
+            if (bulletColor.Equals(targetColor))
+            {
+                return initDamage * 1.5f;
+            }
+
+            return initDamage;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
-                EnemyCharacterController enemy = collision.transform.GetComponentInParent<EnemyCharacterController>();
+                EnemyCharacterController enemyController = collision.transform.GetComponentInParent<EnemyCharacterController>();
                 
                 // Hit enemy
-                finalDamage = CalculateDamage();
+                finalDamage = CalculateDamage(bulletColor, enemyController.enemyData.color);
                 
                 // Apply damage
-                enemy.OnCharacterHit(finalDamage);
+                enemyController.OnCharacterHit(finalDamage);
                 
                 Debug.Log("Hit enemy");
             }
 
             if (collision.gameObject.CompareTag("Player"))
             {
-                GameCharacterController player = collision.transform.GetComponentInParent<GameCharacterController>();
+                GameCharacterController playerController = collision.transform.GetComponentInParent<GameCharacterController>();
                 
                 // Hit player
-                finalDamage = CalculateDamage();
+                finalDamage = CalculateDamage(bulletColor, playerController.playerData.color);
                 
                 // Apply damage
-                player.HandleHit(finalDamage);
+                playerController.HandleHit(finalDamage);
                 
                 Debug.Log("Hit player");
             }

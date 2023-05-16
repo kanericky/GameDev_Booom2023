@@ -8,9 +8,13 @@ namespace Runtime
 {
     public class UIManager : MonoBehaviour
     {
+        [Header("Game Manager Reference")] 
+        [SerializeField] private GameManager gameManager;
+        
         [Header("HUD - Canvas")] 
-        public Canvas debugMenu;
-        public Canvas hudMenu;
+        public Canvas debugMenuCanvas;
+        public Canvas hudCanvas;
+        public Canvas dropMenuCanvas;
 
         [Header("HUD - Elements")]
         public Image playerHealth;
@@ -26,16 +30,21 @@ namespace Runtime
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                debugMenu.enabled = !debugMenu.enabled;
+                debugMenuCanvas.enabled = !debugMenuCanvas.enabled;
             }
         }
 
         private void Start()
         {
+            gameManager = FindObjectOfType<GameManager>();
+
+            dropMenuCanvas.enabled = false;
+            
+            // Register events
             GameEvents.instance.PlayerHealthChanged += UpdatePlayerHealthHUDBar;
         }
 
-        public void UpdatePlayerHealthHUDBar(float ratio)
+        private void UpdatePlayerHealthHUDBar(float ratio)
         {
             playerHealth.transform.DOScaleX(ratio, .4f);
         }
@@ -49,7 +58,14 @@ namespace Runtime
         {
             widgetImage.enabled = false;
         }
-        
+
+        public void ShowDropItemInterface()
+        {
+            dropMenuCanvas.enabled = true;
+        }
+
+
+
         // ------------ Debug ------------ //
         public void ChangeDebugText(string text)
         {

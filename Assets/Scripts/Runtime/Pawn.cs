@@ -34,7 +34,7 @@ namespace Runtime
         private static readonly string AnimatorTriggerDeath = "Death";
         private static readonly string AnimatorDeadBool = "Is Dead";
 
-        private bool isPawnDead;
+        [SerializeField] private bool isPawnDead;
 
         private void Start()
         {
@@ -134,13 +134,10 @@ namespace Runtime
             // Trigger Animation
             pawnAnimator.ResetTrigger(AnimatorTriggerFire);
             pawnAnimator.SetTrigger(AnimatorTriggerFire);
-            //pawnAnimator.ResetTrigger(AnimatorTriggerFire);
         }
 
         public void EnemyFire(Vector3 target)
         {
-            //if (currentPhaseState != CharacterPhaseState.AimingPhase) return;
-
             // FIRE!!!
             weapon.EnemyWeaponFire(target + new Vector3(0f, 1f, 0f));
         }
@@ -166,11 +163,9 @@ namespace Runtime
 
         public void HandlePawnDeath()
         {
-            DOTween.CompleteAll();
             isPawnDead = true;
             // Handle animation
-            pawnAnimator.SetTrigger(AnimatorTriggerDeath);
-            DOTween.Sequence().SetDelay(.4f).onComplete = () => { pawnAnimator.SetBool(AnimatorDeadBool, true); };
+            pawnAnimator.SetBool(AnimatorDeadBool, true);
         }
 
         public void HandleReloadSelection(int slotIndex)
@@ -226,14 +221,8 @@ namespace Runtime
         public void RollLeft()
         {
             if (isPawnDead) return;
-            
+
             pawnAnimator.SetTrigger(AnimatorTriggerRollLeft);
-            
-            DOTween.Sequence().SetDelay(.3f).onComplete = () =>
-            { 
-                Transform playerParent = transform.parent; 
-                playerParent.DOMoveX(playerParent.position.x - 5f, .5f).SetEase(Ease.OutQuad);
-            };
         }
 
         public void RollRight()
@@ -241,12 +230,18 @@ namespace Runtime
             if (isPawnDead) return;
             
             pawnAnimator.SetTrigger(AnimatorTriggerRollRight);
-            
-            DOTween.Sequence().SetDelay(.3f).onComplete = () =>
-            { 
-                Transform playerParent = transform.parent; 
-                playerParent.DOMoveX(playerParent.position.x + 5f, 0.4f).SetEase(Ease.OutQuad);
-            };
+        }
+        
+        public void RollLeftAnimation()
+        {
+            Transform playerParent = transform.parent; 
+            playerParent.DOMoveX(playerParent.position.x - 5f, .5f).SetEase(Ease.OutQuad);
+        }
+
+        public void RollRightAnimation()
+        {
+            Transform playerParent = transform.parent; 
+            playerParent.DOMoveX(playerParent.position.x + 5f, 0.4f).SetEase(Ease.OutQuad);
         }
     }
 
@@ -263,19 +258,65 @@ namespace Runtime
             switch (slotIndex)
             {
                 case 0:
-                    itemSlotA.amount += 1;
+                    if(itemSlotA.amount < itemSlotA.maxAmount) itemSlotA.amount += 1;
                     break;
                 
                 case 1:
-                    itemSlotB.amount += 1;
+                    if(itemSlotB.amount < itemSlotB.maxAmount) itemSlotB.amount += 1;
                     break;
                 
                 case 2:
-                    itemSlotC.amount += 1;
+                    if(itemSlotC.amount < itemSlotC.maxAmount) itemSlotC.amount += 1;
                     break;
                 
                 case 3:
-                    itemSlotD.amount += 1;
+                    if(itemSlotD.amount < itemSlotD.maxAmount) itemSlotD.amount += 1;
+                    break;
+                
+                default:
+                    return;
+            }
+        }
+
+        public float GetSlotPercentage(int slotIndex)
+        {
+            switch (slotIndex)
+            {
+                case 0:
+                    return itemSlotA.amount / itemSlotA.maxAmount;
+
+                case 1:
+                    return itemSlotA.amount / itemSlotA.maxAmount;
+                
+                case 2:
+                    return itemSlotA.amount / itemSlotA.maxAmount;
+                
+                case 3:
+                    return itemSlotA.amount / itemSlotA.maxAmount;
+                
+                default:
+                    return -1f;
+            }
+        }
+
+        public void IncreaseSlotMaxSize(int slotIndex, int increaseAmount)
+        {
+            switch (slotIndex)
+            {
+                case 0:
+                    itemSlotA.maxAmount += increaseAmount;
+                    break;
+                
+                case 1:
+                    itemSlotB.maxAmount += increaseAmount;
+                    break;
+
+                case 2:
+                    itemSlotC.maxAmount += increaseAmount;
+                    break;
+
+                case 3:
+                    itemSlotD.maxAmount += increaseAmount;
                     break;
                 
                 default:
@@ -289,5 +330,6 @@ namespace Runtime
     {
         public GameElementColor itemColor;
         public int amount;
+        public int maxAmount;
     }
 }

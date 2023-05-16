@@ -16,3 +16,5 @@ MonoBehaviour:
   color: 0
   defaultMaterial: {fileID: 2100000, guid: 50223e9ba867aa34685fa9e6b022e8e0, type: 2}
   highlightMaterial: {fileID: 2100000, guid: 0882c6e711225be45a52b7c064796c61, type: 2}
+  enemyBehaviourAnimator: {fileID: 9100000, guid: 68555df660b87b041a62ea2284bac377, type: 2}
+  ammoDamage: 0

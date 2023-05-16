@@ -1,3 +1,4 @@
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Runtime
@@ -12,6 +13,12 @@ namespace Runtime
         [Header("Material")] 
         public Material defaultMaterial;
         public Material highlightMaterial;
-        
+
+        [Header("Behaviour")] 
+        public AnimatorController enemyBehaviourAnimator;
+
+        [Header("AI")] 
+        public float ammoDamage;
+
     }
 }

@@ -1,9 +1,20 @@
 using System;
 using DG.Tweening;
+using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using UnityEngine;
 
 namespace Runtime
 {
+    public enum GameElementColor
+    {
+        Red,
+        Yellow,
+        Blue,
+        Black,
+        White,
+        NotDefined
+    }
+
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
@@ -11,12 +22,16 @@ namespace Runtime
         [Header("Game Managers")] 
         public UIManager uiManager;
         public CameraController cameraController;
+
+        [Header("Player Inventory Data")] 
+        public PawnInventory playerInventory;
         
-        [Header("Materials")]
+        [Header("Bullet Materials")]
         public Material matRed;
         public Material matYellow;
         public Material matBlue;
-        public Material matPurple;
+        public Material matBlack;
+        public Material matWhite;
 
         [Header("Slow motion")]
         [SerializeField] private bool isSlowMotionEnabled = true;
@@ -26,6 +41,16 @@ namespace Runtime
             instance = this;
             uiManager = FindObjectOfType<UIManager>();
             cameraController = FindObjectOfType<CameraController>();
+        }
+
+        public void StopTime()
+        {
+            Time.timeScale = 0f;
+        }
+
+        public void ReviveTime()
+        {
+            Time.timeScale = 1f;
         }
 
         public void EnterSlowMotion(float slowFactor = 0.5f, float period = 2f)
@@ -49,6 +74,34 @@ namespace Runtime
         {
             Time.timeScale = 1;
             uiManager.ChangeTimeDebugText(Time.timeScale.ToString());
+        }
+
+        public void SaveCurrentInventory(PawnInventory playerCurrentInventory)
+        {
+            playerInventory = playerCurrentInventory;
+        }
+        
+        public static Material GetMaterialBasedOnAmmoColor(GameElementColor color)
+        {
+            switch (color)
+            {
+                case GameElementColor.Red:
+                    return GameManager.instance.matRed;
+
+                case GameElementColor.Yellow:
+                    return GameManager.instance.matYellow;
+                    
+                case GameElementColor.Blue:
+                    return GameManager.instance.matBlue;
+                    
+                case GameElementColor.Black:
+                    return GameManager.instance.matBlack;
+                    
+                case GameElementColor.White:
+                    return GameManager.instance.matWhite;
+            }
+
+            return null;
         }
 
         private void OnDestroy()

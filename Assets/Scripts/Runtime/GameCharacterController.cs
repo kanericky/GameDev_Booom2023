@@ -137,8 +137,6 @@ namespace Runtime
                 
                 // Pawn action
                 playerPawn.EnterReloadingState();
-                
-                GameManager.instance.EnterSlowMotion(timeScale, slowMotionDuration);
             }
             
             // Go to reloading state from aiming state
@@ -175,7 +173,7 @@ namespace Runtime
             }else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
             {
                 ExitAimingState();
-                GameManager.instance.ResetSlowMotion();
+                GameManager.instance.EnterSlowMotion(timeScale, slowMotionDuration);
                 
             // Go to aim state from idle state    
             }else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.IdlePhase)
@@ -223,9 +221,7 @@ namespace Runtime
                 {
                     enemy.DisableHighlight();
                 }
-                
             }
-            
         }
 
         private void ExitAimingState()
@@ -298,8 +294,6 @@ namespace Runtime
         {
             canRoll = false;
 
-            DOTween.Clear();
-            
             playerPawn.TakeDamage(damage);
             
             // Update UI

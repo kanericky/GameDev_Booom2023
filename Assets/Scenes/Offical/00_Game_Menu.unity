@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1142533641}
-  m_IndirectSpecularColor: {r: 0.17833537, g: 0.22329429, b: 0.30532533, a: 1}
+  m_IndirectSpecularColor: {r: 0.17568846, g: 0.2198432, b: 0.30217135, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1494,14 +1494,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1142533640}
-  m_LocalRotation: {x: -0.19561577, y: -0.47843936, z: 0.8539491, w: -0.060009696}
+  m_LocalRotation: {x: -0.22348507, y: 0.61561567, z: -0.75554234, w: 0.015088808}
   m_LocalPosition: {x: 1, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1023962873}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 57.204, y: -30.716, z: 171.005}
+  m_LocalEulerAnglesHint: {x: 67.444, y: 428.25, z: 230.966}
 --- !u!114 &1142533643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2784,10 +2784,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiManager: {fileID: 0}
   cameraController: {fileID: 0}
+  playerInventory:
+    itemSlotA:
+      itemColor: 0
+      amount: 0
+      maxAmount: 0
+    itemSlotB:
+      itemColor: 0
+      amount: 0
+      maxAmount: 0
+    itemSlotC:
+      itemColor: 0
+      amount: 0
+      maxAmount: 0
+    itemSlotD:
+      itemColor: 0
+      amount: 0
+      maxAmount: 0
   matRed: {fileID: 2100000, guid: fbc6be0686b6d1645901e75badbbd255, type: 2}
   matYellow: {fileID: 2100000, guid: d94682c8ff269cd42883fdc8e625caa7, type: 2}
   matBlue: {fileID: 2100000, guid: 90bd1a7fb1b127f4990906e46111652c, type: 2}
-  matPurple: {fileID: 2100000, guid: d58f0c14a201c1642a873a6f8878cae6, type: 2}
+  matBlack: {fileID: 0}
+  matWhite: {fileID: 0}
   isSlowMotionEnabled: 1
 --- !u!1 &2099017369
 GameObject:

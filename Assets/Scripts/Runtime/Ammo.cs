@@ -46,42 +46,11 @@ namespace Runtime
                     return GameElementColor.Blue;
                     
                 case 3:
-                    return GameElementColor.Purple;
+                    return GameElementColor.Black;
                     
             }
 
             return GameElementColor.NotDefined;
         }
-
-        public Material GetMaterialBasedOnAmmoColor(GameElementColor color)
-        {
-            switch (color)
-            {
-                case GameElementColor.Red:
-                    return GameManager.instance.matRed;
-
-                case GameElementColor.Yellow:
-                    return GameManager.instance.matYellow;
-                    
-                case GameElementColor.Blue:
-                    return GameManager.instance.matBlue;
-                    
-                case GameElementColor.Purple:
-                    return GameManager.instance.matPurple;
-                    
-            }
-
-            return null;
-        }
-    }
-
-
-    public enum GameElementColor
-    {
-        Red,
-        Yellow,
-        Blue,
-        Purple,
-        NotDefined
     }
 }
