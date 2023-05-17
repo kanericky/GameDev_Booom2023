@@ -20,14 +20,20 @@ namespace Runtime
         [Header("Weapon")] 
         public Weapon enemyWeapon;
 
-        [Header("Reference")]
+        [Header("Reference")] 
+        [SerializeField] private GameManager gameManager;
         [SerializeField] private Pawn enemyPawn;
         [SerializeField] private Animator enemyAnimator;
+        [SerializeField] private EnemyHealthBar enemyHealthBar;
         [SerializeField] private AnimatorController behaviourAnimator;
         [SerializeField] private Transform aimTarget;
         [SerializeField] private Renderer characterRenderer;
         [SerializeField] private Material highLightMaterial;
         [SerializeField] private Material defaultMaterial;
+
+        private float characterHeadOffset = 3f; 
+        private float characterChestOffset = 2.2f; 
+        private float characterLegOffset = 1f; 
 
         private void Start()
         {
@@ -38,6 +44,12 @@ namespace Runtime
 
         private void InitEnemy()
         {
+            // Get game manager
+            gameManager = FindObjectOfType<GameManager>();
+            
+            // Get health bar UI component
+            enemyHealthBar = GetComponent<EnemyHealthBar>();
+            
             // Get animator
             enemyAnimator = GetComponent<Animator>();
             
@@ -46,11 +58,14 @@ namespace Runtime
             
             // Get Pawn
             enemyPawn = GetComponent<Pawn>();
+
+            if (enemyData.Equals(null)) return;
             
             // Set Health
             enemyPawn.healthSystem = new HealthSystem(enemyData.health);
 
-            if (enemyData.Equals(null)) return;
+            enemyHealthBar.InitHealthBar(enemyPawn.healthSystem.GetHealthInPercentage());
+            
             
             // Set Material
             characterRenderer.material = enemyData.defaultMaterial;
@@ -64,6 +79,7 @@ namespace Runtime
         public void OnCharacterHit(float damage)
         {
             enemyPawn.TakeDamage(damage);
+            enemyHealthBar.UpdateHealthBar(enemyPawn.healthSystem.GetHealthInPercentage());
         }
 
         public void EnableHighlight()
@@ -79,11 +95,38 @@ namespace Runtime
         private void Attack()
         {
             // TODO AI Accuracy
+            int randomCharacterTarget = Random.Range(0, 3);
+
+            Vector3 finalShootPos = new Vector3();
+            Transform playerTrans = playerCharacter.transform;
+
+            switch (randomCharacterTarget)
+            {
+                case 0:
+                    finalShootPos = playerTrans.position + new Vector3(0, characterHeadOffset, 0);
+                    break;
+                case 1:
+                    finalShootPos = playerTrans.position + new Vector3(0, characterChestOffset, 0);
+                    break;
+                case 2:
+                    finalShootPos = playerTrans.position + new Vector3(0, characterLegOffset, 0);
+                    break;
+            }
             
-            aimTarget.position = playerCharacter.transform.position;
-            aimTarget.rotation = playerCharacter.transform.rotation;
+            aimTarget.position = playerTrans.position;
+            aimTarget.rotation = playerTrans.rotation;
             
-            enemyPawn.EnemyFire(playerCharacter.transform.position);
+            enemyPawn.EnemyFire(finalShootPos);
+        }
+        
+        public void ChangeCharacterMatToHit()
+        {
+            characterRenderer.material = gameManager.matHit;
+        }
+
+        public void ChangeCharacterMatToNormal()
+        {
+            characterRenderer.material = defaultMaterial;
         }
 
     }

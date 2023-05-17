@@ -14,6 +14,7 @@ namespace Runtime
         public CameraController cameraController;
         public UIManager uIManager;
         public GameManager gameManager;
+        public SkinnedMeshRenderer characterMeshRenderer;
 
         [Header("Aiming")] 
         public Transform aimingTarget;
@@ -37,6 +38,7 @@ namespace Runtime
         
         [Header("Debug")] 
         [SerializeField] private int playerPawnPositionIndex = 1;
+        private Material defaultMat;
 
 
         private void Awake()
@@ -81,7 +83,8 @@ namespace Runtime
             // Get Game Managers
             gameManager = FindObjectOfType<GameManager>();
             uIManager = GameManager.instance.uiManager;
-            
+            characterMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+
             // Get Pawn
             playerPawn = GetComponent<Pawn>();
         }
@@ -106,6 +109,9 @@ namespace Runtime
             inputCoolDownTimeGeneral = playerData.inputCoolDownTimeGeneral;
             inputCoolDownTimeFire = playerData.inputCoolDownTimeFire;
             inputCoolDownTimeRoll = playerData.inputCoolDownTimeRoll;
+            
+            // Init material
+            defaultMat = characterMeshRenderer.material;
         }
 
         private void Update()
@@ -292,19 +298,21 @@ namespace Runtime
 
         public void HandleHit(float damage)
         {
-            canRoll = false;
+            playerPawn.TakeDamage(damage, characterMeshRenderer, gameManager.matHit, defaultMat);
 
-            playerPawn.TakeDamage(damage);
-            
             // Update UI
             GameEvents.instance.OnPlayerHealthChanged(playerPawn.healthSystem.GetHealthInPercentage());
         }
 
-        public void ResetCanRollStatus()
+        public void ChangeCharacterMatToHit()
         {
-            canRoll = true;
+            characterMeshRenderer.material = gameManager.matHit;
         }
 
+        public void ChangeCharacterMatToNormal()
+        {
+            characterMeshRenderer.material = defaultMat;
+        }
 
         /// <summary>
         /// Handle camera dead zone movement

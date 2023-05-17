@@ -6,11 +6,11 @@ namespace Runtime.DropItemSystem
     public class DropItemSystem
     {
         [Header("Data")]
-        [SerializeField] public List<DropItemConfigSO> allDrops;
+        [SerializeField] private List<DropItemConfigSO> allDropItems;
 
         public DropItemSystem()
         {
-            allDrops = new List<DropItemConfigSO>();
+            allDropItems = new List<DropItemConfigSO>();
         }
 
         public List<DropItemConfigSO> SelectThreeRandomDrops()

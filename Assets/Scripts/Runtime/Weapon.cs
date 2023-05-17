@@ -58,12 +58,14 @@ namespace Runtime
         {
             ammoInMag = new Queue<Ammo>(magSize);
             bullets = new Queue<Bullet>(magSize);
-
+            
+            /*
             for (int i = 0; i < magSize; i++)
             {
                 Ammo ammo = new Ammo();
                 ammoInMag.Enqueue(ammo);
             }
+            */
             
             _numAmmoSlotFilled = 0;
             _currentFireIndex = 0;

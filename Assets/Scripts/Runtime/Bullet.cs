@@ -14,6 +14,7 @@ namespace Runtime
         private Ammo bulletData;
 
         private float initDamage;
+        private float currentDamage;
         private float finalDamage;
         private float bulletSpeed;
 
@@ -48,6 +49,7 @@ namespace Runtime
                 
                 // Set data
                 initDamage = bulletData.initDamage;
+                currentDamage = initDamage;
                 bulletColor = bulletData.gameElementColor;
                 bulletSpeed = bulletData.ammoProjectileSpeed;
                 

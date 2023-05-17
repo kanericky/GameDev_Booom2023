@@ -1205,6 +1205,7 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   uIManager: {fileID: 0}
   gameManager: {fileID: 0}
+  characterMeshRenderer: {fileID: 0}
   aimingTarget: {fileID: 5903104658663564432}
   gunAimStartPos: {fileID: 8344901854232648302}
   rollCoolDownCD: 2
@@ -3228,15 +3229,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12b4ad74fa3730843b9edba0f28474d8, type: 3}
       propertyPath: m_LocalScale.x
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12b4ad74fa3730843b9edba0f28474d8, type: 3}
       propertyPath: m_LocalScale.y
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12b4ad74fa3730843b9edba0f28474d8, type: 3}
       propertyPath: m_LocalScale.z
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12b4ad74fa3730843b9edba0f28474d8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3244,11 +3245,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12b4ad74fa3730843b9edba0f28474d8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.66
+      value: -2.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12b4ad74fa3730843b9edba0f28474d8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.76
+      value: 0.69
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12b4ad74fa3730843b9edba0f28474d8, type: 3}
       propertyPath: m_LocalRotation.w

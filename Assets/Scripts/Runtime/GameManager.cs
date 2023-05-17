@@ -33,6 +33,9 @@ namespace Runtime
         public Material matBlack;
         public Material matWhite;
 
+        [Header("Hit Material")] 
+        public Material matHit;
+
         [Header("Slow motion")]
         [SerializeField] private bool isSlowMotionEnabled = true;
 

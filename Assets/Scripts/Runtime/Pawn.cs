@@ -146,11 +146,33 @@ namespace Runtime
         {
             return currentPhaseState;
         }
-
+        
         public void TakeDamage(float damage)
         {
+            if (isPawnDead) return;
+            
             // Handle animation
             pawnAnimator.SetTrigger(AnimatorTriggerHitReaction);
+
+            // Apply damage
+            if (healthSystem.TakeDamage(damage) <= 0)
+            {
+                if (isPawnDead) return;
+                isPawnDead = true;
+                HandlePawnDeath();
+            }
+        }
+
+        public void TakeDamage(float damage, Renderer characterMeshRenderer, Material matHit, Material defaultMat)
+        {
+            if (isPawnDead) return;
+            
+            // Handle animation
+            // pawnAnimator.SetTrigger(AnimatorTriggerHitReaction);
+            
+            characterMeshRenderer.material = matHit;
+
+            DOTween.Sequence().SetDelay(.4f).onComplete = () => { characterMeshRenderer.material = defaultMat; };
             
             // Apply damage
             if (healthSystem.TakeDamage(damage) <= 0)
@@ -245,6 +267,7 @@ namespace Runtime
         }
     }
 
+    // TODO - Modify the inventory system
     [Serializable]
     public struct PawnInventory
     {
