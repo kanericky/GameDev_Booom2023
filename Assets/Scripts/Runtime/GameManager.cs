@@ -24,7 +24,7 @@ namespace Runtime
         public CameraController cameraController;
 
         [Header("Player Inventory Data")] 
-        public PawnInventory playerInventory;
+        public PawnInventorySystem playerInventory;
         
         [Header("Bullet Materials")]
         public Material matRed;
@@ -79,7 +79,7 @@ namespace Runtime
             uiManager.ChangeTimeDebugText(Time.timeScale.ToString());
         }
 
-        public void SaveCurrentInventory(PawnInventory playerCurrentInventory)
+        public void SaveCurrentInventory(PawnInventorySystem playerCurrentInventory)
         {
             playerInventory = playerCurrentInventory;
         }

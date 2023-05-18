@@ -172,6 +172,7 @@ namespace Runtime
             // Go to aim state from reloading state
             if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.ReloadingPhase)
             {
+                uIManager.CloseReloadUIWidget();
                 EnterAimingState();
                 GameManager.instance.ResetSlowMotion();
                 
@@ -199,6 +200,7 @@ namespace Runtime
         private void ExitReloadState()
         {
             playerPawn.ExitReloadingState();
+            uIManager.CloseReloadUIWidget();
             cameraController.ChangeCameraPosToIdle();
             uIManager.ChangeDebugText("Idle Phase");
         }

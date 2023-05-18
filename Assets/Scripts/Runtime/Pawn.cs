@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace Runtime
         public Weapon weapon;
 
         [Header("Inventory")] 
-        public PawnInventory pawnInventory;
+        public PawnInventorySystem pawnInventory;
 
         [Header("Animator")] 
         public Animator pawnAnimator;
@@ -40,6 +41,7 @@ namespace Runtime
         {
             InitPawnSystem();
             InitWeaponSystem();
+            InitInventory();
         }
 
         private void InitWeaponSystem()
@@ -53,6 +55,15 @@ namespace Runtime
             pawnAnimator = GetComponent<Animator>();
             currentPhaseState = CharacterPhaseState.IdlePhase;
             isPawnDead = false;
+        }
+
+        private void InitInventory()
+        {
+            pawnInventory = new PawnInventorySystem();
+            
+            pawnInventory.AddItemToSlot(0, new Ammo(pawnInventory.inventorySlots[0].slotColor, 40f));
+            pawnInventory.AddItemToSlot(0, new Ammo(pawnInventory.inventorySlots[0].slotColor, 40f));
+            pawnInventory.AddItemToSlot(0, new Ammo(pawnInventory.inventorySlots[0].slotColor, 40f));
         }
 
         public void EnterReloadingState()
@@ -192,52 +203,15 @@ namespace Runtime
 
         public void HandleReloadSelection(int slotIndex)
         {
-            Ammo ammo;
-            PawnInventoryItem item;
+            PawnInventorySlot targetSlot = pawnInventory.inventorySlots[slotIndex];
+
+            Ammo ammo = targetSlot.GetAmmoFromSlot();
+
+            if (ammo == null) return;
+
+            bool result = weapon.ReloadAmmo(ammo);
             
-            switch (slotIndex)
-            {
-                case 0:
-                    item = pawnInventory.itemSlotA;
-                    // TODO - Fix Ammo Data
-                    ammo = new Ammo(item.itemColor, 50f);
-                    if (item.amount > 0 && weapon.ReloadAmmo(ammo))
-                    {
-                        pawnInventory.itemSlotA.amount--;
-                    }
-                    
-                    break;
-                
-                case 1:
-                    item = pawnInventory.itemSlotB;
-                    ammo = new Ammo(item.itemColor, 50f);
-                    if (item.amount > 0 && weapon.ReloadAmmo(ammo))
-                    {
-                        pawnInventory.itemSlotB.amount--;
-                    }
-                    break;
-                
-                case 2:
-                    item = pawnInventory.itemSlotC;
-                    ammo = new Ammo(item.itemColor, 50f);
-                    if (item.amount > 0 && weapon.ReloadAmmo(ammo))
-                    {
-                        pawnInventory.itemSlotC.amount--;
-                    }
-                    break;
-                
-                case 3:
-                    item = pawnInventory.itemSlotD;
-                    ammo = new Ammo(item.itemColor, 50f);
-                    if (item.amount > 0 && weapon.ReloadAmmo(ammo))
-                    {
-                        pawnInventory.itemSlotD.amount--;
-                    }
-                    break;
-                
-                default:
-                    return;
-            }
+            if(!result) targetSlot.AddAmmoToSlot(ammo);
         }
 
         public void RollLeft()
@@ -267,92 +241,94 @@ namespace Runtime
         }
     }
 
-    // TODO - Modify the inventory system
+    
     [Serializable]
-    public struct PawnInventory
+    public class PawnInventorySystem
     {
-        public PawnInventoryItem itemSlotA;
-        public PawnInventoryItem itemSlotB;
-        public PawnInventoryItem itemSlotC;
-        public PawnInventoryItem itemSlotD;
-
-        public void AddItemToSlot(int slotIndex)
+        public PawnInventorySlot[] inventorySlots;
+        public int maxBulletsAllowed;
+        public int coins;
+        
+        public PawnInventorySystem()
         {
-            switch (slotIndex)
-            {
-                case 0:
-                    if(itemSlotA.amount < itemSlotA.maxAmount) itemSlotA.amount += 1;
-                    break;
-                
-                case 1:
-                    if(itemSlotB.amount < itemSlotB.maxAmount) itemSlotB.amount += 1;
-                    break;
-                
-                case 2:
-                    if(itemSlotC.amount < itemSlotC.maxAmount) itemSlotC.amount += 1;
-                    break;
-                
-                case 3:
-                    if(itemSlotD.amount < itemSlotD.maxAmount) itemSlotD.amount += 1;
-                    break;
-                
-                default:
-                    return;
-            }
+            inventorySlots = new PawnInventorySlot[4];
+
+            // Setup slots
+            inventorySlots[0] = new PawnInventorySlot(GameElementColor.Red);
+            inventorySlots[1] = new PawnInventorySlot(GameElementColor.Yellow);
+            inventorySlots[2] = new PawnInventorySlot(GameElementColor.Blue);
+            inventorySlots[3] = new PawnInventorySlot(GameElementColor.Black);
+            
+            // Setup data
+            maxBulletsAllowed = 6;
+            coins = 0;
         }
 
-        public float GetSlotPercentage(int slotIndex)
+        public void AddItemToSlot(int slotIndex, Ammo ammo)
         {
-            switch (slotIndex)
+            if (GetTotalAmmoAmount() >= maxBulletsAllowed)
             {
-                case 0:
-                    return itemSlotA.amount / itemSlotA.maxAmount;
-
-                case 1:
-                    return itemSlotA.amount / itemSlotA.maxAmount;
-                
-                case 2:
-                    return itemSlotA.amount / itemSlotA.maxAmount;
-                
-                case 3:
-                    return itemSlotA.amount / itemSlotA.maxAmount;
-                
-                default:
-                    return -1f;
+                Debug.LogWarning("You have reached the max amount of bullets you can carry!");
+                return;
             }
+            inventorySlots[slotIndex].AddAmmoToSlot(ammo);
         }
 
-        public void IncreaseSlotMaxSize(int slotIndex, int increaseAmount)
+        public int GetTotalAmmoAmount()
         {
-            switch (slotIndex)
+            int counter = 0;
+            
+            foreach (var slot in inventorySlots)
             {
-                case 0:
-                    itemSlotA.maxAmount += increaseAmount;
-                    break;
-                
-                case 1:
-                    itemSlotB.maxAmount += increaseAmount;
-                    break;
-
-                case 2:
-                    itemSlotC.maxAmount += increaseAmount;
-                    break;
-
-                case 3:
-                    itemSlotD.maxAmount += increaseAmount;
-                    break;
-                
-                default:
-                    return;
+                counter += slot.GetCurrentBulletAmount();
             }
+
+            return counter;
+        }
+
+        public void IncreaseMaxSize(int increaseAmount)
+        {
+            maxBulletsAllowed += increaseAmount;
         }
     }
 
     [Serializable]
-    public struct PawnInventoryItem
+    public class PawnInventorySlot
     {
-        public GameElementColor itemColor;
-        public int amount;
-        public int maxAmount;
+        public GameElementColor slotColor;
+        public Queue<Ammo> ammoInSlot;
+
+        public PawnInventorySlot()
+        {
+            slotColor = GameElementColor.NotDefined;
+            ammoInSlot = new Queue<Ammo>();
+        }
+
+        public PawnInventorySlot(GameElementColor color)
+        {
+            slotColor = color;
+            ammoInSlot = new Queue<Ammo>();
+        }
+
+        public int GetCurrentBulletAmount()
+        {
+            return ammoInSlot.Count;
+        }
+
+        public void AddAmmoToSlot(Ammo ammo)
+        {
+            ammoInSlot.Enqueue(ammo);
+        }
+
+        public Ammo GetAmmoFromSlot()
+        {
+            if (GetCurrentBulletAmount() <= 0)
+            {
+                Debug.LogWarning("There is no ammo left in this slot");
+                return null;
+            }
+
+            return ammoInSlot.Dequeue();
+        }
     }
 }

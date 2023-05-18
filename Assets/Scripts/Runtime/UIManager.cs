@@ -24,7 +24,7 @@ namespace Runtime
         public TMP_Text debugTextTime;
 
         [Header("In-game Reload Phase UI")] 
-        public Image widgetImage;
+        public GameObject reloadUI;
 
         private void Update()
         {
@@ -51,12 +51,12 @@ namespace Runtime
 
         public void OpenReloadUIWidget()
         {
-            widgetImage.enabled = true;
+            reloadUI.SetActive(true);
         }
 
         public void CloseReloadUIWidget()
         {
-            widgetImage.enabled = false;
+            reloadUI.SetActive(false);
         }
 
         public void ShowDropItemInterface()
