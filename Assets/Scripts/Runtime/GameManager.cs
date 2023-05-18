@@ -24,6 +24,7 @@ namespace Runtime
         public CameraController cameraController;
 
         [Header("Player Inventory Data")] 
+        public GameCharacterController playerController;
         public PawnInventorySystem playerInventory;
         
         [Header("Bullet Materials")]
@@ -44,6 +45,11 @@ namespace Runtime
             instance = this;
             uiManager = FindObjectOfType<UIManager>();
             cameraController = FindObjectOfType<CameraController>();
+        }
+
+        private void Start()
+        {
+            playerInventory = playerController.playerPawn.pawnInventory;
         }
 
         public void StopTime()

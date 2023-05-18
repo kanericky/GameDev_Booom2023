@@ -61,9 +61,9 @@ namespace Runtime
         {
             pawnInventory = new PawnInventorySystem();
             
-            pawnInventory.AddItemToSlot(0, new Ammo(pawnInventory.inventorySlots[0].slotColor, 40f));
-            pawnInventory.AddItemToSlot(0, new Ammo(pawnInventory.inventorySlots[0].slotColor, 40f));
-            pawnInventory.AddItemToSlot(0, new Ammo(pawnInventory.inventorySlots[0].slotColor, 40f));
+            pawnInventory.AddItemToSlot(0, AmmoFactory.GetAmmoFromFactory(AmmoType.RedAmmo));
+            pawnInventory.AddItemToSlot(0, AmmoFactory.GetAmmoFromFactory(AmmoType.RedAmmo));
+            pawnInventory.AddItemToSlot(0, AmmoFactory.GetAmmoFromFactory(AmmoType.RedAmmo));
         }
 
         public void EnterReloadingState()
@@ -147,10 +147,10 @@ namespace Runtime
             pawnAnimator.SetTrigger(AnimatorTriggerFire);
         }
 
-        public void EnemyFire(Vector3 target)
+        public void EnemyFire(Vector3 target, Ammo ammo)
         {
             // FIRE!!!
-            weapon.EnemyWeaponFire(target + new Vector3(0f, 1f, 0f));
+            weapon.EnemyWeaponFire(target, ammo);
         }
 
         public CharacterPhaseState GetPawnCurrentState()
@@ -208,6 +208,8 @@ namespace Runtime
             Ammo ammo = targetSlot.GetAmmoFromSlot();
 
             if (ammo == null) return;
+            
+            GameEvents.instance.OnPlayerInventoryChanged(slotIndex);
 
             bool result = weapon.ReloadAmmo(ammo);
             
@@ -271,7 +273,9 @@ namespace Runtime
                 Debug.LogWarning("You have reached the max amount of bullets you can carry!");
                 return;
             }
+            
             inventorySlots[slotIndex].AddAmmoToSlot(ammo);
+            GameEvents.instance.OnPlayerInventoryChanged(slotIndex);
         }
 
         public int GetTotalAmmoAmount()

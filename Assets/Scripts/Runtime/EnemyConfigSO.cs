@@ -6,9 +6,15 @@ namespace Runtime
     [CreateAssetMenu(fileName = "Enemy Data", menuName = "GameData/Enemy")]
     public class EnemyConfigSO : ScriptableObject
     {
-        [Header("Health")]
+        [Header("Data")]
         public float health;
         public GameElementColor color;
+        public AmmoType ammoType;
+        public Vector3 enemyAccuracy;
+
+        [Header("Armor")] 
+        public Armor chestArmor;
+        public Armor helmetArmor;
 
         [Header("Material")] 
         public Material defaultMaterial;
@@ -16,9 +22,5 @@ namespace Runtime
 
         [Header("Behaviour")] 
         public AnimatorController enemyBehaviourAnimator;
-
-        [Header("AI")] 
-        public float ammoDamage;
-
     }
 }

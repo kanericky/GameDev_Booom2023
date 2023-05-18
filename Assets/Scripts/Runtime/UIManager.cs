@@ -8,7 +8,7 @@ namespace Runtime
 {
     public class UIManager : MonoBehaviour
     {
-        [Header("Game Manager Reference")] 
+        [Header("Game Manager Reference")] public UIManager instance;
         [SerializeField] private GameManager gameManager;
         
         [Header("HUD - Canvas")] 
@@ -25,6 +25,12 @@ namespace Runtime
 
         [Header("In-game Reload Phase UI")] 
         public GameObject reloadUI;
+        public Image[] reloadButtons;
+
+        private void Awake()
+        {
+            instance = this;
+        }
 
         private void Update()
         {
@@ -39,10 +45,39 @@ namespace Runtime
             gameManager = FindObjectOfType<GameManager>();
 
             dropMenuCanvas.enabled = false;
-            
+
             // Register events
             GameEvents.instance.PlayerHealthChanged += UpdatePlayerHealthHUDBar;
+            
+            GameEvents.instance.PlayerInventoryChanged += RefreshReloadUI;
+            
+            SetupReloadUI();
         }
+
+        public void SetupReloadUI()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if(gameManager.playerController.playerPawn.pawnInventory.inventorySlots[i].GetCurrentBulletAmount() == 0)
+                {
+                    reloadButtons[i].color = Color.HSVToRGB(0, 0, .7f);
+                }
+            }
+
+        }
+
+        private void RefreshReloadUI(int index)
+        {
+            if (gameManager.playerController.playerPawn.pawnInventory.inventorySlots[index].GetCurrentBulletAmount() == 0)
+            {
+                reloadButtons[index].color = Color.HSVToRGB(0, 0, .7f);
+            }
+            else
+            {
+                reloadButtons[index].color = Color.HSVToRGB(0, 0, 1f);
+            }
+        }
+    
 
         private void UpdatePlayerHealthHUDBar(float ratio)
         {
@@ -62,6 +97,18 @@ namespace Runtime
         public void ShowDropItemInterface()
         {
             dropMenuCanvas.enabled = true;
+        }
+
+        public void ReloadButtonPressedAnimation(int index)
+        {
+            Color currentColor = reloadButtons[index].color;
+            Color targetColor = Color.HSVToRGB(0f, 0f, 0.7f);
+
+            reloadButtons[index].DOColor(targetColor, .1f).onComplete = () =>
+            {
+                reloadButtons[index].DOColor(currentColor, .1f);
+            };
+
         }
 
 

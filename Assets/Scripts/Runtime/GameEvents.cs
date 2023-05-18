@@ -20,10 +20,15 @@ public class GameEvents : MonoBehaviour
     }
     
     public event Action<float> PlayerHealthChanged;
+    public event Action<int> PlayerInventoryChanged;
 
     public void OnPlayerHealthChanged(float ratio)
     {
         PlayerHealthChanged?.Invoke(ratio);
     }
 
+    public void OnPlayerInventoryChanged(int slotIndex)
+    {
+        PlayerInventoryChanged?.Invoke(slotIndex);
+    }
 }

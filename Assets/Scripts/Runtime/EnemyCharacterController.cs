@@ -66,7 +66,26 @@ namespace Runtime
 
             enemyHealthBar.InitHealthBar(enemyPawn.healthSystem.GetHealthInPercentage());
             
+            // Set Armor
+            if (enemyData.helmetArmor != null && enemyData.chestArmor != null)
+            {
+                enemyPawn.healthSystem =
+                    new HealthSystem(enemyData.health, enemyData.chestArmor, enemyData.helmetArmor);
+            }else if (enemyData.helmetArmor != null)
+            {
+                enemyPawn.healthSystem =
+                    new HealthSystem(enemyData.health, enemyData.helmetArmor);
+                
+            }else if (enemyData.chestArmor != null)
+            {
+                enemyPawn.healthSystem =
+                    new HealthSystem(enemyData.health, enemyData.chestArmor);
+            }
+            else { enemyPawn.healthSystem = new HealthSystem(enemyData.health); }
             
+            enemyHealthBar.InitHealthBar(enemyPawn.healthSystem.GetHealthInPercentage());
+
+
             // Set Material
             characterRenderer.material = enemyData.defaultMaterial;
             highLightMaterial = enemyData.highlightMaterial;
@@ -94,29 +113,34 @@ namespace Runtime
 
         private void Attack()
         {
-            // TODO AI Accuracy
             int randomCharacterTarget = Random.Range(0, 3);
 
             Vector3 finalShootPos = new Vector3();
             Transform playerTrans = playerCharacter.transform;
 
+            Vector3 offset = new Vector3(
+                Random.Range(-enemyData.enemyAccuracy.x, enemyData.enemyAccuracy.x),
+                Random.Range(-enemyData.enemyAccuracy.y, enemyData.enemyAccuracy.y),
+                Random.Range(-enemyData.enemyAccuracy.z, enemyData.enemyAccuracy.z)
+                );
+
             switch (randomCharacterTarget)
             {
                 case 0:
-                    finalShootPos = playerTrans.position + new Vector3(0, characterHeadOffset, 0);
+                    finalShootPos = playerTrans.position + new Vector3(0, characterHeadOffset, 0) + offset;
                     break;
                 case 1:
-                    finalShootPos = playerTrans.position + new Vector3(0, characterChestOffset, 0);
+                    finalShootPos = playerTrans.position + new Vector3(0, characterChestOffset, 0) + offset;
                     break;
                 case 2:
-                    finalShootPos = playerTrans.position + new Vector3(0, characterLegOffset, 0);
+                    finalShootPos = playerTrans.position + new Vector3(0, characterLegOffset, 0) + offset;
                     break;
             }
             
             aimTarget.position = playerTrans.position;
             aimTarget.rotation = playerTrans.rotation;
             
-            enemyPawn.EnemyFire(finalShootPos);
+            enemyPawn.EnemyFire(finalShootPos, AmmoFactory.GetAmmoFromFactory(enemyData.ammoType));
         }
         
         public void ChangeCharacterMatToHit()

@@ -266,6 +266,7 @@ namespace Runtime
             if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.ReloadingPhase) return;
 
             playerPawn.HandleReloadSelection(index);
+            uIManager.ReloadButtonPressedAnimation(index);
         }
 
         private void HandleRoll(bool isRollLeft = true)

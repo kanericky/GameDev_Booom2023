@@ -239,7 +239,7 @@ namespace Runtime
             
         }
         
-        public void EnemyWeaponFire(Vector3 target)
+        public void EnemyWeaponFire(Vector3 target, Ammo ammo)
         {
             // Setup VFX
             ParticleSystem weaponFireVFX = Instantiate(weaponFireParticle);
@@ -249,7 +249,6 @@ namespace Runtime
             vfxTransform.rotation = weaponMuz.localRotation;
             
             // TODO enemy fire
-            Ammo ammo = new Ammo(GameElementColor.Blue, 15f);
             Bullet bullet = Instantiate(ammoModel);
             bullet.InitBulletData(ammo);
             
