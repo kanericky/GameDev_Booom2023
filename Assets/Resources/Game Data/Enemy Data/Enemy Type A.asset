@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e7c68d291ec0f42a11c46a91b0d100, type: 3}
+  m_Name: Enemy Type A
+  m_EditorClassIdentifier: 
+  health: 120
+  color: 0
+  chestArmorData: {fileID: 11400000, guid: 1f96abd175be13d4eaecf8506b009098, type: 2}
+  helmetArmorData: {fileID: 0}
+  ammoType: 4
+  enemyAccuracy: {x: 0.8, y: 0.8, z: 0.8}
+  defaultMaterial: {fileID: 2100000, guid: 50223e9ba867aa34685fa9e6b022e8e0, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: 0882c6e711225be45a52b7c064796c61, type: 2}
+  enemyBehaviourAnimator: {fileID: 9100000, guid: 68555df660b87b041a62ea2284bac377, type: 2}

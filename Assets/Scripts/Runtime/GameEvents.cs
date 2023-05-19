@@ -1,34 +1,41 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GameEvents : MonoBehaviour
+namespace Runtime
 {
-    public static GameEvents instance;
-    
-    private void Awake()
+    public class GameEvents : MonoBehaviour
     {
-        if(instance == null) instance = this;
-        else
+        public static GameEvents instance;
+    
+        private void Awake()
         {
-            Destroy(gameObject);
-            return;
+            if(instance == null) instance = this;
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+        
+            DontDestroyOnLoad(this);
+        }
+    
+        public event Action<float> PlayerHealthChanged;
+        public event Action<float> PlayerArmorChanged;
+        public event Action<int> PlayerInventoryChanged;
+
+        public void OnPlayerHealthChanged(float ratio)
+        {
+            PlayerHealthChanged?.Invoke(ratio);
         }
         
-        DontDestroyOnLoad(this);
-    }
-    
-    public event Action<float> PlayerHealthChanged;
-    public event Action<int> PlayerInventoryChanged;
+        public void OnPlayerArmorChanged(float ratio)
+        {
+            PlayerArmorChanged?.Invoke(ratio);
+        }
 
-    public void OnPlayerHealthChanged(float ratio)
-    {
-        PlayerHealthChanged?.Invoke(ratio);
-    }
-
-    public void OnPlayerInventoryChanged(int slotIndex)
-    {
-        PlayerInventoryChanged?.Invoke(slotIndex);
+        public void OnPlayerInventoryChanged(int slotIndex)
+        {
+            PlayerInventoryChanged?.Invoke(slotIndex);
+        }
     }
 }

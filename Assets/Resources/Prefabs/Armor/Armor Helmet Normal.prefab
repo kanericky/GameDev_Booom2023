@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9104240200406439945}
   - component: {fileID: 5079359267952210565}
   - component: {fileID: 3685985358203426451}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Armor Helmet Normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,8 +27,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7302655282820233692}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.042639, y: 0.10000086, z: -1.6419978}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -111,5 +111,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 436b336ccfd3b504f8be6512b7c0afe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  armorData: {fileID: 0}
   armorAmount: 30
   armorType: 1
+  armorColor: 0
+  armorPrefab: {fileID: 0}
+  armorMaterial: {fileID: 0}

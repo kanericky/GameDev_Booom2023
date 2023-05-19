@@ -1,8 +1,7 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
-namespace Runtime
+namespace Runtime.Menu
 {
     public class MenuLevelManager : MonoBehaviour
     {
@@ -17,6 +16,8 @@ namespace Runtime
 
         private void Start()
         {
+            Cursor.visible = false;
+            
             inputActions = new InputActions();
             inputActions.Menu.Enable();
 

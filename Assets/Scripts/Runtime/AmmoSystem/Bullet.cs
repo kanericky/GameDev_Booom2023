@@ -1,9 +1,6 @@
-using System;
-using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Runtime
+namespace Runtime.AmmoSystem
 {
     public class Bullet : MonoBehaviour
     {
@@ -104,9 +101,23 @@ namespace Runtime
             if (collision.gameObject.CompareTag("Enemy"))
             {
                 EnemyCharacterController enemyController = collision.transform.GetComponentInParent<EnemyCharacterController>();
+
+                GameElementColor targetColor;
                 
+                if (enemyController.enemyData.helmetArmorData != null)
+                {
+                    targetColor = enemyController.enemyData.helmetArmorData.armorColor;
+                }else if (enemyController.enemyData.chestArmorData != null)
+                {
+                    targetColor = enemyController.enemyData.chestArmorData.armorColor;
+                }
+                else
+                {
+                    targetColor = enemyController.enemyData.color;
+                }
+
                 // Hit enemy
-                finalDamage = CalculateDamage(bulletColor, enemyController.enemyData.color);
+                finalDamage = CalculateDamage(bulletColor, targetColor);
                 
                 // Apply damage
                 enemyController.OnCharacterHit(finalDamage);

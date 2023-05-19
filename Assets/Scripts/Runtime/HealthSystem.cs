@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Runtime.ArmorSystem;
 using UnityEngine;
 
 namespace Runtime
@@ -20,7 +21,7 @@ namespace Runtime
             currentHealth = this.healthAmount;
         }
         
-        public HealthSystem(float healthAmount, Armor armorA)
+        public HealthSystem(float healthAmount, ArmorData armorA)
         {
             this.healthAmount = healthAmount;
             currentHealth = this.healthAmount;
@@ -29,7 +30,7 @@ namespace Runtime
             currentArmor = armorAmount;
         }
         
-        public HealthSystem(float healthAmount, Armor armorA, Armor armorB)
+        public HealthSystem(float healthAmount, ArmorData armorA, ArmorData armorB)
         {
             this.healthAmount = healthAmount;
             currentHealth = this.healthAmount;
@@ -40,13 +41,27 @@ namespace Runtime
 
         public float TakeDamage(float damageValue)
         {
-            // TODO
-            
             if (currentHealth <= 0) return 0;
 
-            float healthTemp = currentHealth - damageValue;
+            // Apply damage to armor first, if the armor is still there
+            if (currentArmor > 0)
+            {
+                float newArmorValue = currentArmor - damageValue;
+                
+                // The armor takes all the damage
+                if (newArmorValue >= 0)
+                {
+                    currentArmor = newArmorValue;
+                    return currentHealth;
+                }
+                
+                // The armor takes part of the damage (and break)
+                currentArmor = 0;
+                TakeDamage(-newArmorValue);
+                return currentHealth;
+            }
 
-            Debug.Log(currentHealth);
+            float healthTemp = currentHealth - damageValue;
 
             currentHealth = healthTemp > 0 ? healthTemp : 0;
 
@@ -59,6 +74,11 @@ namespace Runtime
         public float GetHealthInPercentage()
         {
             return currentHealth / healthAmount;
+        }
+
+        public float GetArmorInPercentage()
+        {
+            return armorAmount == 0 ? 0 : currentArmor / armorAmount;
         }
 
         public void Death()

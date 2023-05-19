@@ -1,26 +1,26 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class MenuUIManager : MonoBehaviour
+namespace Runtime.Menu
 {
-    [Header("Reference")] public CanvasGroup menuCanvasGroup;
-
-    private void Start()
+    public class MenuUIManager : MonoBehaviour
     {
-        menuCanvasGroup.alpha = 0;
-    }
+        [Header("Reference")] public CanvasGroup menuCanvasGroup;
 
-    public void MenuUIEnterReady()
-    {
-        menuCanvasGroup.DOFade(1, .2f);
-    }
+        private void Start()
+        {
+            menuCanvasGroup.alpha = 0;
+        }
 
-    public void QuitGame()
-    {
-        Debug.Log("Player quit game");
-        Application.Quit();
+        public void MenuUIEnterReady()
+        {
+            menuCanvasGroup.DOFade(1, .2f);
+        }
+
+        public void QuitGame()
+        {
+            Debug.Log("Player quit game");
+            Application.Quit();
+        }
     }
 }

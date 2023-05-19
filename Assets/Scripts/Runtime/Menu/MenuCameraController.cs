@@ -1,8 +1,7 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
-namespace Runtime
+namespace Runtime.Menu
 {
     public class MenuCameraController : MonoBehaviour
     {

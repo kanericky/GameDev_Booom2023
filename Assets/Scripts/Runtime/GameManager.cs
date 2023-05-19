@@ -47,11 +47,6 @@ namespace Runtime
             cameraController = FindObjectOfType<CameraController>();
         }
 
-        private void Start()
-        {
-            playerInventory = playerController.playerPawn.pawnInventory;
-        }
-
         public void StopTime()
         {
             Time.timeScale = 0f;

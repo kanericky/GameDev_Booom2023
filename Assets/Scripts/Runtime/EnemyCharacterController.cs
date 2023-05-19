@@ -1,8 +1,7 @@
 using System;
-using DG.Tweening;
+using Runtime.ArmorSystem;
 using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 namespace Runtime
@@ -17,27 +16,35 @@ namespace Runtime
         [Header("Enemy Data")] 
         public EnemyConfigSO enemyData;
 
-        [Header("Weapon")] 
-        public Weapon enemyWeapon;
-
         [Header("Reference")] 
         [SerializeField] private GameManager gameManager;
+        
         [SerializeField] private Pawn enemyPawn;
         [SerializeField] private Animator enemyAnimator;
         [SerializeField] private EnemyHealthBar enemyHealthBar;
         [SerializeField] private AnimatorController behaviourAnimator;
+        
         [SerializeField] private Transform aimTarget;
+        [SerializeField] private Transform helmetArmorSlot;
+        [SerializeField] private Transform chestArmorSlot;
+        
         [SerializeField] private Renderer characterRenderer;
         [SerializeField] private Material highLightMaterial;
         [SerializeField] private Material defaultMaterial;
 
         private float characterHeadOffset = 3f; 
         private float characterChestOffset = 2.2f; 
-        private float characterLegOffset = 1f; 
+        private float characterLegOffset = 1f;
+
+        private Armor helmetArmor;
+        private Armor chestArmor;
+
+        private bool isHighlighted;
 
         private void Start()
         {
             InitEnemy();
+            InitEnemyHealthSystem();
 
             playerCharacter = FindObjectOfType<GameCharacterController>();
         }
@@ -52,39 +59,11 @@ namespace Runtime
             
             // Get animator
             enemyAnimator = GetComponent<Animator>();
-            
-            // Get weapon
-            enemyWeapon = GetComponentInChildren<Weapon>();
-            
+
             // Get Pawn
             enemyPawn = GetComponent<Pawn>();
 
             if (enemyData.Equals(null)) return;
-            
-            // Set Health
-            enemyPawn.healthSystem = new HealthSystem(enemyData.health);
-
-            enemyHealthBar.InitHealthBar(enemyPawn.healthSystem.GetHealthInPercentage());
-            
-            // Set Armor
-            if (enemyData.helmetArmor != null && enemyData.chestArmor != null)
-            {
-                enemyPawn.healthSystem =
-                    new HealthSystem(enemyData.health, enemyData.chestArmor, enemyData.helmetArmor);
-            }else if (enemyData.helmetArmor != null)
-            {
-                enemyPawn.healthSystem =
-                    new HealthSystem(enemyData.health, enemyData.helmetArmor);
-                
-            }else if (enemyData.chestArmor != null)
-            {
-                enemyPawn.healthSystem =
-                    new HealthSystem(enemyData.health, enemyData.chestArmor);
-            }
-            else { enemyPawn.healthSystem = new HealthSystem(enemyData.health); }
-            
-            enemyHealthBar.InitHealthBar(enemyPawn.healthSystem.GetHealthInPercentage());
-
 
             // Set Material
             characterRenderer.material = enemyData.defaultMaterial;
@@ -93,24 +72,73 @@ namespace Runtime
 
             behaviourAnimator = enemyData.enemyBehaviourAnimator;
             enemyAnimator.runtimeAnimatorController = behaviourAnimator;
+
+            isHighlighted = false;
+        }
+
+        private void InitEnemyHealthSystem()
+        {
+            if (enemyData == null) return;
+            
+            ArmorData chestArmorData = enemyData.chestArmorData;
+            ArmorData helmetArmorData = enemyData.helmetArmorData;
+            
+            if (helmetArmorData != null && chestArmorData != null)
+            {
+                enemyPawn.healthSystem =
+                    new HealthSystem(enemyData.health, chestArmorData, helmetArmorData);
+                
+                helmetArmor = Instantiate(helmetArmorData.armorPrefab, helmetArmorSlot);
+                helmetArmor.SetupArmor(helmetArmorData);
+                
+                chestArmor = Instantiate(chestArmorData.armorPrefab, chestArmorSlot);
+                chestArmor.SetupArmor(chestArmorData);
+
+            }else if (helmetArmorData != null)
+            {
+                enemyPawn.healthSystem =
+                    new HealthSystem(enemyData.health, enemyData.helmetArmorData);
+                
+                helmetArmor = Instantiate(helmetArmorData.armorPrefab, helmetArmorSlot);
+                helmetArmor.SetupArmor(helmetArmorData);
+                
+            }else if (chestArmorData != null)
+            {
+                enemyPawn.healthSystem =
+                    new HealthSystem(enemyData.health, chestArmorData);
+                
+                chestArmor = Instantiate(chestArmorData.armorPrefab, chestArmorSlot);
+                chestArmor.SetupArmor(chestArmorData);
+            }
+            else { enemyPawn.healthSystem = new HealthSystem(enemyData.health); }
+            
+            // Setup enemy UI
+            enemyHealthBar.InitHealthBar(enemyPawn.healthSystem.GetHealthInPercentage());
+            enemyHealthBar.InitArmorBar(enemyPawn.healthSystem.GetArmorInPercentage());
         }
 
         public void OnCharacterHit(float damage)
         {
-            enemyPawn.TakeDamage(damage);
+            enemyPawn.TakeDamage(damage, characterRenderer, gameManager.matHit, defaultMaterial, false);
             enemyHealthBar.UpdateHealthBar(enemyPawn.healthSystem.GetHealthInPercentage());
+            enemyHealthBar.UpdateArmorBar(enemyPawn.healthSystem.GetArmorInPercentage());
         }
 
         public void EnableHighlight()
         {
+            if (isHighlighted) return;
+            
             if(characterRenderer.material != highLightMaterial) characterRenderer.material = highLightMaterial;
+            isHighlighted = true;
         }
 
         public void DisableHighlight()
         {
             if (characterRenderer.material != defaultMaterial) characterRenderer.material = defaultMaterial;
+            isHighlighted = false;
         }
 
+        // Used in animation to trigger fire
         private void Attack()
         {
             int randomCharacterTarget = Random.Range(0, 3);
@@ -137,21 +165,9 @@ namespace Runtime
                     break;
             }
             
-            aimTarget.position = playerTrans.position;
-            aimTarget.rotation = playerTrans.rotation;
-            
+            aimTarget.position = finalShootPos;
+
             enemyPawn.EnemyFire(finalShootPos, AmmoFactory.GetAmmoFromFactory(enemyData.ammoType));
         }
-        
-        public void ChangeCharacterMatToHit()
-        {
-            characterRenderer.material = gameManager.matHit;
-        }
-
-        public void ChangeCharacterMatToNormal()
-        {
-            characterRenderer.material = defaultMaterial;
-        }
-
     }
 }

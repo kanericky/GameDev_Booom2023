@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using Runtime.AmmoSystem;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -248,11 +249,15 @@ namespace Runtime
             vfxTransform.position = weaponMuz.position;
             vfxTransform.rotation = weaponMuz.localRotation;
             
-            // TODO enemy fire
             Bullet bullet = Instantiate(ammoModel);
             bullet.InitBulletData(ammo);
             
             bullet.BulletFire(weaponMuz.position, (target - gunAimStartPos.position).normalized);
+            
+            // Play VFX
+            weaponFireParticle.Stop();
+            weaponFireParticle.GetComponent<ParticleSystemRenderer>().material = GameManager.GetMaterialBasedOnAmmoColor(ammo.gameElementColor);
+            weaponFireParticle.Play();
 
             DOTween.Sequence().SetDelay(1f).onComplete = () => { Destroy(weaponFireVFX.gameObject); };
         }

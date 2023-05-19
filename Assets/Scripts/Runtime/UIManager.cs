@@ -10,21 +10,19 @@ namespace Runtime
     {
         [Header("Game Manager Reference")] public UIManager instance;
         [SerializeField] private GameManager gameManager;
-        
-        [Header("HUD - Canvas")] 
-        public Canvas debugMenuCanvas;
+
+        [Header("HUD - Canvas")] public Canvas debugMenuCanvas;
         public Canvas hudCanvas;
         public Canvas dropMenuCanvas;
 
-        [Header("HUD - Elements")]
+        [Header("HUD - Elements")] 
         public Image playerHealth;
-        
-        [Header("HUD - Elements - Debug")]
-        public TMP_Text debugText;
+        public Image playerArmor;
+
+        [Header("HUD - Elements - Debug")] public TMP_Text debugText;
         public TMP_Text debugTextTime;
 
-        [Header("In-game Reload Phase UI")] 
-        public GameObject reloadUI;
+        [Header("In-game Reload Phase UI")] public GameObject reloadUI;
         public Image[] reloadButtons;
 
         private void Awake()
@@ -48,9 +46,10 @@ namespace Runtime
 
             // Register events
             GameEvents.instance.PlayerHealthChanged += UpdatePlayerHealthHUDBar;
+            GameEvents.instance.PlayerArmorChanged += UpdatePlayerArmorHUDBar;
             
             GameEvents.instance.PlayerInventoryChanged += RefreshReloadUI;
-            
+
             SetupReloadUI();
         }
 
@@ -58,7 +57,8 @@ namespace Runtime
         {
             for (int i = 0; i < 4; i++)
             {
-                if(gameManager.playerController.playerPawn.pawnInventory.inventorySlots[i].GetCurrentBulletAmount() == 0)
+                if (gameManager.playerController.playerPawn.pawnInventory.inventorySlots[i].GetCurrentBulletAmount() ==
+                    0)
                 {
                     reloadButtons[i].color = Color.HSVToRGB(0, 0, .7f);
                 }
@@ -68,7 +68,8 @@ namespace Runtime
 
         private void RefreshReloadUI(int index)
         {
-            if (gameManager.playerController.playerPawn.pawnInventory.inventorySlots[index].GetCurrentBulletAmount() == 0)
+            if (gameManager.playerController.playerPawn.pawnInventory.inventorySlots[index].GetCurrentBulletAmount() ==
+                0)
             {
                 reloadButtons[index].color = Color.HSVToRGB(0, 0, .7f);
             }
@@ -77,11 +78,21 @@ namespace Runtime
                 reloadButtons[index].color = Color.HSVToRGB(0, 0, 1f);
             }
         }
-    
+
+        public void InitPlayerHUDHealthBar(float healthRatio, float armorRatio)
+        {
+            playerHealth.transform.localScale = new Vector3(healthRatio, 1f, 1f);
+            playerArmor.transform.localScale = new Vector3(armorRatio, 1f, 1f);
+        }
 
         private void UpdatePlayerHealthHUDBar(float ratio)
         {
             playerHealth.transform.DOScaleX(ratio, .4f);
+        }
+
+        private void UpdatePlayerArmorHUDBar(float ratio)
+        {
+            playerArmor.transform.DOScaleX(ratio, .4f);
         }
 
         public void OpenReloadUIWidget()

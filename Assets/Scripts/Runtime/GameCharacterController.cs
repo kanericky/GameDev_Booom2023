@@ -72,6 +72,7 @@ namespace Runtime
         {
             InitReference();
             InitData();
+            InitHealthSystem();
             
             // Misc
             uIManager.ChangeDebugText("Idle Phase");
@@ -91,9 +92,6 @@ namespace Runtime
 
         private void InitData()
         {
-            // Health System
-            playerPawn.healthSystem = new HealthSystem(playerData.health);
-
             if (playerData.Equals(null)) return;
             
             // Init Roll System
@@ -112,6 +110,16 @@ namespace Runtime
             
             // Init material
             defaultMat = characterMeshRenderer.material;
+        }
+
+        private void InitHealthSystem()
+        {
+            // Health System
+            playerPawn.healthSystem = new HealthSystem(playerData.health);
+            
+            uIManager.InitPlayerHUDHealthBar(
+                healthRatio: playerPawn.healthSystem.GetHealthInPercentage(),
+                armorRatio: playerPawn.healthSystem.GetArmorInPercentage());
         }
 
         private void Update()
@@ -301,10 +309,11 @@ namespace Runtime
 
         public void HandleHit(float damage)
         {
-            playerPawn.TakeDamage(damage, characterMeshRenderer, gameManager.matHit, defaultMat);
+            playerPawn.TakeDamage(damage, characterMeshRenderer, gameManager.matHit, defaultMat, isPlayer: true);
 
             // Update UI
             GameEvents.instance.OnPlayerHealthChanged(playerPawn.healthSystem.GetHealthInPercentage());
+            GameEvents.instance.OnPlayerArmorChanged(playerPawn.healthSystem.GetArmorInPercentage());
         }
 
         public void ChangeCharacterMatToHit()

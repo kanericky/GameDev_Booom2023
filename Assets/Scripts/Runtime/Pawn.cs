@@ -16,6 +16,7 @@ namespace Runtime
 
         [Header("Inventory")] 
         public PawnInventorySystem pawnInventory;
+        public EnemyCharacterController enemyController;
 
         [Header("Animator")] 
         public Animator pawnAnimator;
@@ -53,6 +54,7 @@ namespace Runtime
         private void InitPawnSystem()
         {
             pawnAnimator = GetComponent<Animator>();
+            enemyController = GetComponent<EnemyCharacterController>();
             currentPhaseState = CharacterPhaseState.IdlePhase;
             isPawnDead = false;
         }
@@ -157,40 +159,44 @@ namespace Runtime
         {
             return currentPhaseState;
         }
-        
-        public void TakeDamage(float damage)
+
+        public void TakeDamage(float damage, Renderer characterMeshRenderer, Material matHit, Material defaultMat, bool isPlayer)
         {
             if (isPawnDead) return;
             
-            // Handle animation
-            pawnAnimator.SetTrigger(AnimatorTriggerHitReaction);
-
-            // Apply damage
-            if (healthSystem.TakeDamage(damage) <= 0)
+            // Handle player take damage
+            if (isPlayer)
             {
-                if (isPawnDead) return;
-                isPawnDead = true;
-                HandlePawnDeath();
+                characterMeshRenderer.material = matHit;
+
+                DOTween.Sequence().SetDelay(.4f).onComplete = () => { characterMeshRenderer.material = defaultMat; };
+
+                // Apply damage
+                if (healthSystem.TakeDamage(damage) <= 0)
+                {
+                    if (isPawnDead) return;
+                    isPawnDead = true;
+                    HandlePawnDeath();
+                }
             }
-        }
-
-        public void TakeDamage(float damage, Renderer characterMeshRenderer, Material matHit, Material defaultMat)
-        {
-            if (isPawnDead) return;
             
-            // Handle animation
-            // pawnAnimator.SetTrigger(AnimatorTriggerHitReaction);
-            
-            characterMeshRenderer.material = matHit;
-
-            DOTween.Sequence().SetDelay(.4f).onComplete = () => { characterMeshRenderer.material = defaultMat; };
-            
-            // Apply damage
-            if (healthSystem.TakeDamage(damage) <= 0)
+            // Handle enemy take damage
+            else
             {
-                if (isPawnDead) return;
-                isPawnDead = true;
-                HandlePawnDeath();
+                // Handle animation
+                pawnAnimator.SetTrigger(AnimatorTriggerHitReaction);
+
+                characterMeshRenderer.material = matHit;
+
+                DOTween.Sequence().SetDelay(.4f).onComplete = () => { characterMeshRenderer.material = defaultMat; };
+
+                // Apply damage
+                if (healthSystem.TakeDamage(damage) <= 0)
+                {
+                    if (isPawnDead) return;
+                    isPawnDead = true;
+                    HandlePawnDeath();
+                }
             }
         }
 

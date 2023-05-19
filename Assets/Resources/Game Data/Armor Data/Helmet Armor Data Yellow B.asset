@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f86652244e343a4da6dcdde2a95e776, type: 3}
+  m_Name: Helmet Armor Data Yellow B
+  m_EditorClassIdentifier: 
+  armorAmount: 50
+  armorType: 1
+  armorColor: 1
+  armorPrefab: {fileID: -5586532350213072718, guid: 0168786f3464af44085885cddf9bd700, type: 3}
+  armorMaterial: {fileID: 2100000, guid: e146ca6cc5a6e6044812c532225b2d8a, type: 2}
