@@ -41,11 +41,15 @@ namespace Runtime
 
         [Header("Debug")] [SerializeField] private LayerMask aimMask = new LayerMask();
 
+        private bool activateCamDeathZoneMovement;
+
         private void Awake()
         {
             // Get layer cameras
             enemyRenderCamera = transform.GetChild(0);
             uiRenderCamera = transform.GetChild(1);
+
+            activateCamDeathZoneMovement = true;
         }
 
         private void Start()
@@ -55,6 +59,7 @@ namespace Runtime
 
         private void LateUpdate()
         {
+            if (!activateCamDeathZoneMovement) return;
             transform.DOMove(cameraCurrentTarget.position, cameraMovementTime);
         }
 
@@ -199,16 +204,25 @@ namespace Runtime
                 return hit.point;
             }
 
-
             return new Vector3(0, 0, 0);
-
         }
 
         public void HandleCameraShake()
         {
+            activateCamDeathZoneMovement = false;
+            
+            float orginZ = transform.position.z;
             //transform.DOComplete();
             DOTween.Sequence().SetDelay(.2f)
-                .Append(transform.DOShakePosition(cameraShakeTime, cameraShakeRange).Play());
+                .Append(transform.DOMoveZ(orginZ -.10f * 1.4f, .03f).Play())
+                .Append(transform.DOMoveZ(orginZ +.00f * 1.4f, .03f).Play())
+                .Append(transform.DOMoveZ(orginZ +.10f * 1.4f, .03f).Play())
+                .Append(transform.DOMoveZ(orginZ -.00f * 1.4f, .03f).Play())
+                .Append(transform.DOMoveZ(orginZ -.05f * 1.4f, .03f).Play())
+                .Append(transform.DOMoveZ(orginZ -.00f * 1.4f, .03f).Play())
+                .Append(transform.DOMoveZ(orginZ +.05f * 1.4f, .03f).Play())
+                .Append(transform.DOMoveZ(orginZ -.00f * 1.4f, .03f).Play())
+                .onComplete = () => { activateCamDeathZoneMovement = true; };
 
         }
 

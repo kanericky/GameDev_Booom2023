@@ -1,6 +1,4 @@
-using System;
 using DG.Tweening;
-using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using UnityEngine;
 
 namespace Runtime
@@ -37,6 +35,12 @@ namespace Runtime
         [Header("Hit Material")] 
         public Material matHit;
 
+        [Header("Bullet UI Icon")] 
+        public Sprite redBullet;
+        public Sprite yellowBullet;
+        public Sprite blueBullet;
+        public Sprite blackBullet;
+
         [Header("Slow motion")]
         [SerializeField] private bool isSlowMotionEnabled = true;
 
@@ -45,6 +49,26 @@ namespace Runtime
             instance = this;
             uiManager = FindObjectOfType<UIManager>();
             cameraController = FindObjectOfType<CameraController>();
+        }
+
+        public Sprite GetSpriteBasedOnColor(GameElementColor color)
+        {
+            switch (color)
+            {
+                case GameElementColor.Red:
+                    return redBullet;
+                
+                case GameElementColor.Yellow:
+                    return yellowBullet;
+                
+                case GameElementColor.Blue:
+                    return blueBullet;
+                
+                case GameElementColor.Black:
+                    return blackBullet;
+            }
+
+            return null;
         }
 
         public void StopTime()

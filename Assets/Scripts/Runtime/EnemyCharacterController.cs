@@ -1,6 +1,6 @@
 using System;
 using Runtime.ArmorSystem;
-using UnityEditor.Animations;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,7 +22,7 @@ namespace Runtime
         [SerializeField] private Pawn enemyPawn;
         [SerializeField] private Animator enemyAnimator;
         [SerializeField] private EnemyHealthBar enemyHealthBar;
-        [SerializeField] private AnimatorController behaviourAnimator;
+        [SerializeField] private RuntimeAnimatorController behaviourAnimator;
         
         [SerializeField] private Transform aimTarget;
         [SerializeField] private Transform helmetArmorSlot;

@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,10 +9,13 @@ namespace Runtime
 {
     public class UIManager : MonoBehaviour
     {
-        [Header("Game Manager Reference")] public UIManager instance;
+        public static UIManager instance;
+     
+        [Header("Game Manager Reference")] 
         [SerializeField] private GameManager gameManager;
 
-        [Header("HUD - Canvas")] public Canvas debugMenuCanvas;
+        [Header("HUD - Canvas")] 
+        public Canvas debugMenuCanvas;
         public Canvas hudCanvas;
         public Canvas dropMenuCanvas;
 
@@ -19,10 +23,15 @@ namespace Runtime
         public Image playerHealth;
         public Image playerArmor;
 
-        [Header("HUD - Elements - Debug")] public TMP_Text debugText;
+        public Transform magUI;
+        public Image[] uiReloadSlots;
+
+        [Header("HUD - Elements - Debug")] 
+        public TMP_Text debugText;
         public TMP_Text debugTextTime;
 
-        [Header("In-game Reload Phase UI")] public GameObject reloadUI;
+        [Header("In-game Reload Phase UI")] 
+        public GameObject reloadUI;
         public Image[] reloadButtons;
 
         private void Awake()
@@ -52,6 +61,41 @@ namespace Runtime
 
             SetupReloadUI();
         }
+
+        public void AddBullet(int slotIndex, Sprite bulletIcon)
+        {
+            magUI.DORotate(magUI.rotation.eulerAngles + new Vector3(0, 0, -65f), .1f).onComplete = () =>
+            {
+                magUI.DORotate(magUI.rotation.eulerAngles + new Vector3(0, 0, 5f), .1f);
+            };
+            
+            uiReloadSlots[slotIndex].enabled = true;
+            uiReloadSlots[slotIndex].sprite = bulletIcon;
+            
+            // Rotation
+        }
+
+        public void FireBullet(int slotIndex)
+        {
+            uiReloadSlots[slotIndex].sprite = null;
+            uiReloadSlots[slotIndex].enabled = false;
+
+            magUI.DORotate(magUI.rotation.eulerAngles + new Vector3(0, 0, 65f), .1f).onComplete = () =>
+            {
+                magUI.DORotate(magUI.rotation.eulerAngles + new Vector3(0, 0, -5f), .1f);
+            };
+        }
+
+        public void ClearBulletUI()
+        {
+            for (int slotIndex = 0; slotIndex < 6; slotIndex++)
+            {
+                uiReloadSlots[slotIndex].sprite = null;
+                uiReloadSlots[slotIndex].enabled = false;
+            }
+            magUI.rotation = Quaternion.Euler(0, 0, 0);
+        }
+    
 
         public void SetupReloadUI()
         {

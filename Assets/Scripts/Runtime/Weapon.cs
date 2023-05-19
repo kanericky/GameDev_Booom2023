@@ -15,7 +15,7 @@ namespace Runtime
         
         [Header("Weapon Info")]
         public int magSize;
-        public Queue<Ammo> ammoInMag;
+        public Stack<Ammo> ammoInMag;
 
         [Header("Weapon GameObject Reference")]
         public Transform gunAimStartPos;
@@ -30,7 +30,7 @@ namespace Runtime
 
         public Transform ammoHolder;
 
-        public Queue<Bullet> bullets;
+        public Stack<Bullet> bullets;
 
         public float ammoSpawnPosOffset = 4f;
         public float ammoReloadSpeed = .6f;
@@ -57,8 +57,8 @@ namespace Runtime
         /// </summary>
         public void WeaponInit()
         {
-            ammoInMag = new Queue<Ammo>(magSize);
-            bullets = new Queue<Bullet>(magSize);
+            ammoInMag = new Stack<Ammo>(magSize);
+            bullets = new Stack<Bullet>(magSize);
             
             /*
             for (int i = 0; i < magSize; i++)
@@ -84,7 +84,7 @@ namespace Runtime
             // Clear the gameObjects
             while (bullets.Count > 0)
             {
-                GameObject obj = bullets.Dequeue().gameObject;
+                GameObject obj = bullets.Pop().gameObject;
                 obj.transform.DOLocalMoveX(-0.2f, ammoClearSpeed).SetDelay(.8f).onComplete = () =>
                 {
                     DOTween.Sequence().SetDelay(.2f).onComplete = () =>
@@ -125,7 +125,8 @@ namespace Runtime
             }
             
             // Load logic, put the ammo into the queue
-            ammoInMag.Enqueue(ammo);
+            ammoInMag.Push(ammo);
+            UIManager.instance.AddBullet(_numAmmoSlotFilled, GameManager.instance.GetSpriteBasedOnColor(ammo.gameElementColor));
             HandleReloadAnimation(_numAmmoSlotFilled, ammo);
             _numAmmoSlotFilled += 1;
 
@@ -142,7 +143,7 @@ namespace Runtime
 
             Bullet bullet = Instantiate(ammoModel);
             bullet.InitBulletData(ammo);
-            bullets.Enqueue(bullet);
+            bullets.Push(bullet);
             
             switch (slotIndex)
             {
@@ -222,9 +223,11 @@ namespace Runtime
             vfxTransform.rotation = weaponMuz.localRotation;
 
             // Fire logic
-            Ammo ammo = ammoInMag.Dequeue();
-            Bullet buttet = bullets.Dequeue();
-            
+            Ammo ammo = ammoInMag.Pop();
+            Bullet buttet = bullets.Pop();
+
+            UIManager.instance.FireBullet(slotIndex: _numAmmoSlotFilled-1);
+
             buttet.BulletFire(weaponMuz.position, (target - gunAimStartPos.position).normalized);
             
             // Update data

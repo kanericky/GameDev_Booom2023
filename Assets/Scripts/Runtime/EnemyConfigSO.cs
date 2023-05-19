@@ -1,5 +1,4 @@
 using Runtime.ArmorSystem;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Runtime
@@ -24,6 +23,6 @@ namespace Runtime
         public Material highlightMaterial;
 
         [Header("Behaviour")] 
-        public AnimatorController enemyBehaviourAnimator;
+        public RuntimeAnimatorController enemyBehaviourAnimator;
     }
 }

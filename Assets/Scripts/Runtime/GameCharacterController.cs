@@ -122,7 +122,7 @@ namespace Runtime
                 armorRatio: playerPawn.healthSystem.GetArmorInPercentage());
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             HandleCameraDeadZoneMovement();
             HandleAiming();
@@ -168,6 +168,8 @@ namespace Runtime
                 
                 GameManager.instance.EnterSlowMotion(timeScale, slowMotionDuration);
             }
+            
+            UIManager.instance.ClearBulletUI();
         }
 
         /// <summary>

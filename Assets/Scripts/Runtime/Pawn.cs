@@ -66,6 +66,10 @@ namespace Runtime
             pawnInventory.AddItemToSlot(0, AmmoFactory.GetAmmoFromFactory(AmmoType.RedAmmo));
             pawnInventory.AddItemToSlot(0, AmmoFactory.GetAmmoFromFactory(AmmoType.RedAmmo));
             pawnInventory.AddItemToSlot(0, AmmoFactory.GetAmmoFromFactory(AmmoType.RedAmmo));
+            
+            pawnInventory.AddItemToSlot(1, AmmoFactory.GetAmmoFromFactory(AmmoType.YellowAmmo));
+            pawnInventory.AddItemToSlot(1, AmmoFactory.GetAmmoFromFactory(AmmoType.YellowAmmo));
+            pawnInventory.AddItemToSlot(1, AmmoFactory.GetAmmoFromFactory(AmmoType.YellowAmmo));
         }
 
         public void EnterReloadingState()
@@ -218,8 +222,9 @@ namespace Runtime
             GameEvents.instance.OnPlayerInventoryChanged(slotIndex);
 
             bool result = weapon.ReloadAmmo(ammo);
+
+            if (!result) targetSlot.AddAmmoToSlot(ammo);
             
-            if(!result) targetSlot.AddAmmoToSlot(ammo);
         }
 
         public void RollLeft()
