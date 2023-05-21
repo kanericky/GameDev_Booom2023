@@ -33,7 +33,6 @@ namespace Runtime
         private static readonly string AnimatorTriggerHitReaction = "Take Hit";
         private static readonly string AnimatorTriggerRollLeft = "Roll Left";
         private static readonly string AnimatorTriggerRollRight = "Roll Right";
-        private static readonly string AnimatorTriggerDeath = "Death";
         private static readonly string AnimatorDeadBool = "Is Dead";
 
         [SerializeField] private bool isPawnDead;
@@ -206,7 +205,12 @@ namespace Runtime
 
         public void HandlePawnDeath()
         {
+            // Change data
             isPawnDead = true;
+            
+            // Activate event
+            GameEvents.instance.OnEnemyBeKilled();
+            
             // Handle animation
             pawnAnimator.SetBool(AnimatorDeadBool, true);
         }

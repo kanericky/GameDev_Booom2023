@@ -1,4 +1,5 @@
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,14 +12,24 @@ namespace Runtime
         public Image enemyHealthBar;
         public Image enemyArmorBar;
 
-        public void InitHealthBar(float healthPercentage)
+        public TMP_Text currentHealthText;
+        public TMP_Text totalHealthText;
+
+        public void InitHealthBar(float healthPercentage, float currentHealth, float totalHealth)
         {
             enemyHealthBar.transform.localScale = new Vector3(healthPercentage, 1, 1);
+
+            currentHealthText.text = currentHealth.ToString();
+            totalHealthText.text = totalHealth.ToString();
         }
 
-        public void UpdateHealthBar(float healthPercentage)
+        public void UpdateHealthBar(float healthPercentage, float currentHealth, float totalHealth)
         {
             enemyHealthBar.transform.DOScaleX(healthPercentage, .2f);
+            
+            currentHealthText.text = currentHealth.ToString();
+
+            if (healthPercentage == 0) enemyHealthBarCanvas.enabled = false;
         }
 
         public void InitArmorBar(float armorPercentage)

@@ -23,6 +23,8 @@ namespace Runtime
         public event Action<float> PlayerArmorChanged;
         public event Action<int> PlayerInventoryChanged;
 
+        public event Action EnemyIsKilled;
+
         public void OnPlayerHealthChanged(float ratio)
         {
             PlayerHealthChanged?.Invoke(ratio);
@@ -36,6 +38,11 @@ namespace Runtime
         public void OnPlayerInventoryChanged(int slotIndex)
         {
             PlayerInventoryChanged?.Invoke(slotIndex);
+        }
+
+        public void OnEnemyBeKilled()
+        {
+            EnemyIsKilled?.Invoke();
         }
     }
 }

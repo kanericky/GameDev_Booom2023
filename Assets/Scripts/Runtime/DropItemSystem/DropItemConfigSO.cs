@@ -5,18 +5,18 @@ namespace Runtime.DropItemSystem
 {
     
     [Serializable, CreateAssetMenu(fileName = "Drop Item Data", menuName = "GameData/Drop Items")]
-    public class DropItemConfigSO : MonoBehaviour
+    public class DropItemConfigSO : ScriptableObject
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        [Header("Ammo")]
+        public GameElementColor ammoColor;
+        public Sprite ammoIconSprite;
         
-        }
+        public int ammoAmount;
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+        [Header("Coin")] 
+        public int coinAmount;
+        public int minCoinAmount;
+        public int maxCoinAmount;
     }
+    
 }

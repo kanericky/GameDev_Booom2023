@@ -1,16 +1,19 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Runtime.DropItemSystem
 {
-    public class DropItemSystem
+    public class DropItemSystem : MonoBehaviour
     {
         [Header("Data")]
-        [SerializeField] private List<DropItemConfigSO> allDropItems;
+        [SerializeField] private List<DropItemConfigSO> allDropItemsData;
+        [SerializeField] private List<DropItemUIModel> allDropItemsUI;
 
         public DropItemSystem()
         {
-            allDropItems = new List<DropItemConfigSO>();
+            allDropItemsData = new List<DropItemConfigSO>();
+            allDropItemsUI = FindObjectsOfType<DropItemUIModel>().ToList();
         }
 
         public List<DropItemConfigSO> SelectThreeRandomDrops()

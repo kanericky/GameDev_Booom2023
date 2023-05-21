@@ -113,14 +113,16 @@ namespace Runtime
             else { enemyPawn.healthSystem = new HealthSystem(enemyData.health); }
             
             // Setup enemy UI
-            enemyHealthBar.InitHealthBar(enemyPawn.healthSystem.GetHealthInPercentage());
+            HealthSystem enemyHealthSystem = enemyPawn.healthSystem;
+            enemyHealthBar.InitHealthBar(enemyHealthSystem.GetHealthInPercentage(), enemyHealthSystem.currentHealth, enemyHealthSystem.healthAmount);
             enemyHealthBar.InitArmorBar(enemyPawn.healthSystem.GetArmorInPercentage());
         }
 
         public void OnCharacterHit(float damage)
         {
+            HealthSystem enemyHealthSystem = enemyPawn.healthSystem;
             enemyPawn.TakeDamage(damage, characterRenderer, gameManager.matHit, defaultMaterial, false);
-            enemyHealthBar.UpdateHealthBar(enemyPawn.healthSystem.GetHealthInPercentage());
+            enemyHealthBar.UpdateHealthBar(enemyHealthSystem.GetHealthInPercentage(), enemyHealthSystem.currentHealth, enemyHealthSystem.healthAmount);
             enemyHealthBar.UpdateArmorBar(enemyPawn.healthSystem.GetArmorInPercentage());
         }
 

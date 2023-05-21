@@ -51,7 +51,7 @@ namespace Runtime
         {
             gameManager = FindObjectOfType<GameManager>();
 
-            dropMenuCanvas.enabled = false;
+            dropMenuCanvas.gameObject.SetActive(false);
 
             // Register events
             GameEvents.instance.PlayerHealthChanged += UpdatePlayerHealthHUDBar;
@@ -95,8 +95,7 @@ namespace Runtime
             }
             magUI.rotation = Quaternion.Euler(0, 0, 0);
         }
-    
-
+        
         public void SetupReloadUI()
         {
             for (int i = 0; i < 4; i++)
@@ -149,9 +148,14 @@ namespace Runtime
             reloadUI.SetActive(false);
         }
 
-        public void ShowDropItemInterface()
+        public void OpenDropItemCanvas()
         {
-            dropMenuCanvas.enabled = true;
+            dropMenuCanvas.gameObject.SetActive(true);
+        }
+
+        public void CloseDropItemCanvas()
+        {
+            dropMenuCanvas.gameObject.SetActive(false);
         }
 
         public void ReloadButtonPressedAnimation(int index)

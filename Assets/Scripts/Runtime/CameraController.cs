@@ -87,7 +87,7 @@ namespace Runtime
             ChangeCameraSaturation(0);
         }
 
-        public void ChangeCameraPosToReload(int index)
+        public void ChangeCameraPosToReload()
         {
             //transform.DOComplete();
             
@@ -105,7 +105,7 @@ namespace Runtime
 
             // Handle post-process
             ChangeCameraFocalLength(100f);
-            ChangeCameraFocusDistance(1f);
+            ChangeCameraFocusDistance(1.2f);
             ChangeCameraSaturation(0);
         }
 

@@ -143,7 +143,7 @@ namespace Runtime
             if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.IdlePhase)
             {
                 // Handle Camera
-                cameraController.ChangeCameraPosToReload(playerPawnPositionIndex);
+                cameraController.ChangeCameraPosToReload();
                 
                 // Handle UI
                 uIManager.ChangeDebugText("Reload Phase");
@@ -157,7 +157,7 @@ namespace Runtime
             else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.AimingPhase)
             {
                 // Handle Camera
-                cameraController.ChangeCameraPosToReload(playerPawnPositionIndex);
+                cameraController.ChangeCameraPosToReload();
                 
                 // Handle UI
                 uIManager.ChangeDebugText("Reload Phase");
