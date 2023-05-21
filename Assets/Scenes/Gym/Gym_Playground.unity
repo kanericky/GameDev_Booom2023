@@ -601,7 +601,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!225 &209977216
 CanvasGroup:
@@ -2779,6 +2779,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5641351703452355236, guid: 557995b1ca041014aa896af19d6620f2, type: 3}
   m_PrefabInstance: {fileID: 24732642}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1110264469 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1021223775822184309, guid: 557995b1ca041014aa896af19d6620f2, type: 3}
+  m_PrefabInstance: {fileID: 24732642}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae9ef49d623b16543837c11358978c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1142533640
 GameObject:
   m_ObjectHideFlags: 0
@@ -3490,6 +3501,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1724781552}
   - component: {fileID: 1724781551}
+  - component: {fileID: 1724781553}
   m_Layer: 0
   m_Name: Level Manager
   m_TagString: Untagged
@@ -3514,6 +3526,7 @@ MonoBehaviour:
   allEnemiesInLevel: []
   totalEnemyNum: 0
   currentAliveEnemyNum: 0
+  dropItemSystem: {fileID: 1724781553}
 --- !u!4 &1724781552
 Transform:
   m_ObjectHideFlags: 0
@@ -3529,6 +3542,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1724781553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724781550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d277f2c3e9dd147bb63764832a3e22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allDropItemsData:
+  - {fileID: 11400000, guid: 42390d046ce433643a7bf73c29e81fde, type: 2}
+  - {fileID: 11400000, guid: f5702511d474d184facc9c338b54392e, type: 2}
+  - {fileID: 11400000, guid: e6850cad7da1c6b48ac581b0cb376f82, type: 2}
+  allDropItemsUI:
+  - {fileID: 1110264469}
+  - {fileID: 1790628613}
+  - {fileID: 6510990124094203951}
 --- !u!1 &1743372414
 GameObject:
   m_ObjectHideFlags: 0
@@ -3800,6 +3833,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5641351703452355236, guid: 557995b1ca041014aa896af19d6620f2, type: 3}
   m_PrefabInstance: {fileID: 1545625082}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1790628613 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1021223775822184309, guid: 557995b1ca041014aa896af19d6620f2, type: 3}
+  m_PrefabInstance: {fileID: 1545625082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae9ef49d623b16543837c11358978c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1841929355
 GameObject:
   m_ObjectHideFlags: 0
@@ -4232,7 +4276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2040470918
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4460,6 +4504,10 @@ MonoBehaviour:
   yellowBullet: {fileID: 21300000, guid: 0d5471e1a7bd3834387ea3b4b37ae541, type: 3}
   blueBullet: {fileID: 21300000, guid: 4a5b8176e08ede142b0526de360d9d75, type: 3}
   blackBullet: {fileID: 21300000, guid: 8daf961fd0925b94cbce19f08550beb4, type: 3}
+  redBulletIcon: {fileID: 21300000, guid: efdcdef708cd299418d2a7004a578021, type: 3}
+  yellowBulletIcon: {fileID: 21300000, guid: 8a83777cd824be84c8c08c33e96fd9b9, type: 3}
+  blueBulletIcon: {fileID: 21300000, guid: 8c513c0e49177bd428fa0c74041cd3c7, type: 3}
+  blackBulletIcon: {fileID: 21300000, guid: a356d774cc0007545a98cdfcf7ae8ed6, type: 3}
   isSlowMotionEnabled: 1
 --- !u!1 &2113968172
 GameObject:
@@ -4937,6 +4985,10 @@ PrefabInstance:
       propertyPath: inputCoolDownTimeGeneral
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5903104659297463087, guid: 0436c84bf8594ff4f817e07306adfd30, type: 3}
+      propertyPath: pawnInventory.maxBulletsAllowed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5903104659359138980, guid: 0436c84bf8594ff4f817e07306adfd30, type: 3}
       propertyPath: m_LocalPosition.y
       value: 2.674
@@ -5345,3 +5397,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5641351703452355236, guid: 557995b1ca041014aa896af19d6620f2, type: 3}
   m_PrefabInstance: {fileID: 6510990124094203948}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6510990124094203951 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1021223775822184309, guid: 557995b1ca041014aa896af19d6620f2, type: 3}
+  m_PrefabInstance: {fileID: 6510990124094203948}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae9ef49d623b16543837c11358978c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

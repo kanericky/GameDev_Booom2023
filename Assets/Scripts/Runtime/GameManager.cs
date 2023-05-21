@@ -41,6 +41,12 @@ namespace Runtime
         public Sprite blueBullet;
         public Sprite blackBullet;
 
+        [Header("Bullet Drop UI Icon")] 
+        public Sprite redBulletIcon;
+        public Sprite yellowBulletIcon;
+        public Sprite blueBulletIcon;
+        public Sprite blackBulletIcon;
+
         [Header("Slow motion")]
         [SerializeField] private bool isSlowMotionEnabled = true;
 
@@ -108,6 +114,23 @@ namespace Runtime
         {
             playerInventory = playerCurrentInventory;
         }
+
+        public PawnInventorySystem LoadCurrentInventorySystem()
+        {
+            return playerInventory;
+        }
+
+        public static GameElementColor GatRandomAmmoColor()
+        {
+            int color = Random.Range(0, (int)GameElementColor.Black);
+
+            if (color == 0) return GameElementColor.Red;
+            if (color == 1) return GameElementColor.Yellow;
+            if (color == 2) return GameElementColor.Blue;
+            if (color == 3) return GameElementColor.Black;
+
+            return GameElementColor.NotDefined;
+        }
         
         public static Material GetMaterialBasedOnAmmoColor(GameElementColor color)
         {
@@ -131,9 +154,67 @@ namespace Runtime
 
             return null;
         }
-
-        private void OnDestroy()
+        
+        public static Sprite GetSpriteBasedOnAmmoColor(GameElementColor color)
         {
+            switch (color)
+            {
+                case GameElementColor.Red:
+                    return GameManager.instance.redBulletIcon;
+
+                case GameElementColor.Yellow:
+                    return GameManager.instance.yellowBulletIcon;
+                    
+                case GameElementColor.Blue:
+                    return GameManager.instance.blueBulletIcon;
+                    
+                case GameElementColor.Black:
+                    return GameManager.instance.blackBulletIcon;
+                
+            }
+
+            return null;
+        }
+
+        public static string GetTextBasedOnAmmoColor(GameElementColor color)
+        {
+            switch (color)
+            {
+                case GameElementColor.Red:
+                    return "红色";
+
+                case GameElementColor.Yellow:
+                    return "黄色";
+                    
+                case GameElementColor.Blue:
+                    return "蓝色";
+                    
+                case GameElementColor.Black:
+                    return "黑色";
+                
+            }
+
+            return null;
+        }
+
+        public static int GetReloadSlotIndexBasedOnAmmoColor(GameElementColor color)
+        {
+            switch (color)
+            {
+                case GameElementColor.Red:
+                    return 0;
+
+                case GameElementColor.Yellow:
+                    return 1;
+                    
+                case GameElementColor.Blue:
+                    return 2;
+                    
+                case GameElementColor.Black:
+                    return 3;
+            }
+
+            return -1;
         }
     }
 }

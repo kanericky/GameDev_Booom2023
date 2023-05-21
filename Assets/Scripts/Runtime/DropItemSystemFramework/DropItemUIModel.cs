@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Runtime.DropItemSystem
+namespace Runtime.DropItemSystemFramework
 {
     public class DropItemUIModel : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
@@ -14,8 +14,12 @@ namespace Runtime.DropItemSystem
         [Header("UI Reference")] 
         public TMP_Text coinAmount;
         public TMP_Text ammoAmount;
+        public TMP_Text ammoColorText;
         public Image dropItemIcon;
         public Image dropItemHighlight;
+
+        private string staticText = "子弹 +";
+        private string staticTextForRandom = "随机";
 
         public void InitDropItemUI(DropItemConfigSO dropItemConfigInput)
         {
@@ -23,13 +27,27 @@ namespace Runtime.DropItemSystem
 
             coinAmount.text = dropItemConfig.coinAmount.ToString();
             ammoAmount.text = dropItemConfig.ammoAmount.ToString();
+            
+            if (!dropItemConfig.isRandom) ammoColorText.text = GameManager.GetTextBasedOnAmmoColor(dropItemConfig.ammoColor) + staticText;
+            else ammoColorText.text = staticTextForRandom + staticText;
 
             dropItemIcon.sprite = dropItemConfig.ammoIconSprite;
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.LogAssertion("Mouse Pressed!");
+            GameCharacterController playerController = GameManager.instance.playerController;
+            PawnInventorySystem playerInventory = playerController.playerPawn.pawnInventory;
+
+            GameElementColor ammoColor = dropItemConfig.ammoColor;
+            int ammoAmount = dropItemConfig.ammoAmount;
+            
+            int sloIndex = GameManager.GetReloadSlotIndexBasedOnAmmoColor(ammoColor);
+            Ammo ammoToAdd = AmmoFactory.GetAmmoFromFactory(ammoColor);
+            
+            for(int i = 0; i < ammoAmount; i++) playerInventory.AddItemToSlot(slotIndex: sloIndex, ammoToAdd);
+            
+            UIManager.instance.CloseDropItemCanvas();
         }
 
         public void OnPointerEnter(PointerEventData eventData)

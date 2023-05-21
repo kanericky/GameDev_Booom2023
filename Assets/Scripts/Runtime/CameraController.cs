@@ -105,7 +105,7 @@ namespace Runtime
 
             // Handle post-process
             ChangeCameraFocalLength(100f);
-            ChangeCameraFocusDistance(1.2f);
+            ChangeCameraFocusDistance(.8f);
             ChangeCameraSaturation(0);
         }
 

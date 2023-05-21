@@ -61,6 +61,7 @@ MonoBehaviour:
   dropItemConfig: {fileID: 0}
   coinAmount: {fileID: 2064176220597038941}
   ammoAmount: {fileID: 8685378171301630925}
+  ammoColorText: {fileID: 5425062706041541788}
   dropItemIcon: {fileID: 1889610685480247336}
   dropItemHighlight: {fileID: 1947267413094367780}
 --- !u!61 &2300035077246723035
@@ -309,7 +310,6 @@ MonoBehaviour:
       m_Calls: []
   m_text: '10
 
-
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f64d0e38b52b1647ade03a595054b9a, type: 2}
@@ -373,7 +373,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -143.90125, y: -102.49756, z: 238.21167, w: 3.7589722}
+  m_margin: {x: -143.90125, y: -102.49756, z: 223.61145, w: 70.92015}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

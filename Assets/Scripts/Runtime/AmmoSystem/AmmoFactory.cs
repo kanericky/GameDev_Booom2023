@@ -58,6 +58,26 @@ namespace Runtime
                     break;
             }
         }
+
+        public static Ammo GetAmmoFromFactory(GameElementColor color)
+        {
+            switch (color)
+            {
+                case GameElementColor.Red:
+                    return GetAmmoFromFactory(AmmoType.RedAmmo);
+
+                case GameElementColor.Yellow:
+                    return GetAmmoFromFactory(AmmoType.YellowAmmo);
+                    
+                case GameElementColor.Blue:
+                    return GetAmmoFromFactory(AmmoType.BlueAmmo);
+                    
+                case GameElementColor.Black:
+                    return GetAmmoFromFactory(AmmoType.BlackAmmo);
+            }
+
+            return null;
+        }
     }
     
     public enum AmmoType{

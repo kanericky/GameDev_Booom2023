@@ -50,7 +50,6 @@ namespace Runtime
         private void Start()
         {
             gameManager = FindObjectOfType<GameManager>();
-
             dropMenuCanvas.gameObject.SetActive(false);
 
             // Register events

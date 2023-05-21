@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 120
   color: 0
-  chestArmorData: {fileID: 11400000, guid: 1f96abd175be13d4eaecf8506b009098, type: 2}
+  chestArmorData: {fileID: 0}
   helmetArmorData: {fileID: 0}
   ammoType: 4
   enemyAccuracy: {x: 0.8, y: 0.8, z: 0.8}
