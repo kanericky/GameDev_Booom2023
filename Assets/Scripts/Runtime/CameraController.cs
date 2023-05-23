@@ -59,6 +59,8 @@ namespace Runtime
 
         private void LateUpdate()
         {
+            if (transform == null) return;
+            
             if (!activateCamDeathZoneMovement) return;
             transform.DOMove(cameraCurrentTarget.position, cameraMovementTime);
         }
@@ -66,6 +68,7 @@ namespace Runtime
         public void ChangeCameraPosToIdle()
         {
             //transform.DOComplete();
+            if (transform == null) return;
 
             // Handle main camera
             Sequence sequence = DOTween.Sequence();
@@ -90,6 +93,7 @@ namespace Runtime
         public void ChangeCameraPosToReload()
         {
             //transform.DOComplete();
+            if (transform == null) return;
             
             cameraCurrentTarget = cameraPosReloadingPhase;
 
@@ -112,6 +116,7 @@ namespace Runtime
         public void ChangeCameraPosToAiming()
         {
             //transform.DOComplete();
+            if (transform == null) return;
 
             cameraCurrentTarget = cameraPosAimingPhase;
             
@@ -135,6 +140,8 @@ namespace Runtime
 
         public void ResetCameraPos()
         {
+            if (transform == null) return;
+            
             transform.DOMove(cameraCurrentTarget.position, cameraMovementTime).SetEase(Ease.OutQuad);
             transform.DORotate(cameraCurrentTarget.rotation.eulerAngles, cameraMovementTime).SetEase(Ease.OutQuad);
         }
@@ -209,6 +216,8 @@ namespace Runtime
 
         public void HandleCameraShake()
         {
+            if (transform == null) return;
+            
             activateCamDeathZoneMovement = false;
             
             float orginZ = transform.position.z;
@@ -228,6 +237,8 @@ namespace Runtime
 
         public void HandleCameraDeadZoneMovement(Vector3 cameraCurrentRotation, bool isAimingPhase = false)
         {
+            if (transform == null) return;
+            
             Vector2 deadZoneRange;
 
             if (isAimingPhase) deadZoneRange = cameraDeadZoneRangeAiming;

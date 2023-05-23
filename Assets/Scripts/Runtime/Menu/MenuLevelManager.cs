@@ -1,5 +1,7 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Runtime.Menu
 {
@@ -16,7 +18,7 @@ namespace Runtime.Menu
 
         private void Start()
         {
-            Cursor.visible = false;
+            //Cursor.visible = false;
             
             inputActions = new InputActions();
             inputActions.Menu.Enable();
@@ -38,6 +40,24 @@ namespace Runtime.Menu
                 menuCharacterAnimator.SetTrigger("Enter Ready Pos");
                 uiManager.MenuUIEnterReady();
             };
+        }
+        
+        public static void LoadLevel(int levelIndex)
+        {
+            MenuUIManager.instance.TransitionOutro();
+            DOTween.Sequence().SetDelay(1f).onComplete = () =>
+            {
+                DOTween.CompleteAll();
+                DOTween.KillAll();
+                SceneManager.LoadScene(levelIndex);
+            };
+        }
+
+        private void OnDestroy()
+        {
+            inputActions.Menu.Disable();
+            DOTween.KillAll();
+            DOTween.CompleteAll();
         }
     }
 }

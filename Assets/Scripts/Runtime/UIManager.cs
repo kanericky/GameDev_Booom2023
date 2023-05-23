@@ -18,6 +18,7 @@ namespace Runtime
         public Canvas debugMenuCanvas;
         public Canvas hudCanvas;
         public Canvas dropMenuCanvas;
+        public Canvas transitionCanvas;
 
         [Header("HUD - Elements")] 
         public Image playerHealth;
@@ -25,6 +26,9 @@ namespace Runtime
 
         public Transform magUI;
         public Image[] uiReloadSlots;
+
+        [Header("HUD - Transition")] 
+        public Transform mask;
 
         [Header("HUD - Elements - Debug")] 
         public TMP_Text debugText;
@@ -169,6 +173,15 @@ namespace Runtime
 
         }
 
+        public void TransitionOutro()
+        {
+            mask.DOScale(Vector3.zero, 1f);
+        }
+
+        public void TransitionIntro()
+        {
+            mask.DOScale(new Vector3(2,2, 2), 1f);
+        }
 
 
         // ------------ Debug ------------ //

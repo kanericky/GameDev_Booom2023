@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using Runtime.DropItemSystemFramework;
 
@@ -25,6 +26,8 @@ namespace Runtime
             InitReference();
             InitData();
             RegisterEvents();
+            
+            uiManager.TransitionIntro();
         }
 
         private void InitReference()
@@ -56,14 +59,16 @@ namespace Runtime
             currentAliveEnemyNum -= 1;
 
             if (currentAliveEnemyNum > 0) return;
-
-            HandleAllEnemyClearedAction();
+            
+            GameManager.instance.EnterSlowMotion(period: .5f);
+            
+            DOTween.Sequence().SetDelay(1f).onComplete = () => { HandleAllEnemyClearedAction(); };
         }
 
         private void HandleAllEnemyClearedAction()
         {
             // Open drop item panel
-            uiManager.OpenDropItemCanvas();
+            DOTween.Sequence().SetDelay(.5f).onComplete = () => { uiManager.OpenDropItemCanvas(); };
         }
         
     }

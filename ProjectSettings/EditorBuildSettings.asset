@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Offical/00_Game_Menu.unity
+    guid: 36511135721e300458fca7cd0da32fb0
+  - enabled: 1
+    path: Assets/Scenes/Offical/02_Game_Map_A.unity
+    guid: d52a3555db7890a43a57d1940078e022
+  - enabled: 1
     path: Assets/Scenes/Gym/Gym_Playground.unity
     guid: 53e12a52e0f1a0f4f8b9959451bead72
   m_configObjects:

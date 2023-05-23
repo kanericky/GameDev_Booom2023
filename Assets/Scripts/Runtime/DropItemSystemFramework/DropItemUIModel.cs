@@ -40,14 +40,15 @@ namespace Runtime.DropItemSystemFramework
             PawnInventorySystem playerInventory = playerController.playerPawn.pawnInventory;
 
             GameElementColor ammoColor = dropItemConfig.ammoColor;
-            int ammoAmount = dropItemConfig.ammoAmount;
+            int ammoAmountNum = dropItemConfig.ammoAmount;
             
             int sloIndex = GameManager.GetReloadSlotIndexBasedOnAmmoColor(ammoColor);
             Ammo ammoToAdd = AmmoFactory.GetAmmoFromFactory(ammoColor);
             
-            for(int i = 0; i < ammoAmount; i++) playerInventory.AddItemToSlot(slotIndex: sloIndex, ammoToAdd);
+            for(int i = 0; i < ammoAmountNum; i++) playerInventory.AddItemToSlot(slotIndex: sloIndex, ammoToAdd);
             
             UIManager.instance.CloseDropItemCanvas();
+            UIManager.instance.TransitionOutro();
         }
 
         public void OnPointerEnter(PointerEventData eventData)

@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Runtime
 {
@@ -215,6 +216,12 @@ namespace Runtime
             }
 
             return -1;
+        }
+
+        public static void LoadLevel(int levelIndex)
+        {
+            UIManager.instance.TransitionOutro();
+            SceneManager.LoadScene(levelIndex);
         }
     }
 }
