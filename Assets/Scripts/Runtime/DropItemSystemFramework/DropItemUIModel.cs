@@ -42,12 +42,26 @@ namespace Runtime.DropItemSystemFramework
 
             GameElementColor ammoColor = dropItemConfig.ammoColor;
             int ammoAmountNum = dropItemConfig.ammoAmount;
-            
-            int sloIndex = GameManager.GetReloadSlotIndexBasedOnAmmoColor(ammoColor);
-            Ammo ammoToAdd = AmmoFactory.GetAmmoFromFactory(ammoColor);
-            
-            for(int i = 0; i < ammoAmountNum; i++) playerInventory.AddItemToSlot(slotIndex: sloIndex, ammoToAdd);
-            
+
+            if (!dropItemConfig.isRandom)
+            {
+                int sloIndex = GameManager.GetReloadSlotIndexBasedOnAmmoColor(ammoColor);
+                Ammo ammoToAdd = AmmoFactory.GetAmmoFromFactory(ammoColor);
+
+                for (int i = 0; i < ammoAmountNum; i++) playerInventory.AddItemToSlot(slotIndex: sloIndex, ammoToAdd);
+            }
+            else
+            {
+                for (int i = 0; i < ammoAmountNum; i++)
+                {
+                    GameElementColor color = GameManager.GatRandomAmmoColor();
+                    int sloIndex = GameManager.GetReloadSlotIndexBasedOnAmmoColor(color);
+                    Ammo ammoToAdd = AmmoFactory.GetAmmoFromFactory(color);
+                    playerInventory.AddItemToSlot(slotIndex: sloIndex, ammoToAdd);
+                }
+                
+            }
+
             UIManager.instance.CloseDropItemCanvas();
             UIManager.instance.TransitionOutro();
             DOTween.Sequence().SetDelay(2f).onComplete = () =>

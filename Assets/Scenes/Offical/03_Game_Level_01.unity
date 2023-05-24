@@ -7679,6 +7679,9 @@ MonoBehaviour:
   allEnemiesInLevel: []
   totalEnemyNum: 0
   currentAliveEnemyNum: 0
+  enemyDataList:
+  - {fileID: 11400000, guid: e3a3dc9f83d5e294ea46dba8a2f7a131, type: 2}
+  - {fileID: 11400000, guid: f644611e77017324a8b377644e94f514, type: 2}
   loadLevelIndex: 4
   dropItemSystem: {fileID: 1724781553}
 --- !u!4 &1724781552

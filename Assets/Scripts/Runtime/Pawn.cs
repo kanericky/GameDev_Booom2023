@@ -65,7 +65,8 @@ namespace Runtime
 
         private void InitInventory()
         {
-            pawnInventory = GameManager.instance.LoadCurrentInventorySystem();
+            pawnInventory = GameManager.instance.LoadCurrentStatusInfo().Item1;
+            healthSystem = GameManager.instance.LoadCurrentStatusInfo().Item2;
         }
 
         public void EnterReloadingState()
@@ -176,7 +177,7 @@ namespace Runtime
                 {
                     if (isPawnDead) return;
                     isPawnDead = true;
-                    HandlePawnDeath();
+                    HandlePawnDeath(true);
                 }
             }
             
@@ -195,21 +196,30 @@ namespace Runtime
                 {
                     if (isPawnDead) return;
                     isPawnDead = true;
-                    HandlePawnDeath();
+                    HandlePawnDeath(false);
                 }
             }
         }
 
-        public void HandlePawnDeath()
+        public void HandlePawnDeath(bool isPlayer)
         {
             // Change data
             isPawnDead = true;
             
             // Activate event
-            GameEvents.instance.OnEnemyBeKilled();
+            if(!isPlayer) GameEvents.instance.OnEnemyBeKilled();
             
             // Handle animation
             pawnAnimator.SetBool(AnimatorDeadBool, true);
+
+            if (isPlayer)
+            {
+                UIManager.instance.TransitionOutro();
+                DOTween.Sequence().SetDelay(1f).onComplete = () =>
+                {
+                    GameManager.LoadLevel(0);
+                };
+            }
         }
 
         public void HandleReloadSelection(int slotIndex)
@@ -274,7 +284,7 @@ namespace Runtime
             inventorySlots[3] = new PawnInventorySlot(GameElementColor.Black);
             
             // Setup data
-            maxBulletsAllowed = 6;
+            maxBulletsAllowed = 10;
             coins = 0;
         }
 

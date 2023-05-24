@@ -28,6 +28,7 @@ namespace Runtime
         [Header("Player Inventory Data")] 
         public GameCharacterController playerController;
         public PawnInventorySystem playerInventory;
+        public HealthSystem playerHealthSystem;
         
         [Header("Bullet Materials")]
         public Material matRed;
@@ -128,14 +129,15 @@ namespace Runtime
             //ChangeTimeDebugText(Time.timeScale.ToString());
         }
 
-        public void SaveCurrentInventory(PawnInventorySystem playerCurrentInventory)
+        public void SaveCurrentStatusInfo(PawnInventorySystem playerCurrentInventory, HealthSystem healthSystem)
         {
             playerInventory = playerCurrentInventory;
+            playerHealthSystem = healthSystem; 
         }
 
-        public PawnInventorySystem LoadCurrentInventorySystem()
+        public Tuple<PawnInventorySystem, HealthSystem> LoadCurrentStatusInfo()
         {
-            return playerInventory;
+            return Tuple.Create(playerInventory, playerHealthSystem);
         }
 
         public static GameElementColor GatRandomAmmoColor()

@@ -344,7 +344,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy Animation Controller Shoot
+  m_Name: Enemy Animation Controller Shoot A
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Take Hit
@@ -629,7 +629,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Idle
-  m_Speed: 2
+  m_Speed: 3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3097192351562108494}

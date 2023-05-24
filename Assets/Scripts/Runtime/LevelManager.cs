@@ -4,6 +4,7 @@ using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using Runtime.DropItemSystemFramework;
+using Random = UnityEngine.Random;
 
 namespace Runtime
 {
@@ -21,6 +22,8 @@ namespace Runtime
         [SerializeField] private int totalEnemyNum;
         [SerializeField] private int currentAliveEnemyNum;
 
+        [SerializeField] private EnemyConfigSO[] enemyDataList;
+
         [Header("Level")] [SerializeField] private int loadLevelIndex;
 
         [Header("Drop Item System")] 
@@ -31,6 +34,11 @@ namespace Runtime
             instance = this;
             DOTween.CompleteAll();
             DOTween.KillAll();
+        }
+
+        private void OnValidate()
+        {
+            SetupEnemy();
         }
 
         private void Start()
@@ -62,6 +70,18 @@ namespace Runtime
             
             // Init systems
             dropItemSystem.SetupDataToUI();
+            
+            SetupEnemy();
+        }
+
+        private void SetupEnemy()
+        {
+            foreach (var enemy in allEnemiesInLevel)
+            {
+                int index = Random.Range(0, enemyDataList.Length);
+                EnemyConfigSO enemyData = enemyDataList[index];
+                enemy.InitEnemy(enemyData);
+            }
         }
 
         private void RegisterEvents()
@@ -74,10 +94,19 @@ namespace Runtime
             currentAliveEnemyNum -= 1;
 
             if (currentAliveEnemyNum > 0) return;
-            
-            GameManager.instance.EnterSlowMotion(period: .5f);
-            
-            DOTween.Sequence().SetDelay(1f).onComplete = () => { HandleAllEnemyClearedAction(); };
+
+            if (currentAliveEnemyNum == 0)
+            {
+                GameCharacterController.instance.ExitAimingState();
+                GameManager.instance.EnterSlowMotion(period: .5f);
+
+                DOTween.Sequence().SetDelay(1f).onComplete = () =>
+                {
+                    GameCharacterController.instance.DisablePlayerControllerInput();
+                    
+                    HandleAllEnemyClearedAction();
+                };
+            }
         }
 
         private void HandleAllEnemyClearedAction()

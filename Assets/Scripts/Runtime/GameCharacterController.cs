@@ -119,9 +119,6 @@ namespace Runtime
 
         private void InitHealthSystem()
         {
-            // Health System
-            playerPawn.healthSystem = new HealthSystem(playerData.health);
-            
             uIManager.InitPlayerHUDHealthBar(
                 healthRatio: playerPawn.healthSystem.GetHealthInPercentage(),
                 armorRatio: playerPawn.healthSystem.GetArmorInPercentage());
@@ -212,7 +209,7 @@ namespace Runtime
             uIManager.ChangeDebugText("Aiming Phase");
         }
 
-        private void ExitReloadState()
+        public void ExitReloadState()
         {
             playerPawn.ExitReloadingState();
             uIManager.CloseReloadUIWidget();
@@ -247,7 +244,7 @@ namespace Runtime
             }
         }
 
-        private void ExitAimingState()
+        public void ExitAimingState()
         {
             // Pawn Action
             playerPawn.ExitAimingState();
@@ -323,16 +320,6 @@ namespace Runtime
             GameEvents.instance.OnPlayerArmorChanged(playerPawn.healthSystem.GetArmorInPercentage());
         }
 
-        public void ChangeCharacterMatToHit()
-        {
-            characterMeshRenderer.material = gameManager.matHit;
-        }
-
-        public void ChangeCharacterMatToNormal()
-        {
-            characterMeshRenderer.material = defaultMat;
-        }
-
         /// <summary>
         /// Handle camera dead zone movement
         /// </summary>
@@ -381,6 +368,16 @@ namespace Runtime
             if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.IdlePhase) return;
             
             cameraController.HandleCameraBreath(cameraController.GetCameraPosIdle());
+        }
+
+        public void EnablePlayerControllerInput()
+        {
+            _inputAction.Player.Enable();
+        }
+
+        public void DisablePlayerControllerInput()
+        {
+            _inputAction.Player.Disable();
         }
 
         private void OnDestroy()

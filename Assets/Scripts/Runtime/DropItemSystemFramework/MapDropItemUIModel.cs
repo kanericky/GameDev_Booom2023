@@ -9,6 +9,7 @@ namespace Runtime.DropItemSystemFramework
         public override void OnPointerClick(PointerEventData eventData)
         {
             PawnInventorySystem playerInventory = new PawnInventorySystem();
+            HealthSystem playerHealthSystem = new HealthSystem(100f);
 
             GameElementColor ammoColor = dropItemConfig.ammoColor;
             int ammoAmountNum = dropItemConfig.ammoAmount;
@@ -18,7 +19,7 @@ namespace Runtime.DropItemSystemFramework
             
             for(int i = 0; i < ammoAmountNum; i++) playerInventory.AddItemToSlot(slotIndex: sloIndex, ammoToAdd);
 
-            GameManager.instance.SaveCurrentInventory(playerInventory);
+            GameManager.instance.SaveCurrentStatusInfo(playerInventory, playerHealthSystem);
             
             MapLevelManager.instance.CloseDropItemMenu();
             

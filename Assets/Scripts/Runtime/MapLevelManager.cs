@@ -14,11 +14,9 @@ public class MapLevelManager : MonoBehaviour
 
     private void Start()
     {
-        DOTween.Sequence().SetDelay(1f).onComplete = () =>
-        {
-            MenuUIManager.instance.TransitionIntro();
-        };
+        MenuUIManager.instance.TransitionIntro();
     }
+
 
     public void CloseDropItemMenu()
     {

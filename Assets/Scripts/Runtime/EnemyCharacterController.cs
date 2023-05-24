@@ -43,14 +43,15 @@ namespace Runtime
 
         private void Start()
         {
-            InitEnemy();
-            InitEnemyHealthSystem();
+            //InitEnemy();
 
             playerCharacter = FindObjectOfType<GameCharacterController>();
         }
 
-        private void InitEnemy()
+        public void InitEnemy(EnemyConfigSO enemyData)
         {
+            this.enemyData = enemyData;
+            
             // Get game manager
             gameManager = FindObjectOfType<GameManager>();
             
@@ -74,6 +75,8 @@ namespace Runtime
             enemyAnimator.runtimeAnimatorController = behaviourAnimator;
 
             isHighlighted = false;
+            
+            InitEnemyHealthSystem();
         }
 
         private void InitEnemyHealthSystem()

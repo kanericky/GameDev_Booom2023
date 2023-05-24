@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0e7c68d291ec0f42a11c46a91b0d100, type: 3}
-  m_Name: Enemy Type B
+  m_Name: Enemy Type A Blue
   m_EditorClassIdentifier: 
   health: 120
-  color: 0
-  chestArmorData: {fileID: 11400000, guid: 1f96abd175be13d4eaecf8506b009098, type: 2}
-  helmetArmorData: {fileID: 11400000, guid: 71462e416b9b6804e8fc52a95a59b7d0, type: 2}
+  color: 1
+  chestArmorData: {fileID: 0}
+  helmetArmorData: {fileID: 0}
   ammoType: 4
   enemyAccuracy: {x: 0.8, y: 0.8, z: 0.8}
-  defaultMaterial: {fileID: 2100000, guid: 50223e9ba867aa34685fa9e6b022e8e0, type: 2}
-  highlightMaterial: {fileID: 2100000, guid: 0882c6e711225be45a52b7c064796c61, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: 777c20e3d12564746a730d0c70c4e446, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: 86984fbf2f8bc2346906da5466bbd72a, type: 2}
   enemyBehaviourAnimator: {fileID: 9100000, guid: 68555df660b87b041a62ea2284bac377, type: 2}

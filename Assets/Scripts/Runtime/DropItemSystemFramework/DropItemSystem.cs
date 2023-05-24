@@ -37,11 +37,11 @@ namespace Runtime.DropItemSystemFramework
             int maxCoin = data.maxCoinAmount;
 
             data.coinAmount = Random.Range(minCoin, maxCoin);
+            data.ammoIconSprite = data.ammoIconSprite;
 
             if (data.isRandom)
             {
                 data.ammoColor = GameManager.GatRandomAmmoColor();
-                data.ammoIconSprite = GameManager.GetSpriteBasedOnAmmoColor(data.ammoColor);
             }
 
             return data;

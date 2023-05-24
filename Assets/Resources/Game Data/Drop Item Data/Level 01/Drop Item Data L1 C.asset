@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Drop Item Data L1 C
   m_EditorClassIdentifier: 
   isRandom: 1
-  ammoColor: 0
-  ammoIconSprite: {fileID: 21300000, guid: efdcdef708cd299418d2a7004a578021, type: 3}
-  ammoAmount: 4
-  coinAmount: 3
+  ammoColor: 1
+  ammoIconSprite: {fileID: 21300000, guid: b4277a358b88f2a4d9720fe4a8d24b11, type: 3}
+  ammoAmount: 6
+  coinAmount: 4
   minCoinAmount: 2
   maxCoinAmount: 6
