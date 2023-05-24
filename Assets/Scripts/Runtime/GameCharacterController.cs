@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Runtime
     [RequireComponent(typeof(Pawn))]
     public class GameCharacterController : MonoBehaviour
     {
+        public static GameCharacterController instance;
+        
         [Header("Character Config")] 
         public CharacterConfigSO playerData;
         
@@ -44,6 +47,8 @@ namespace Runtime
         private void Awake()
         {
             RegisterInput();
+
+            instance = this;
         }
 
         private void RegisterInput()
@@ -83,7 +88,7 @@ namespace Runtime
         {
             // Get Game Managers
             gameManager = FindObjectOfType<GameManager>();
-            uIManager = GameManager.instance.uiManager;
+            uIManager = UIManager.instance;
             characterMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
 
             // Get Pawn
@@ -122,7 +127,7 @@ namespace Runtime
                 armorRatio: playerPawn.healthSystem.GetArmorInPercentage());
         }
 
-        private void LateUpdate()
+        private void FixedUpdate()
         {
             HandleCameraDeadZoneMovement();
             HandleAiming();
@@ -378,6 +383,10 @@ namespace Runtime
             cameraController.HandleCameraBreath(cameraController.GetCameraPosIdle());
         }
 
+        private void OnDestroy()
+        {
+            _inputAction.Player.Disable();
+        }
     }
 
     public enum CharacterPhaseState 

@@ -15,7 +15,7 @@ namespace Runtime
         {
             transform.position = mapOverviewCameraPos.position;
             transform.rotation = mapOverviewCameraPos.rotation;
-            
+
             transform.DOMove(mapLevelDetailPos.position, cameraMovementSpeed);
             transform.DORotate(mapLevelDetailPos.rotation.eulerAngles, cameraMovementSpeed);
         }

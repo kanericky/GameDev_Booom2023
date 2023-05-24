@@ -1,14 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using Runtime;
+using DG.Tweening;
 using Runtime.Menu;
 using UnityEngine;
 
 public class MapLevelManager : MonoBehaviour
 {
-    void Start()
+    public Canvas dropItemCanvas;
+    public static MapLevelManager instance;
+
+    private void Awake()
     {
-        MenuUIManager.instance.TransitionIntro();
+        instance = this;
+    }
+
+    private void Start()
+    {
+        DOTween.Sequence().SetDelay(1f).onComplete = () =>
+        {
+            MenuUIManager.instance.TransitionIntro();
+        };
+    }
+
+    public void CloseDropItemMenu()
+    {
+        dropItemCanvas.gameObject.SetActive(false);
     }
     
 }

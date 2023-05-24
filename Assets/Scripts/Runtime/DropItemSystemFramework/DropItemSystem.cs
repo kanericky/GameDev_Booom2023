@@ -14,6 +14,8 @@ namespace Runtime.DropItemSystemFramework
         private void OnValidate()
         {
             allDropItemsUI = FindObjectsOfType<DropItemUIModel>().ToList();
+            
+            SetupDataToUI();
         }
 
         public void SetupDataToUI()

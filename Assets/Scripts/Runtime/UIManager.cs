@@ -27,6 +27,11 @@ namespace Runtime
         public Transform magUI;
         public Image[] uiReloadSlots;
 
+        [Header("HUD - Ammo Status")] 
+        public TMP_Text[] ammoStatusText;
+        public TMP_Text totalAmmo;
+        public TMP_Text maxAmmo;
+
         [Header("HUD - Transition")] 
         public Transform mask;
 
@@ -61,8 +66,10 @@ namespace Runtime
             GameEvents.instance.PlayerArmorChanged += UpdatePlayerArmorHUDBar;
             
             GameEvents.instance.PlayerInventoryChanged += RefreshReloadUI;
+            GameEvents.instance.PlayerInventoryChanged += RefreshAmmoStatusUI;
 
             SetupReloadUI();
+            RefreshAmmoStatusUI(0);
         }
 
         public void AddBullet(int slotIndex, Sprite bulletIcon)
@@ -103,8 +110,7 @@ namespace Runtime
         {
             for (int i = 0; i < 4; i++)
             {
-                if (gameManager.playerController.playerPawn.pawnInventory.inventorySlots[i].GetCurrentBulletAmount() ==
-                    0)
+                if (gameManager.playerInventory.inventorySlots[i].GetCurrentBulletAmount() == 0)
                 {
                     reloadButtons[i].color = Color.HSVToRGB(0, 0, .7f);
                 }
@@ -114,7 +120,9 @@ namespace Runtime
 
         private void RefreshReloadUI(int index)
         {
-            if (gameManager.playerController.playerPawn.pawnInventory.inventorySlots[index].GetCurrentBulletAmount() ==
+            if (reloadButtons[index] == null) return; 
+            
+            if (GameCharacterController.instance.playerPawn.pawnInventory.inventorySlots[index].GetCurrentBulletAmount() ==
                 0)
             {
                 reloadButtons[index].color = Color.HSVToRGB(0, 0, .7f);
@@ -125,6 +133,20 @@ namespace Runtime
             }
         }
 
+        private void RefreshAmmoStatusUI(int index)
+        {
+            PawnInventorySystem playerInventory = GameCharacterController.instance.playerPawn.pawnInventory;
+            
+            for (int i = 0; i < 4; i++)
+            {
+                ammoStatusText[i].text = playerInventory.inventorySlots[i]
+                    .GetCurrentBulletAmount().ToString();
+            }
+
+            maxAmmo.text = playerInventory.maxBulletsAllowed.ToString();
+            totalAmmo.text = playerInventory.GetTotalAmmoAmount().ToString();
+        }
+
         public void InitPlayerHUDHealthBar(float healthRatio, float armorRatio)
         {
             playerHealth.transform.localScale = new Vector3(healthRatio, 1f, 1f);
@@ -133,11 +155,13 @@ namespace Runtime
 
         private void UpdatePlayerHealthHUDBar(float ratio)
         {
+            if (playerHealth == null) return;
             playerHealth.transform.DOScaleX(ratio, .4f);
         }
 
         private void UpdatePlayerArmorHUDBar(float ratio)
         {
+            if (playerArmor == null) return;
             playerArmor.transform.DOScaleX(ratio, .4f);
         }
 

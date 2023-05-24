@@ -36,12 +36,17 @@ namespace Runtime
         private static readonly string AnimatorDeadBool = "Is Dead";
 
         [SerializeField] private bool isPawnDead;
+        [SerializeField] private bool isPlayer;
+
+        private void Awake()
+        {
+            if(isPlayer) InitInventory();
+        }
 
         private void Start()
         {
             InitPawnSystem();
             InitWeaponSystem();
-            InitInventory();
         }
 
         private void InitWeaponSystem()
@@ -60,15 +65,7 @@ namespace Runtime
 
         private void InitInventory()
         {
-            pawnInventory = new PawnInventorySystem();
-            
-            pawnInventory.AddItemToSlot(0, AmmoFactory.GetAmmoFromFactory(AmmoType.RedAmmo));
-            pawnInventory.AddItemToSlot(0, AmmoFactory.GetAmmoFromFactory(AmmoType.RedAmmo));
-            pawnInventory.AddItemToSlot(0, AmmoFactory.GetAmmoFromFactory(AmmoType.RedAmmo));
-            
-            pawnInventory.AddItemToSlot(1, AmmoFactory.GetAmmoFromFactory(AmmoType.YellowAmmo));
-            pawnInventory.AddItemToSlot(1, AmmoFactory.GetAmmoFromFactory(AmmoType.YellowAmmo));
-            pawnInventory.AddItemToSlot(1, AmmoFactory.GetAmmoFromFactory(AmmoType.YellowAmmo));
+            pawnInventory = GameManager.instance.LoadCurrentInventorySystem();
         }
 
         public void EnterReloadingState()

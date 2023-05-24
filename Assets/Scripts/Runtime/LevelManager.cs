@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -9,6 +10,8 @@ namespace Runtime
     [RequireComponent(typeof(LevelManager))]
     public class LevelManager : MonoBehaviour
     {
+        public static LevelManager instance;
+        
         [Header("Game Manager Reference")] 
         [SerializeField] private GameManager gameManager;
         [SerializeField] private UIManager uiManager;
@@ -18,8 +21,17 @@ namespace Runtime
         [SerializeField] private int totalEnemyNum;
         [SerializeField] private int currentAliveEnemyNum;
 
+        [Header("Level")] [SerializeField] private int loadLevelIndex;
+
         [Header("Drop Item System")] 
         [SerializeField] private DropItemSystem dropItemSystem;
+
+        private void Awake()
+        {
+            instance = this;
+            DOTween.CompleteAll();
+            DOTween.KillAll();
+        }
 
         private void Start()
         {
@@ -27,13 +39,16 @@ namespace Runtime
             InitData();
             RegisterEvents();
             
-            uiManager.TransitionIntro();
+            DOTween.Sequence().SetDelay(1f).onComplete = () =>
+            {
+                uiManager.TransitionIntro();
+            };
         }
 
         private void InitReference()
         {
             gameManager = FindObjectOfType<GameManager>();
-            uiManager = GameManager.instance.uiManager;
+            uiManager = UIManager.instance;
 
             dropItemSystem.GetComponent<DropItemSystem>();
         }
@@ -69,6 +84,13 @@ namespace Runtime
         {
             // Open drop item panel
             DOTween.Sequence().SetDelay(.5f).onComplete = () => { uiManager.OpenDropItemCanvas(); };
+        }
+
+        public void ExitLevel()
+        {
+            DOTween.CompleteAll();
+            DOTween.KillAll();
+            GameManager.LoadLevel(loadLevelIndex);
         }
         
     }

@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,7 +22,7 @@ namespace Runtime.DropItemSystemFramework
         private string staticText = "子弹 +";
         private string staticTextForRandom = "随机";
 
-        public void InitDropItemUI(DropItemConfigSO dropItemConfigInput)
+        public virtual void InitDropItemUI(DropItemConfigSO dropItemConfigInput)
         {
             dropItemConfig = dropItemConfigInput;
 
@@ -34,9 +35,9 @@ namespace Runtime.DropItemSystemFramework
             dropItemIcon.sprite = dropItemConfig.ammoIconSprite;
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public virtual void OnPointerClick(PointerEventData eventData)
         {
-            GameCharacterController playerController = GameManager.instance.playerController;
+            GameCharacterController playerController = GameCharacterController.instance;
             PawnInventorySystem playerInventory = playerController.playerPawn.pawnInventory;
 
             GameElementColor ammoColor = dropItemConfig.ammoColor;
@@ -49,6 +50,10 @@ namespace Runtime.DropItemSystemFramework
             
             UIManager.instance.CloseDropItemCanvas();
             UIManager.instance.TransitionOutro();
+            DOTween.Sequence().SetDelay(2f).onComplete = () =>
+            {
+                LevelManager.instance.ExitLevel();
+            };
         }
 
         public void OnPointerEnter(PointerEventData eventData)

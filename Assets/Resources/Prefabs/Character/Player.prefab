@@ -1230,6 +1230,8 @@ MonoBehaviour:
   healthSystem:
     healthAmount: 0
     currentHealth: 0
+    armorAmount: 0
+    currentArmor: 0
   weapon: {fileID: 8344901852902176780}
   pawnInventory:
     inventorySlots:
@@ -1239,9 +1241,11 @@ MonoBehaviour:
     - slotColor: 3
     maxBulletsAllowed: 6
     coins: 0
+  enemyController: {fileID: 0}
   pawnAnimator: {fileID: 0}
   currentPhaseState: 0
   isPawnDead: 0
+  isPlayer: 1
 --- !u!114 &5903104659297463073
 MonoBehaviour:
   m_ObjectHideFlags: 0

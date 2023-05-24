@@ -627,7 +627,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1675,6 +1675,76 @@ Transform:
   - {fileID: 1570047769}
   m_Father: {fileID: 0}
   m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1167797282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1167797284}
+  - component: {fileID: 1167797283}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1167797283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167797282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62fca1b129ada1498f27be6042086ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiManager: {fileID: 0}
+  cameraController: {fileID: 0}
+  playerController: {fileID: 0}
+  playerInventory:
+    inventorySlots:
+    - slotColor: 5
+    - slotColor: 5
+    - slotColor: 5
+    - slotColor: 5
+    maxBulletsAllowed: 6
+    coins: 0
+  matRed: {fileID: 2100000, guid: fbc6be0686b6d1645901e75badbbd255, type: 2}
+  matYellow: {fileID: 2100000, guid: 90bd1a7fb1b127f4990906e46111652c, type: 2}
+  matBlue: {fileID: 2100000, guid: d94682c8ff269cd42883fdc8e625caa7, type: 2}
+  matBlack: {fileID: 2100000, guid: d58f0c14a201c1642a873a6f8878cae6, type: 2}
+  matWhite: {fileID: 2100000, guid: 81dc3f0668f8ef347b548db952299010, type: 2}
+  matHit: {fileID: 2100000, guid: 3827174779eedc54188262ddfc6356a6, type: 2}
+  redBullet: {fileID: 21300000, guid: d23bc010b6811694ab29f5638b72edc9, type: 3}
+  yellowBullet: {fileID: 21300000, guid: 0d5471e1a7bd3834387ea3b4b37ae541, type: 3}
+  blueBullet: {fileID: 21300000, guid: 4a5b8176e08ede142b0526de360d9d75, type: 3}
+  blackBullet: {fileID: 21300000, guid: 8daf961fd0925b94cbce19f08550beb4, type: 3}
+  redBulletIcon: {fileID: 21300000, guid: efdcdef708cd299418d2a7004a578021, type: 3}
+  yellowBulletIcon: {fileID: 21300000, guid: 8a83777cd824be84c8c08c33e96fd9b9, type: 3}
+  blueBulletIcon: {fileID: 21300000, guid: 8c513c0e49177bd428fa0c74041cd3c7, type: 3}
+  blackBulletIcon: {fileID: 21300000, guid: a356d774cc0007545a98cdfcf7ae8ed6, type: 3}
+  isSlowMotionEnabled: 1
+--- !u!4 &1167797284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167797282}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1249593270
 GameObject:
@@ -3051,76 +3121,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077093132}
   m_CullTransparentMesh: 1
---- !u!1 &2088656719
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2088656720}
-  - component: {fileID: 2088656721}
-  m_Layer: 0
-  m_Name: Game Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2088656720
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2088656719}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2088656721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2088656719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d62fca1b129ada1498f27be6042086ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiManager: {fileID: 0}
-  cameraController: {fileID: 0}
-  playerController: {fileID: 0}
-  playerInventory:
-    inventorySlots:
-    - slotColor: 0
-    - slotColor: 1
-    - slotColor: 2
-    - slotColor: 3
-    maxBulletsAllowed: 6
-    coins: 0
-  matRed: {fileID: 2100000, guid: fbc6be0686b6d1645901e75badbbd255, type: 2}
-  matYellow: {fileID: 2100000, guid: d94682c8ff269cd42883fdc8e625caa7, type: 2}
-  matBlue: {fileID: 2100000, guid: 90bd1a7fb1b127f4990906e46111652c, type: 2}
-  matBlack: {fileID: 0}
-  matWhite: {fileID: 0}
-  matHit: {fileID: 0}
-  redBullet: {fileID: 0}
-  yellowBullet: {fileID: 0}
-  blueBullet: {fileID: 0}
-  blackBullet: {fileID: 0}
-  redBulletIcon: {fileID: 0}
-  yellowBulletIcon: {fileID: 0}
-  blueBulletIcon: {fileID: 0}
-  blackBulletIcon: {fileID: 0}
-  isSlowMotionEnabled: 1
 --- !u!1 &2099017369
 GameObject:
   m_ObjectHideFlags: 0

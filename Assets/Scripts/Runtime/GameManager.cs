@@ -1,6 +1,9 @@
+using System;
 using DG.Tweening;
+using Runtime.Menu;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 namespace Runtime
 {
@@ -53,8 +56,22 @@ namespace Runtime
 
         private void Awake()
         {
-            instance = this;
+            if(instance == null) instance = this;
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+        
+            DontDestroyOnLoad(this);
             uiManager = FindObjectOfType<UIManager>();
+            cameraController = FindObjectOfType<CameraController>();
+        }
+
+        private void OnEnable()
+        {
+            uiManager = FindObjectOfType<UIManager>();
+            playerController = FindObjectOfType<GameCharacterController>();
             cameraController = FindObjectOfType<CameraController>();
         }
 
@@ -95,20 +112,20 @@ namespace Runtime
             isSlowMotionEnabled = false;
             
             Time.timeScale = slowFactor;
-            uiManager.ChangeTimeDebugText(Time.timeScale.ToString());
+            //uiManager.ChangeTimeDebugText(Time.timeScale.ToString());
 
             DOTween.Sequence().SetDelay(period).onComplete = () =>
             {
                 Time.timeScale = 1;
                 isSlowMotionEnabled = true;
-                uiManager.ChangeTimeDebugText(Time.timeScale.ToString());
+                //uiManager.ChangeTimeDebugText(Time.timeScale.ToString());
             };
         }
 
         public void ResetSlowMotion()
         {
             Time.timeScale = 1;
-            uiManager.ChangeTimeDebugText(Time.timeScale.ToString());
+            //ChangeTimeDebugText(Time.timeScale.ToString());
         }
 
         public void SaveCurrentInventory(PawnInventorySystem playerCurrentInventory)
@@ -220,8 +237,20 @@ namespace Runtime
 
         public static void LoadLevel(int levelIndex)
         {
-            UIManager.instance.TransitionOutro();
-            SceneManager.LoadScene(levelIndex);
+            if(UIManager.instance != null) UIManager.instance.TransitionOutro();
+            else MenuUIManager.instance.TransitionOutro();
+            
+            DOTween.Sequence().SetDelay(1f).onComplete = () =>
+            {
+                SceneManager.LoadScene(levelIndex);
+            };
+        }
+
+        private void OnDestroy()
+        {
+            uiManager = FindObjectOfType<UIManager>();
+            playerController = FindObjectOfType<GameCharacterController>();
+            cameraController = FindObjectOfType<CameraController>();
         }
     }
 }

@@ -9,8 +9,23 @@ EditorBuildSettings:
     path: Assets/Scenes/Offical/00_Game_Menu.unity
     guid: 36511135721e300458fca7cd0da32fb0
   - enabled: 1
+    path: Assets/Scenes/Offical/01_Game_Credit.unity
+    guid: 4159a15d09817dd449224f42ae78a335
+  - enabled: 1
     path: Assets/Scenes/Offical/02_Game_Map_A.unity
     guid: d52a3555db7890a43a57d1940078e022
+  - enabled: 1
+    path: Assets/Scenes/Offical/03_Game_Level_01.unity
+    guid: 2597aef5dd9b7d64c81923c9efec6918
+  - enabled: 1
+    path: Assets/Scenes/Offical/04_Game_Map_B.unity
+    guid: c94c8dd0d017d674e9ce5146912a915d
+  - enabled: 1
+    path: Assets/Scenes/Offical/05_Game_Level_02.unity
+    guid: 739fb86438664464a8faed3cf8675855
+  - enabled: 1
+    path: Assets/Scenes/Offical/06_Game_Level_03.unity
+    guid: 5630abaa933c96c43b45ab7bd0573bde
   - enabled: 1
     path: Assets/Scenes/Gym/Gym_Playground.unity
     guid: 53e12a52e0f1a0f4f8b9959451bead72

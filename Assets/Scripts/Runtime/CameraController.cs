@@ -39,7 +39,7 @@ namespace Runtime
         [Header("Post Processing")] 
         [SerializeField] private Volume volume;
 
-        [Header("Debug")] [SerializeField] private LayerMask aimMask = new LayerMask();
+        [Header("Debug")] [SerializeField] private LayerMask aimMask;
 
         private bool activateCamDeathZoneMovement;
 
@@ -204,9 +204,9 @@ namespace Runtime
         {
             Camera mainCamera = GetComponent<Camera>();
 
-            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue(), mainCamera.stereoActiveEye);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, aimMask))
+            if (Physics.Raycast(ray: ray, out RaycastHit hit, Mathf.Infinity, layerMask:aimMask))
             {
                 return hit.point;
             }
