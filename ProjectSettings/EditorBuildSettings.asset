@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Offical/06_Game_Level_03.unity
     guid: 5630abaa933c96c43b45ab7bd0573bde
   - enabled: 1
+    path: Assets/Scenes/Offical/07_Game_Map_C.unity
+    guid: 66360db80bc1819468739a2974fed739
+  - enabled: 1
     path: Assets/Scenes/Gym/Gym_Playground.unity
     guid: 53e12a52e0f1a0f4f8b9959451bead72
   m_configObjects:

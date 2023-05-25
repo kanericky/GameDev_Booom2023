@@ -555,7 +555,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: -74}
+  m_AnchoredPosition: {x: -0, y: -77.8}
   m_SizeDelta: {x: 46, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &46496587
@@ -916,7 +916,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -441, y: 0}
-  m_SizeDelta: {x: 285, y: 310}
+  m_SizeDelta: {x: 317, y: 312}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &84928127
 MonoBehaviour:
@@ -3474,7 +3474,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -71, y: -37}
+  m_AnchoredPosition: {x: -68.7, y: -37}
   m_SizeDelta: {x: 46, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &514886409
@@ -4141,7 +4141,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 75, y: -37}
+  m_AnchoredPosition: {x: 68.2, y: -37.8}
   m_SizeDelta: {x: 46, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &578787094
@@ -4217,7 +4217,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -71, y: 40}
+  m_AnchoredPosition: {x: -68, y: 40}
   m_SizeDelta: {x: 46, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &586539330
@@ -8566,7 +8566,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 74.4, y: 39.6}
+  m_AnchoredPosition: {x: 67.6, y: 39.6}
   m_SizeDelta: {x: 46, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1337882866
@@ -10940,7 +10940,7 @@ MonoBehaviour:
   enemyDataList:
   - {fileID: 11400000, guid: e3a3dc9f83d5e294ea46dba8a2f7a131, type: 2}
   - {fileID: 11400000, guid: f644611e77017324a8b377644e94f514, type: 2}
-  loadLevelIndex: 0
+  loadLevelIndex: 7
   dropItemSystem: {fileID: 1724781553}
 --- !u!4 &1724781552
 Transform:

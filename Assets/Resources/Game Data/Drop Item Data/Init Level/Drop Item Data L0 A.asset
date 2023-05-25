@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f390c9e26e6d8449a68c36169aaa5ac, type: 3}
   m_Name: Drop Item Data L0 A
   m_EditorClassIdentifier: 
+  isRandom: 0
   ammoColor: 0
   ammoIconSprite: {fileID: 21300000, guid: efdcdef708cd299418d2a7004a578021, type: 3}
-  ammoAmount: 6
+  ammoAmount: 8
   coinAmount: 0
   minCoinAmount: 0
   maxCoinAmount: 0

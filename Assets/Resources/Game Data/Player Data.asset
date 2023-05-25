@@ -20,4 +20,4 @@ MonoBehaviour:
   slowMotionDuration: 1
   inputCoolDownTimeGeneral: 0
   inputCoolDownTimeFire: 0.2
-  inputCoolDownTimeRoll: 1.4
+  inputCoolDownTimeRoll: 1

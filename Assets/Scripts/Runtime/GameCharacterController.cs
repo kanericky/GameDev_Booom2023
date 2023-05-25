@@ -380,6 +380,14 @@ namespace Runtime
             _inputAction.Player.Disable();
         }
 
+        public void RetractLoadedAmmo()
+        {
+            foreach (var ammo in playerPawn.weapon.ammoInMag)
+            {
+                playerPawn.pawnInventory.AddItemToSlot(GameManager.GetReloadSlotIndexBasedOnAmmoColor(ammo.gameElementColor), ammo);
+            }
+        }
+
         private void OnDestroy()
         {
             _inputAction.Player.Disable();

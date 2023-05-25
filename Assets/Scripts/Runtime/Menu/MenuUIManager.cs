@@ -24,12 +24,12 @@ namespace Runtime.Menu
         
         public void TransitionOutro()
         {
-            mask.DOScale(Vector3.zero, 1f);
+            mask.DOScale(Vector3.zero, .5f);
         }
 
         public void TransitionIntro()
         {
-            mask.DOScale(new Vector3(2,2, 2), 1f);
+            mask.DOScale(new Vector3(2,2, 2), .5f);
         }
 
         public void MenuUIEnterReady()

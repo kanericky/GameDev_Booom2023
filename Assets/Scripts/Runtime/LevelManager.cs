@@ -119,6 +119,9 @@ namespace Runtime
         {
             DOTween.CompleteAll();
             DOTween.KillAll();
+            GameCharacterController.instance.RetractLoadedAmmo();
+            Pawn playerPawn = GameCharacterController.instance.playerPawn;
+            gameManager.SaveCurrentStatusInfo(playerPawn.pawnInventory, playerPawn.healthSystem);
             GameManager.LoadLevel(loadLevelIndex);
         }
         

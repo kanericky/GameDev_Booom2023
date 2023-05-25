@@ -42,6 +42,8 @@ namespace Runtime.DropItemSystemFramework
 
             GameElementColor ammoColor = dropItemConfig.ammoColor;
             int ammoAmountNum = dropItemConfig.ammoAmount;
+            
+            playerInventory.coins += dropItemConfig.coinAmount;
 
             if (!dropItemConfig.isRandom)
             {
