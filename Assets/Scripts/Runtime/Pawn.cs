@@ -148,6 +148,14 @@ namespace Runtime
             // Trigger Animation
             pawnAnimator.ResetTrigger(AnimatorTriggerFire);
             pawnAnimator.SetTrigger(AnimatorTriggerFire);
+
+            if (weapon.ammoInMag.Count == 0 && pawnInventory.GetTotalAmmoAmount() == 0)
+            {
+                DOTween.Sequence().SetDelay(1f).onComplete = () =>
+                {
+                    GameManager.LoadLevel(0);
+                };
+            }
         }
 
         public void EnemyFire(Vector3 target, Ammo ammo)
@@ -214,9 +222,9 @@ namespace Runtime
 
             if (isPlayer)
             {
-                UIManager.instance.TransitionOutro();
-                DOTween.Sequence().SetDelay(1f).onComplete = () =>
+                DOTween.Sequence().SetDelay(2f).onComplete = () =>
                 {
+                    UIManager.instance.TransitionOutro();
                     GameManager.LoadLevel(0);
                 };
             }
@@ -284,7 +292,7 @@ namespace Runtime
             inventorySlots[3] = new PawnInventorySlot(GameElementColor.Black);
             
             // Setup data
-            maxBulletsAllowed = 10;
+            maxBulletsAllowed = 20;
             coins = 0;
         }
 

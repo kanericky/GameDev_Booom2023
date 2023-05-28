@@ -22,8 +22,13 @@ namespace Runtime
         public event Action<float> PlayerHealthChanged;
         public event Action<float> PlayerArmorChanged;
         public event Action<int> PlayerInventoryChanged;
-
+        public event Action CorrectImpact;
         public event Action EnemyIsKilled;
+        
+        public void OnCorrectImpact()
+        {
+            CorrectImpact?.Invoke();
+        }
 
         public void OnPlayerHealthChanged(float ratio)
         {

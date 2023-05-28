@@ -90,6 +90,7 @@ namespace Runtime.AmmoSystem
         {
             if (bulletColor.Equals(targetColor))
             {
+                GameEvents.instance.OnCorrectImpact();
                 return initDamage * 1.5f;
             }
 

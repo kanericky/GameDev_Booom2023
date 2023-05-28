@@ -40,14 +40,17 @@ namespace Runtime
         private EnemyCharacterController enemy;
         
         [Header("Debug")] 
-        [SerializeField] private int playerPawnPositionIndex = 1;
+        private int playerPawnPositionIndex = 1;
         private Material defaultMat;
+        private int numCorrectImpact;
 
 
         private void Awake()
         {
             RegisterInput();
 
+            GameEvents.instance.CorrectImpact += HandleCorrectImpact;
+            
             instance = this;
         }
 
@@ -78,9 +81,7 @@ namespace Runtime
             InitReference();
             InitData();
             InitHealthSystem();
-            
-            // Misc
-            uIManager.ChangeDebugText("Idle Phase");
+
             playerPawnPositionIndex = 1;
         }
 
@@ -115,6 +116,7 @@ namespace Runtime
             
             // Init material
             defaultMat = characterMeshRenderer.material;
+            numCorrectImpact = 0;
         }
 
         private void InitHealthSystem()
@@ -122,6 +124,20 @@ namespace Runtime
             uIManager.InitPlayerHUDHealthBar(
                 healthRatio: playerPawn.healthSystem.GetHealthInPercentage(),
                 armorRatio: playerPawn.healthSystem.GetArmorInPercentage());
+        }
+
+        private void HandleCorrectImpact()
+        {
+            numCorrectImpact += 1;
+
+            if (numCorrectImpact == 3)
+            {
+                Ammo blackAmmo = AmmoFactory.GetAmmoFromFactory(AmmoType.BlackAmmo);
+                int slotIndex = GameManager.GetReloadSlotIndexBasedOnAmmoColor(blackAmmo.gameElementColor);
+                
+                playerPawn.pawnInventory.AddItemToSlot(slotIndex, blackAmmo);
+                numCorrectImpact = 0;
+            }
         }
 
         private void FixedUpdate()
@@ -144,11 +160,12 @@ namespace Runtime
             // Go to reloading state from idle state
             if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.IdlePhase)
             {
+                AudioManager.instance.PlayByName("Reload Start");
+                
                 // Handle Camera
                 cameraController.ChangeCameraPosToReload();
                 
                 // Handle UI
-                uIManager.ChangeDebugText("Reload Phase");
                 uIManager.OpenReloadUIWidget();
                 
                 // Pawn action
@@ -161,14 +178,17 @@ namespace Runtime
                 // Handle Camera
                 cameraController.ChangeCameraPosToReload();
                 
-                // Handle UI
-                uIManager.ChangeDebugText("Reload Phase");
                 uIManager.OpenReloadUIWidget();
                 
                 // Pawn action
                 playerPawn.EnterReloadingState();
                 
                 GameManager.instance.EnterSlowMotion(timeScale, slowMotionDuration);
+            }
+            
+            else if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.ReloadingPhase)
+            {
+                EnterAimingState();
             }
             
             UIManager.instance.ClearBulletUI();
@@ -184,6 +204,7 @@ namespace Runtime
             // Go to aim state from reloading state
             if (playerPawn.GetPawnCurrentState() == CharacterPhaseState.ReloadingPhase)
             {
+                AudioManager.instance.PlayByName("Reload End");
                 uIManager.CloseReloadUIWidget();
                 EnterAimingState();
                 GameManager.instance.ResetSlowMotion();
@@ -206,7 +227,6 @@ namespace Runtime
         {
             playerPawn.EnterAimingState();
             cameraController.ChangeCameraPosToAiming();
-            uIManager.ChangeDebugText("Aiming Phase");
         }
 
         public void ExitReloadState()
@@ -214,7 +234,6 @@ namespace Runtime
             playerPawn.ExitReloadingState();
             uIManager.CloseReloadUIWidget();
             cameraController.ChangeCameraPosToIdle();
-            uIManager.ChangeDebugText("Idle Phase");
         }
 
         /// <summary>
@@ -253,7 +272,6 @@ namespace Runtime
             cameraController.ChangeCameraPosToIdle();
             
             // Handle UI
-            uIManager.ChangeDebugText("Idle phase");
         }
 
         private void Fire()
@@ -267,6 +285,8 @@ namespace Runtime
                 ExitAimingState();
                 return;
             }
+            
+            AudioManager.instance.PlayByName("Fire A");
 
             playerPawn.Fire(cameraController.GetMousePosInWorld());
             
@@ -276,6 +296,8 @@ namespace Runtime
         private void HandleReloadSelection(int index)
         {
             if (playerPawn.GetPawnCurrentState() != CharacterPhaseState.ReloadingPhase) return;
+            
+            AudioManager.instance.PlayByName("Reload");
 
             playerPawn.HandleReloadSelection(index);
             uIManager.ReloadButtonPressedAnimation(index);

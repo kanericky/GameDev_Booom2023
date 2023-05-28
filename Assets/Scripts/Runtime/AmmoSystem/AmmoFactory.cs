@@ -2,10 +2,10 @@ namespace Runtime
 {
     public static class AmmoFactory
     {
-        private static Ammo redAmmo = new(GameElementColor.Red, 30f);
-        private static Ammo yellowAmmo = new(GameElementColor.Yellow, 30f);
-        private static Ammo blueAmmo = new(GameElementColor.Blue, 30f);
-        private static Ammo blackAmmo = new(GameElementColor.Black, 30f);
+        private static Ammo redAmmo = new(GameElementColor.Red, 40f);
+        private static Ammo yellowAmmo = new(GameElementColor.Yellow, 40f);
+        private static Ammo blueAmmo = new(GameElementColor.Blue, 40f);
+        private static Ammo blackAmmo = new(GameElementColor.Black, 40f);
         
         // Used by enemy
         private static Ammo whiteAmmo = new(GameElementColor.White, 10f);
@@ -73,6 +73,26 @@ namespace Runtime
                     return GetAmmoFromFactory(AmmoType.BlueAmmo);
                     
                 case GameElementColor.Black:
+                    return GetAmmoFromFactory(AmmoType.BlackAmmo);
+            }
+
+            return null;
+        }
+        
+        public static Ammo GetAmmoFromFactory(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return GetAmmoFromFactory(AmmoType.RedAmmo);
+
+                case 1:
+                    return GetAmmoFromFactory(AmmoType.YellowAmmo);
+                    
+                case 2:
+                    return GetAmmoFromFactory(AmmoType.BlueAmmo);
+                    
+                case 3:
                     return GetAmmoFromFactory(AmmoType.BlackAmmo);
             }
 

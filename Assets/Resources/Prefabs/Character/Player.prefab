@@ -1214,7 +1214,6 @@ MonoBehaviour:
   inputCoolDownTimeGeneral: 0.2
   inputCoolDownTimeFire: 0.25
   inputCoolDownTimeRoll: 1.4
-  playerPawnPositionIndex: 1
 --- !u!114 &5903104659297463087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1932,14 +1931,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5903104658777715631}
-  m_LocalRotation: {x: 0.007274492, y: -0.110015675, z: 0.04006101, w: 0.9930956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.03, y: 2.05, z: -2.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5903104659359459950}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 1.333, y: -12.591, z: 4.473}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5903104658793819706
 GameObject:
   m_ObjectHideFlags: 0

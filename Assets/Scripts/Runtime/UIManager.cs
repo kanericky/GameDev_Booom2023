@@ -16,7 +16,7 @@ namespace Runtime
 
         [Header("HUD - Canvas")] 
         public Canvas debugMenuCanvas;
-        public Canvas hudCanvas;
+        public Canvas hintCanvas;
         public Canvas dropMenuCanvas;
         public Canvas transitionCanvas;
 
@@ -52,14 +52,14 @@ namespace Runtime
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                debugMenuCanvas.enabled = !debugMenuCanvas.enabled;
+                hintCanvas.enabled = !hintCanvas.enabled;
             }
         }
 
         private void Start()
         {
             gameManager = FindObjectOfType<GameManager>();
-            dropMenuCanvas.gameObject.SetActive(false);
+            if(dropMenuCanvas!=null) dropMenuCanvas.gameObject.SetActive(false);
 
             // Register events
             GameEvents.instance.PlayerHealthChanged += UpdatePlayerHealthHUDBar;
@@ -207,17 +207,5 @@ namespace Runtime
             mask.DOScale(new Vector3(2,2, 2), .5f);
         }
 
-
-        // ------------ Debug ------------ //
-        public void ChangeDebugText(string text)
-        {
-            debugText.text = text;
-        }
-
-        public void ChangeTimeDebugText(string text)
-        {
-            debugTextTime.text = text;
-        }
-        
     }
 }

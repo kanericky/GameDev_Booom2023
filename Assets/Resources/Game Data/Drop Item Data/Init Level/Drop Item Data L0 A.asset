@@ -16,6 +16,6 @@ MonoBehaviour:
   ammoColor: 0
   ammoIconSprite: {fileID: 21300000, guid: efdcdef708cd299418d2a7004a578021, type: 3}
   ammoAmount: 8
-  coinAmount: 0
-  minCoinAmount: 0
-  maxCoinAmount: 0
+  coinAmount: 15
+  minCoinAmount: 15
+  maxCoinAmount: 15

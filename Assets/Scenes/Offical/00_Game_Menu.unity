@@ -876,6 +876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f942002227abfcd4cbc8bf3b6ae34729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTriggerOnBegin: 1
   menuCanvasGroup: {fileID: 500806808}
   mask: {fileID: 2027188170}
 --- !u!4 &810090862
@@ -1413,7 +1414,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1045343091}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1167797283}
+        m_TargetAssemblyTypeName: Runtime.GameManager, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1045343091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1686,6 +1699,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1167797284}
   - component: {fileID: 1167797283}
+  - component: {fileID: 1167797285}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -1716,6 +1730,11 @@ MonoBehaviour:
     - slotColor: 5
     maxBulletsAllowed: 6
     coins: 0
+  playerHealthSystem:
+    healthAmount: 0
+    currentHealth: 0
+    armorAmount: 0
+    currentArmor: 0
   matRed: {fileID: 2100000, guid: fbc6be0686b6d1645901e75badbbd255, type: 2}
   matYellow: {fileID: 2100000, guid: 90bd1a7fb1b127f4990906e46111652c, type: 2}
   matBlue: {fileID: 2100000, guid: d94682c8ff269cd42883fdc8e625caa7, type: 2}
@@ -1746,6 +1765,62 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1167797285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167797282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbddb1adebf33f449519f4abf5c96de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Background Music
+    clip: {fileID: 8300000, guid: 8ff35cc512ffc2b418d649c206b4069c, type: 3}
+    volume: 0.6
+    pitch: 1
+    isLoop: 1
+    source: {fileID: 0}
+  - name: Reload Start
+    clip: {fileID: 8300000, guid: ba5df7fd800cc6a4990407b085c5aa9c, type: 3}
+    volume: 1
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: Reload End
+    clip: {fileID: 8300000, guid: a2b72a0243389d44ebec1ce99a83f54c, type: 3}
+    volume: 1
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: Fire A
+    clip: {fileID: 8300000, guid: cd9cdfb58e38d9e43b13955d1a103e90, type: 3}
+    volume: 1
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: Click A
+    clip: {fileID: 8300000, guid: f5790e9de7be58e4fb3a1f79ac576a85, type: 3}
+    volume: 1
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: Click B
+    clip: {fileID: 8300000, guid: a2b72a0243389d44ebec1ce99a83f54c, type: 3}
+    volume: 1
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: Reload
+    clip: {fileID: 8300000, guid: 6b6587889015be84c9254eb0dc392123, type: 3}
+    volume: 1
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  currentState: 0
 --- !u!1 &1249593270
 GameObject:
   m_ObjectHideFlags: 0
@@ -2266,7 +2341,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1583418055}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1167797283}
+        m_TargetAssemblyTypeName: Runtime.GameManager, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 14
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1583418055
 MonoBehaviour:
   m_ObjectHideFlags: 0

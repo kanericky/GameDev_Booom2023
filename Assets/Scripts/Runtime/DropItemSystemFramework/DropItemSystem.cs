@@ -20,6 +20,8 @@ namespace Runtime.DropItemSystemFramework
 
         public void SetupDataToUI()
         {
+            if (allDropItemsUI.Count == 0) return;
+            
             for (int i = 0; i < allDropItemsData.Count; i++)
             {
                 DropItemConfigSO data = allDropItemsData[i];

@@ -7,6 +7,7 @@ namespace Runtime.Menu
     public class MenuUIManager : MonoBehaviour
     {
         public static MenuUIManager instance;
+        public bool isTriggerOnBegin = true;
         
         [Header("Reference")] 
         public CanvasGroup menuCanvasGroup;
@@ -29,6 +30,7 @@ namespace Runtime.Menu
 
         public void TransitionIntro()
         {
+            if (!isTriggerOnBegin) return;
             mask.DOScale(new Vector3(2,2, 2), .5f);
         }
 

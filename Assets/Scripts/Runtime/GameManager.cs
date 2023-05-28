@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using Runtime.Menu;
+using Runtime.ShopSystemFramework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -240,7 +241,8 @@ namespace Runtime
         public static void LoadLevel(int levelIndex)
         {
             if(UIManager.instance != null) UIManager.instance.TransitionOutro();
-            else MenuUIManager.instance.TransitionOutro();
+            else if(MenuUIManager.instance != null) MenuUIManager.instance.TransitionOutro();
+            else ShopUIManager.instance.TransitionOutro();
             
             DOTween.Sequence().SetDelay(1f).onComplete = () =>
             {

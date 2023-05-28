@@ -30,6 +30,27 @@ EditorBuildSettings:
     path: Assets/Scenes/Offical/07_Game_Map_C.unity
     guid: 66360db80bc1819468739a2974fed739
   - enabled: 1
+    path: Assets/Scenes/Offical/08_Game_Store_A.unity
+    guid: c950c82eabcc74d41a0ef3071f144134
+  - enabled: 1
+    path: Assets/Scenes/Offical/09_Game_Map_D.unity
+    guid: e7e602884b6769741beae3d838ca1da4
+  - enabled: 1
+    path: Assets/Scenes/Offical/10_Game_Level_04.unity
+    guid: 4c272ce1aea5b7d4bb5bc24e458fe33e
+  - enabled: 1
+    path: Assets/Scenes/Offical/11_Game_Map_E.unity
+    guid: e531d2fe07a627748b76013ad63430a0
+  - enabled: 1
+    path: Assets/Scenes/Offical/12_Game_Level_05.unity
+    guid: 67f3c51a41eab9d4ea599fef3eb88732
+  - enabled: 1
+    path: Assets/Scenes/Offical/13_Game_End.unity
+    guid: ee3d4305cf49f314ea8ce6e5494a4992
+  - enabled: 1
+    path: Assets/Scenes/Offical/14_Game_Tutorial.unity
+    guid: 36e25df14821c644a9bd221ceb6c054e
+  - enabled: 0
     path: Assets/Scenes/Gym/Gym_Playground.unity
     guid: 53e12a52e0f1a0f4f8b9959451bead72
   m_configObjects:

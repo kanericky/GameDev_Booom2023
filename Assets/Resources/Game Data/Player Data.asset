@@ -17,7 +17,7 @@ MonoBehaviour:
   rollCoolDownCd: 0
   canRoll: 1
   timeScale: 0.5
-  slowMotionDuration: 1
+  slowMotionDuration: 0
   inputCoolDownTimeGeneral: 0
   inputCoolDownTimeFire: 0.2
-  inputCoolDownTimeRoll: 1
+  inputCoolDownTimeRoll: 0.2

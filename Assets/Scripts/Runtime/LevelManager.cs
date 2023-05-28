@@ -29,6 +29,8 @@ namespace Runtime
         [Header("Drop Item System")] 
         [SerializeField] private DropItemSystem dropItemSystem;
 
+        public bool isLastLevel;
+
         private void Awake()
         {
             instance = this;
@@ -99,13 +101,24 @@ namespace Runtime
             {
                 GameCharacterController.instance.ExitAimingState();
                 GameManager.instance.EnterSlowMotion(period: .5f);
-
-                DOTween.Sequence().SetDelay(1f).onComplete = () =>
+                
+                if (isLastLevel)
                 {
-                    GameCharacterController.instance.DisablePlayerControllerInput();
-                    
-                    HandleAllEnemyClearedAction();
-                };
+                    DOTween.Sequence().SetDelay(1f).onComplete = () =>
+                    {
+                        GameManager.LoadLevel(13);
+                    };
+                    return;
+                }
+                else
+                {
+                    DOTween.Sequence().SetDelay(1f).onComplete = () =>
+                    {
+                        GameCharacterController.instance.DisablePlayerControllerInput();
+
+                        HandleAllEnemyClearedAction();
+                    };
+                }
             }
         }
 

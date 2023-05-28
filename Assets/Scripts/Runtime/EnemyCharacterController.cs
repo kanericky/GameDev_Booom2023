@@ -32,9 +32,9 @@ namespace Runtime
         [SerializeField] private Material highLightMaterial;
         [SerializeField] private Material defaultMaterial;
 
-        private float characterHeadOffset = 3f; 
-        private float characterChestOffset = 2.2f; 
-        private float characterLegOffset = 1f;
+        private readonly float characterHeadOffset = 3f; 
+        private readonly float characterChestOffset = 2.2f; 
+        private readonly float characterLegOffset = 1f;
 
         private Armor helmetArmor;
         private Armor chestArmor;
